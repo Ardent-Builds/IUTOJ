@@ -12,12 +12,12 @@ import javax.swing.JFrame;
  *
  * @author KAWSAR
  */
-public class Login extends javax.swing.JFrame {
+public class Signup extends javax.swing.JFrame {
 
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Signup() {
         initComponents();
     }
 
@@ -33,15 +33,12 @@ public class Login extends javax.swing.JFrame {
         LeftPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
         RightPanel = new javax.swing.JPanel();
-        txtStudnetID = new javax.swing.JTextField();
+        txtStudentID = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
-        LoginButton = new javax.swing.JButton();
-        CrNewAccButton = new javax.swing.JButton();
-        leftSeparator = new javax.swing.JSeparator();
-        rightSeparator = new javax.swing.JSeparator();
-        orLabel = new javax.swing.JLabel();
+        txtConfirmPassword = new javax.swing.JTextField();
+        SignupButton = new javax.swing.JButton();
         closeLabel = new javax.swing.JLabel();
-        WelcomeLabel = new javax.swing.JLabel();
+        SignupLabel = new javax.swing.JLabel();
         minimizeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -62,61 +59,52 @@ public class Login extends javax.swing.JFrame {
         RightPanel.setBackground(new java.awt.Color(255, 255, 255));
         RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtStudnetID.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
-        txtStudnetID.setForeground(new java.awt.Color(102, 102, 102));
-        txtStudnetID.setText("Enter Student ID");
-        txtStudnetID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
-        txtStudnetID.addActionListener(new java.awt.event.ActionListener() {
+        txtStudentID.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        txtStudentID.setForeground(new java.awt.Color(102, 102, 102));
+        txtStudentID.setText("Student ID");
+        txtStudentID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtStudentID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudnetIDActionPerformed(evt);
+                txtStudentIDActionPerformed(evt);
             }
         });
-        RightPanel.add(txtStudnetID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 270, 50));
+        RightPanel.add(txtStudentID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 270, 50));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(102, 102, 102));
-        txtPassword.setText("Enter Password");
+        txtPassword.setText("Password");
         txtPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
             }
         });
-        RightPanel.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 250, 270, 50));
+        RightPanel.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, 270, 50));
 
-        LoginButton.setBackground(new java.awt.Color(0, 181, 204));
-        LoginButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        LoginButton.setForeground(new java.awt.Color(0, 181, 204));
-        LoginButton.setText("Login");
-        LoginButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
-        LoginButton.setContentAreaFilled(false);
-        LoginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        LoginButton.addActionListener(new java.awt.event.ActionListener() {
+        txtConfirmPassword.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        txtConfirmPassword.setForeground(new java.awt.Color(102, 102, 102));
+        txtConfirmPassword.setText("Confirm Password");
+        txtConfirmPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginButtonActionPerformed(evt);
+                txtConfirmPasswordActionPerformed(evt);
             }
         });
-        RightPanel.add(LoginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, 90, 40));
+        RightPanel.add(txtConfirmPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 280, 270, 50));
 
-        CrNewAccButton.setBackground(new java.awt.Color(0, 181, 204));
-        CrNewAccButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        CrNewAccButton.setForeground(new java.awt.Color(0, 181, 204));
-        CrNewAccButton.setText("Create New Account");
-        CrNewAccButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
-        CrNewAccButton.setContentAreaFilled(false);
-        CrNewAccButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        CrNewAccButton.addActionListener(new java.awt.event.ActionListener() {
+        SignupButton.setBackground(new java.awt.Color(0, 181, 204));
+        SignupButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        SignupButton.setForeground(new java.awt.Color(0, 181, 204));
+        SignupButton.setText("Sign Up");
+        SignupButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
+        SignupButton.setContentAreaFilled(false);
+        SignupButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SignupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CrNewAccButtonButtonActionPerformed(evt);
+                SignupButtonActionPerformed(evt);
             }
         });
-        RightPanel.add(CrNewAccButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 460, 270, 40));
-        RightPanel.add(leftSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 430, 120, -1));
-        RightPanel.add(rightSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 430, 120, -1));
-
-        orLabel.setForeground(new java.awt.Color(102, 102, 102));
-        orLabel.setText("or");
-        RightPanel.add(orLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 420, 30, 20));
+        RightPanel.add(SignupButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, 90, 40));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -128,10 +116,10 @@ public class Login extends javax.swing.JFrame {
         });
         RightPanel.add(closeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 30, 20));
 
-        WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 38)); // NOI18N
-        WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        WelcomeLabel.setText("Welcome To IUTOJ");
-        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 360, 70));
+        SignupLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 38)); // NOI18N
+        SignupLabel.setForeground(new java.awt.Color(0, 181, 204));
+        SignupLabel.setText("Sign up for IUTOJ");
+        RightPanel.add(SignupLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 360, 70));
 
         minimizeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         minimizeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -153,17 +141,13 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
-    private void txtStudnetIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudnetIDActionPerformed
+    private void txtStudentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudnetIDActionPerformed
+    }//GEN-LAST:event_txtStudentIDActionPerformed
 
-    private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
+    private void SignupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignupButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_CrNewAccButtonButtonActionPerformed
-
-    private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LoginButtonActionPerformed
+    }//GEN-LAST:event_SignupButtonActionPerformed
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         System.exit(0);        // TODO add your handling code here:
@@ -172,6 +156,10 @@ public class Login extends javax.swing.JFrame {
     private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked
         this.setExtendedState(JFrame.ICONIFIED);      // TODO add your handling code here:
     }//GEN-LAST:event_minimizeLabelMouseClicked
+
+    private void txtConfirmPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtConfirmPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,37 +178,35 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Signup().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CrNewAccButton;
     private javax.swing.JPanel LeftPanel;
-    private javax.swing.JButton LoginButton;
     private javax.swing.JPanel RightPanel;
-    private javax.swing.JLabel WelcomeLabel;
+    private javax.swing.JButton SignupButton;
+    private javax.swing.JLabel SignupLabel;
     private javax.swing.JLabel closeLabel;
-    private javax.swing.JSeparator leftSeparator;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel minimizeLabel;
-    private javax.swing.JLabel orLabel;
-    private javax.swing.JSeparator rightSeparator;
+    private javax.swing.JTextField txtConfirmPassword;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtStudnetID;
+    private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }
