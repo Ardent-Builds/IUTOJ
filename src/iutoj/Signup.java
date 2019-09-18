@@ -19,6 +19,8 @@ public class Signup extends javax.swing.JFrame {
      */
     public Signup() {
         initComponents();
+        txtStudentID.setFocusable(true);
+        txtPassword.setFocusable(true);
     }
 
     /**
@@ -63,6 +65,14 @@ public class Signup extends javax.swing.JFrame {
         txtStudentID.setForeground(new java.awt.Color(102, 102, 102));
         txtStudentID.setText("Student ID");
         txtStudentID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtStudentID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtStudentIDFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtStudentIDFocusLost(evt);
+            }
+        });
         txtStudentID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtStudentIDActionPerformed(evt);
@@ -160,6 +170,20 @@ public class Signup extends javax.swing.JFrame {
     private void txtConfirmPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConfirmPasswordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConfirmPasswordActionPerformed
+
+    private void txtStudentIDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusGained
+        if(txtStudentID.getText().equals("Student ID")) 
+        {
+            txtStudentID.setText("");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStudentIDFocusGained
+
+    private void txtStudentIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusLost
+        if(txtStudentID.getText().equals("")) 
+        {
+            txtStudentID.setText("Student ID");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStudentIDFocusLost
 
     /**
      * @param args the command line arguments

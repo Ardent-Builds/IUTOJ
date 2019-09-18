@@ -5,8 +5,13 @@
  */
 package iutoj;
 
+import com.sun.prism.paint.Color;
 import java.awt.Frame;
 import javax.swing.JFrame;
+import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+import static java.lang.Boolean.TRUE;
 
 /**
  *
@@ -19,6 +24,11 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        txtStudentID.setFocusable(true);
+        txtPassword.setFocusable(true);
+        
+        
+        
     }
 
     /**
@@ -33,16 +43,16 @@ public class Login extends javax.swing.JFrame {
         LeftPanel = new javax.swing.JPanel();
         logoLabel = new javax.swing.JLabel();
         RightPanel = new javax.swing.JPanel();
-        txtStudnetID = new javax.swing.JTextField();
+        WelcomeLabel = new javax.swing.JLabel();
+        closeLabel = new javax.swing.JLabel();
+        minimizeLabel = new javax.swing.JLabel();
+        txtStudentID = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
         LoginButton = new javax.swing.JButton();
         CrNewAccButton = new javax.swing.JButton();
         leftSeparator = new javax.swing.JSeparator();
         rightSeparator = new javax.swing.JSeparator();
         orLabel = new javax.swing.JLabel();
-        closeLabel = new javax.swing.JLabel();
-        WelcomeLabel = new javax.swing.JLabel();
-        minimizeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -62,21 +72,67 @@ public class Login extends javax.swing.JFrame {
         RightPanel.setBackground(new java.awt.Color(255, 255, 255));
         RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        txtStudnetID.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
-        txtStudnetID.setForeground(new java.awt.Color(102, 102, 102));
-        txtStudnetID.setText("Enter Student ID");
-        txtStudnetID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
-        txtStudnetID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudnetIDActionPerformed(evt);
+        WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 38)); // NOI18N
+        WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
+        WelcomeLabel.setText("Welcome To IUTOJ");
+        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 360, 70));
+
+        closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
+        closeLabel.setForeground(new java.awt.Color(0, 181, 204));
+        closeLabel.setText("x");
+        closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                closeLabelMouseClicked(evt);
             }
         });
-        RightPanel.add(txtStudnetID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 270, 50));
+        RightPanel.add(closeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 30, 20));
+
+        minimizeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
+        minimizeLabel.setForeground(new java.awt.Color(0, 181, 204));
+        minimizeLabel.setText("_");
+        minimizeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                minimizeLabelMouseClicked(evt);
+            }
+        });
+        RightPanel.add(minimizeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, -10, 30, 40));
+
+        txtStudentID.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        txtStudentID.setForeground(new java.awt.Color(102, 102, 102));
+        txtStudentID.setText("Enter Student ID");
+        txtStudentID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtStudentID.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtStudentIDFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtStudentIDFocusLost(evt);
+            }
+        });
+        txtStudentID.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                txtStudentIDMouseReleased(evt);
+            }
+        });
+        txtStudentID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtStudentIDActionPerformed(evt);
+            }
+        });
+        RightPanel.add(txtStudentID, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 270, 50));
 
         txtPassword.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         txtPassword.setForeground(new java.awt.Color(102, 102, 102));
         txtPassword.setText("Enter Password");
         txtPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPasswordFocusLost(evt);
+            }
+        });
         txtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPasswordActionPerformed(evt);
@@ -118,31 +174,6 @@ public class Login extends javax.swing.JFrame {
         orLabel.setText("or");
         RightPanel.add(orLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 420, 30, 20));
 
-        closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
-        closeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        closeLabel.setText("x");
-        closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeLabelMouseClicked(evt);
-            }
-        });
-        RightPanel.add(closeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 30, 20));
-
-        WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 38)); // NOI18N
-        WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        WelcomeLabel.setText("Welcome To IUTOJ");
-        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 360, 70));
-
-        minimizeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
-        minimizeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        minimizeLabel.setText("_");
-        minimizeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                minimizeLabelMouseClicked(evt);
-            }
-        });
-        RightPanel.add(minimizeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, -10, 30, 40));
-
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 530, 560));
 
         setSize(new java.awt.Dimension(954, 556));
@@ -153,9 +184,9 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPasswordActionPerformed
 
-    private void txtStudnetIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudnetIDActionPerformed
+    private void txtStudentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudnetIDActionPerformed
+    }//GEN-LAST:event_txtStudentIDActionPerformed
 
     private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
         // TODO add your handling code here:
@@ -172,6 +203,43 @@ public class Login extends javax.swing.JFrame {
     private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked
         this.setExtendedState(JFrame.ICONIFIED);      // TODO add your handling code here:
     }//GEN-LAST:event_minimizeLabelMouseClicked
+
+    private void txtStudentIDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusGained
+        if(txtStudentID.getText().equals("Enter Student ID")) 
+        {
+            txtStudentID.setText("");
+        }
+        
+        
+// TODO add your handling code here:
+    }//GEN-LAST:event_txtStudentIDFocusGained
+
+    private void txtStudentIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusLost
+        if(txtStudentID.getText().equals("")) 
+        {
+            txtStudentID.setText("Enter Student ID");
+        }
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStudentIDFocusLost
+
+    private void txtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusGained
+        if(txtPassword.getText().equals("Enter Password")) 
+        {
+            txtPassword.setText("");
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordFocusGained
+
+    private void txtPasswordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPasswordFocusLost
+        if(txtPassword.getText().equals("")) 
+        {
+            txtPassword.setText("Enter Password");
+        }          // TODO add your handling code here:
+    }//GEN-LAST:event_txtPasswordFocusLost
+
+    private void txtStudentIDMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtStudentIDMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtStudentIDMouseReleased
 
     /**
      * @param args the command line arguments
@@ -221,6 +289,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel orLabel;
     private javax.swing.JSeparator rightSeparator;
     private javax.swing.JTextField txtPassword;
-    private javax.swing.JTextField txtStudnetID;
+    private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }
