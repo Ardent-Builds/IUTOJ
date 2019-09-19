@@ -215,7 +215,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_minimizeLabelMouseClicked
 
     private void txtStudentIDFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusGained
-        if(txtStudentID.getText().equals("Enter Student ID")) 
+        if(txtStudentID.getText().equals("Enter Username")) 
         {
             txtStudentID.setText("");
         }
@@ -227,7 +227,7 @@ public class SignUp extends javax.swing.JFrame {
     private void txtStudentIDFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtStudentIDFocusLost
         if(txtStudentID.getText().equals("")) 
         {
-            txtStudentID.setText("Enter Student ID");
+            txtStudentID.setText("Enter Username");
         }
         
         // TODO add your handling code here:
