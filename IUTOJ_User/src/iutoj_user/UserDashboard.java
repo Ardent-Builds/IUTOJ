@@ -20,15 +20,19 @@ public class UserDashboard extends javax.swing.JFrame {
     public UserDashboard() {
         initComponents();
         setBackground(new Color(0,0,0));
-        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        StatusTable.setRowHeight(25);
+        
+        MySubTable.setRowHeight(25);
         MySubTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-//        ProblemsetTable.getTableHeader().setOpaque(false);
+        
+        //ProblemsetTable.getTableHeader().setOpaque(false);
+        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         ProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
         ProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
         ProblemsetTable.setRowHeight(25);
-        StatusTable.setRowHeight(25);
-        MySubTable.setRowHeight(25);
+        
         
         
         
@@ -101,7 +105,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
         DashboardTabSwitcher.addTab("Home", HomePanel);
 
-        ProblemsetPanel.setBackground(new java.awt.Color(255, 255, 255));
         ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -111,31 +114,31 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Problem ID", "Problem Name"
+                "Problem ID", "Problem Name", "Problem Setter"
             }
         ));
         ProblemsetTable.setFocusable(false);
@@ -229,7 +232,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
         DashboardTabSwitcher.addTab("Submit Solution", SubmitSolPanel);
 
-        StatusPanel.setBackground(new java.awt.Color(255, 255, 255));
         StatusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
@@ -285,7 +287,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
         DashboardTabSwitcher.addTab("Status", StatusPanel);
 
-        MySubPanel.setBackground(new java.awt.Color(255, 255, 255));
         MySubPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         MySubScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N

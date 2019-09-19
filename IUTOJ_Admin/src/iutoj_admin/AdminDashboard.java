@@ -20,19 +20,24 @@ public class AdminDashboard extends javax.swing.JFrame {
     public AdminDashboard() {
         initComponents();
         setBackground(new Color(0,0,0));
-        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         
-//        ProblemsetTable.getTableHeader().setOpaque(false);
+        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        StatusTable.setRowHeight(25);
+        //ProblemsetTable.getTableHeader().setOpaque(false);
+        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         ProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
         ProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
         ProblemsetTable.setRowHeight(25);
-        StatusTable.setRowHeight(25);
         
         DelProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         DelProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
         DelProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
         DelProblemsetTable.setRowHeight(25);
+        
+        MyProblemsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        MyProblemsTable.getTableHeader().setBackground(new Color(0,181,204));
+        MyProblemsTable.getTableHeader().setBackground(new Color(255,255,255));
+        MyProblemsTable.setRowHeight(25);
         
         
         
@@ -57,6 +62,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetPanel = new javax.swing.JPanel();
         ProblemSetjScrollPane = new javax.swing.JScrollPane();
         ProblemsetTable = new javax.swing.JTable();
+        MyProblemsPanel = new javax.swing.JPanel();
+        MyProblemsjScrollPane = new javax.swing.JScrollPane();
+        MyProblemsTable = new javax.swing.JTable();
         ManagePanel = new javax.swing.JPanel();
         ManagePanelTabSwitcher = new javax.swing.JTabbedPane();
         AddProblemPanel = new javax.swing.JPanel();
@@ -110,7 +118,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Home", HomePanel);
 
-        ProblemsetPanel.setBackground(new java.awt.Color(255, 255, 255));
         ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -120,31 +127,31 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Problem ID", "Problem Name"
+                "Problem ID", "Problem Name", "Problem Setter"
             }
         ));
         ProblemsetTable.setFocusable(false);
@@ -167,6 +174,62 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
 
         AdminDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
+
+        MyProblemsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        MyProblemsjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        MyProblemsjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
+
+        MyProblemsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        MyProblemsTable.setForeground(new java.awt.Color(0, 181, 204));
+        MyProblemsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Problem ID", "Problem Name", "Problem Setter"
+            }
+        ));
+        MyProblemsTable.setFocusable(false);
+        MyProblemsTable.setGridColor(new java.awt.Color(255, 255, 255));
+        MyProblemsTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        MyProblemsTable.setOpaque(false);
+        MyProblemsTable.setRequestFocusEnabled(false);
+        MyProblemsTable.setRowHeight(25);
+        MyProblemsTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        MyProblemsTable.setShowHorizontalLines(false);
+        MyProblemsTable.getTableHeader().setReorderingAllowed(false);
+        MyProblemsTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                MyProblemsTableComponentResized(evt);
+            }
+        });
+        MyProblemsjScrollPane.setViewportView(MyProblemsTable);
+
+        MyProblemsPanel.add(MyProblemsjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+
+        AdminDashboardTabSwitcher.addTab("My Problems", MyProblemsPanel);
 
         ManagePanel.setBackground(new java.awt.Color(255, 255, 255));
         ManagePanel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
@@ -397,7 +460,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Manage", ManagePanel);
 
-        StatusPanel.setBackground(new java.awt.Color(255, 255, 255));
         StatusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
@@ -513,6 +575,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
+    private void MyProblemsTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MyProblemsTableComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MyProblemsTableComponentResized
+
     /**
      * @param args the command line arguments
      */
@@ -562,6 +628,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ManagePanel;
     private javax.swing.JTabbedPane ManagePanelTabSwitcher;
     private javax.swing.JLabel MemoryLimitLabel;
+    private javax.swing.JPanel MyProblemsPanel;
+    private javax.swing.JTable MyProblemsTable;
+    private javax.swing.JScrollPane MyProblemsjScrollPane;
     private javax.swing.JLabel ProblemIDLabel;
     private javax.swing.JLabel ProblemNameLabel;
     private javax.swing.JScrollPane ProblemSetjScrollPane;
