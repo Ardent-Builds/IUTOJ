@@ -56,6 +56,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel6 = new javax.swing.JPanel();
+        AdminDashboardDesktopPane = new javax.swing.JDesktopPane();
         AdminDashboardTabSwitcher = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
@@ -102,7 +103,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 181, 204));
 
-        AdminDashboardTabSwitcher.setBackground(new java.awt.Color(51, 255, 204));
+        AdminDashboardDesktopPane.setBackground(new java.awt.Color(255, 255, 255));
+
+        AdminDashboardTabSwitcher.setBackground(new java.awt.Color(255, 255, 255));
         AdminDashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         AdminDashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         AdminDashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N
@@ -148,6 +151,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null}
             },
             new String [] {
@@ -171,7 +177,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
         ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
-        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         AdminDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
 
@@ -184,6 +190,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.setForeground(new java.awt.Color(0, 181, 204));
         MyProblemsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
@@ -227,7 +236,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         MyProblemsjScrollPane.setViewportView(MyProblemsTable);
 
-        MyProblemsPanel.add(MyProblemsjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        MyProblemsPanel.add(MyProblemsjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         AdminDashboardTabSwitcher.addTab("My Problems", MyProblemsPanel);
 
@@ -376,7 +385,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -446,7 +455,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
         DeleteProblemPanelLayout.setVerticalGroup(
             DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 570, Short.MAX_VALUE)
+            .addGap(0, 576, Short.MAX_VALUE)
             .addGroup(DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(DeleteProblemPanelLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -456,7 +465,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         ManagePanelTabSwitcher.addTab("Delete Problem", DeleteProblemPanel);
 
-        ManagePanel.add(ManagePanelTabSwitcher, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        ManagePanel.add(ManagePanelTabSwitcher, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 610));
 
         AdminDashboardTabSwitcher.addTab("Manage", ManagePanel);
 
@@ -468,6 +477,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setForeground(new java.awt.Color(0, 181, 204));
         StatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -511,25 +523,43 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         StatusScrollPane.setViewportView(StatusTable);
 
-        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
+
+        javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
+        AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
+        AdminDashboardDesktopPaneLayout.setHorizontalGroup(
+            AdminDashboardDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(AdminDashboardTabSwitcher)
+        );
+        AdminDashboardDesktopPaneLayout.setVerticalGroup(
+            AdminDashboardDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminDashboardDesktopPaneLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AdminDashboardTabSwitcher)
+            .addComponent(AdminDashboardDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(AdminDashboardDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void StatusTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_StatusTableComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatusTableComponentResized
 
     private void DelProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_DelProblemsetTableComponentResized
         // TODO add your handling code here:
@@ -567,17 +597,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_AddOutputButtonActionPerformed
 
-    private void StatusTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_StatusTableComponentResized
+    private void MyProblemsTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MyProblemsTableComponentResized
         // TODO add your handling code here:
-    }//GEN-LAST:event_StatusTableComponentResized
+    }//GEN-LAST:event_MyProblemsTableComponentResized
 
     private void ProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProblemsetTableComponentResized
         // TODO add your handling code here:
     }//GEN-LAST:event_ProblemsetTableComponentResized
-
-    private void MyProblemsTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MyProblemsTableComponentResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MyProblemsTableComponentResized
 
     /**
      * @param args the command line arguments
@@ -619,6 +645,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton AddInputButton;
     private javax.swing.JButton AddOutputButton;
     private javax.swing.JPanel AddProblemPanel;
+    private javax.swing.JDesktopPane AdminDashboardDesktopPane;
     private javax.swing.JTabbedPane AdminDashboardTabSwitcher;
     private javax.swing.JButton ChProblemStatementButton;
     private javax.swing.JScrollPane DelProblemSetjScrollPane;

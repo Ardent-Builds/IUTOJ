@@ -50,6 +50,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel6 = new javax.swing.JPanel();
+        jDesktopPane1 = new javax.swing.JDesktopPane();
         DashboardTabSwitcher = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
@@ -61,7 +62,7 @@ public class UserDashboard extends javax.swing.JFrame {
         txtProblem = new javax.swing.JTextField();
         ProblemLabel = new javax.swing.JLabel();
         LanguageLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        SourceCodeScrollPane = new javax.swing.JScrollPane();
         SourceCodeTextArea = new javax.swing.JTextArea();
         LanguageComboBox = new javax.swing.JComboBox();
         SourceCodeLabel = new javax.swing.JLabel();
@@ -88,6 +89,8 @@ public class UserDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 181, 204));
+
+        jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         DashboardTabSwitcher.setBackground(new java.awt.Color(51, 255, 204));
         DashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
@@ -135,6 +138,9 @@ public class UserDashboard extends javax.swing.JFrame {
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
                 {null, null, null}
             },
             new String [] {
@@ -158,7 +164,7 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
         ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
-        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         DashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
 
@@ -189,9 +195,9 @@ public class UserDashboard extends javax.swing.JFrame {
 
         SourceCodeTextArea.setColumns(20);
         SourceCodeTextArea.setRows(5);
-        jScrollPane1.setViewportView(SourceCodeTextArea);
+        SourceCodeScrollPane.setViewportView(SourceCodeTextArea);
 
-        SubmitSolPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 560, 340));
+        SubmitSolPanel.add(SourceCodeScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 560, 340));
 
         LanguageComboBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         LanguageComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C", "C++", "Java" }));
@@ -261,6 +267,9 @@ public class UserDashboard extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null}
             },
             new String [] {
@@ -283,7 +292,7 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         StatusScrollPane.setViewportView(StatusTable);
 
-        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         DashboardTabSwitcher.addTab("Status", StatusPanel);
 
@@ -295,6 +304,9 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubTable.setForeground(new java.awt.Color(0, 181, 204));
         MySubTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -338,21 +350,31 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         MySubScrollPane.setViewportView(MySubTable);
 
-        MySubPanel.add(MySubScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 570));
+        MySubPanel.add(MySubScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         DashboardTabSwitcher.addTab("My Submissions", MySubPanel);
+
+        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
+        jDesktopPane1.setLayout(jDesktopPane1Layout);
+        jDesktopPane1Layout.setHorizontalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(DashboardTabSwitcher)
+        );
+        jDesktopPane1Layout.setVerticalGroup(
+            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(DashboardTabSwitcher)
+        );
+        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DashboardTabSwitcher)
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(DashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -436,6 +458,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel ProblemsetPanel;
     private javax.swing.JTable ProblemsetTable;
     private javax.swing.JLabel SourceCodeLabel;
+    private javax.swing.JScrollPane SourceCodeScrollPane;
     private javax.swing.JTextArea SourceCodeTextArea;
     private javax.swing.JPanel StatusPanel;
     private javax.swing.JScrollPane StatusScrollPane;
@@ -443,8 +466,8 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JButton SubmitButton;
     private javax.swing.JPanel SubmitSolPanel;
     private javax.swing.JLabel WelcomeLabel;
+    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txtProblem;
     // End of variables declaration//GEN-END:variables
 }
