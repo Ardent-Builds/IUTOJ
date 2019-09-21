@@ -39,6 +39,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.getTableHeader().setBackground(new Color(255,255,255));
         MyProblemsTable.setRowHeight(25);
         
+        ProblemsetTable.setBackground(new Color(0,181,204));
         
         
         
