@@ -24,6 +24,8 @@ public class UserDashboard extends javax.swing.JFrame {
         
         setBackground(new Color(0,0,0));
         
+       
+        
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         StatusTable.setRowHeight(25);
         
