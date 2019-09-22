@@ -5,6 +5,8 @@
  */
 package iutoj_user;
 
+import java.io.IOException;
+
 /**
  *
  * @author KAWSAR
@@ -14,8 +16,24 @@ public class IUTOJ_User {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    
+    
+    public static void main(String[] args) throws IOException, InterruptedException {
+        ClientSocket client = new ClientSocket();
+        if(client.connect("localhost", 1235)){
+            System.out.println("connected");
+        }
+        
+        Login loginPage = new Login(client);
+        
+
+        
+        
+        
+        
+        
+        
+        
     }
     
 }

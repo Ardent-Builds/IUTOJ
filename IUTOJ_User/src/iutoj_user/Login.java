@@ -5,13 +5,12 @@
  */
 package iutoj_user;
 
-import com.sun.prism.paint.Color;
-import java.awt.Frame;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import static java.lang.Boolean.TRUE;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,12 +21,16 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    public Login() {
-        initComponents();
-        txtStudentID.setFocusable(true);
     
-        
-        
+    private ClientSocket client;
+    private SignUp signup;
+    UserDashboard dashboard;
+    
+    public Login(ClientSocket client) {
+        initComponents();
+        this.setVisible(true);
+        this.client = client;
+       
         
     }
 
@@ -57,7 +60,6 @@ public class Login extends javax.swing.JFrame {
         leftSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 0, 0));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -110,16 +112,6 @@ public class Login extends javax.swing.JFrame {
                 txtStudentIDFocusLost(evt);
             }
         });
-        txtStudentID.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                txtStudentIDMouseReleased(evt);
-            }
-        });
-        txtStudentID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudentIDActionPerformed(evt);
-            }
-        });
         RightPanel.add(txtStudentID, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 270, 50));
 
         LoginButton.setBackground(new java.awt.Color(0, 181, 204));
@@ -161,11 +153,6 @@ public class Login extends javax.swing.JFrame {
         PasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         PasswordField.setForeground(new java.awt.Color(102, 102, 102));
         PasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
-            }
-        });
         RightPanel.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 237, 270, 30));
 
         PasswordLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
@@ -185,19 +172,45 @@ public class Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtStudentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentIDActionPerformed
-
     private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
-        // TODO add your handling code here:
+        //String 
+        signup = new SignUp(client);
+        signup.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_CrNewAccButtonButtonActionPerformed
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
-        // TODO add your handling code here:
+        String studentid = txtStudentID.getText();
+        String password = PasswordField.getText();
+        String dataout = "Login---["+studentid+"]["+password+"]";
+        System.out.println(dataout);
+        if(client.sendData(dataout)<0){
+            JOptionPane.showMessageDialog(null,"Timeout sending data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
+        }
+        
+        String datain = client.readData();
+        System.out.println("data read");
+        if(datain != null){
+            if(datain.equals("LginTrue")){
+                JOptionPane.showMessageDialog(null,"Login Successfull !!!","Status",JOptionPane.INFORMATION_MESSAGE);
+                dashboard = new UserDashboard(client);
+                dashboard.setVisible(rootPaneCheckingEnabled);
+                //this.setVisible(false);
+            }
+            else if(datain.equals("LginFlse")){
+                JOptionPane.showMessageDialog(null,"Invalid Username, Password!!!","Status",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Timeout reading data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_LoginButtonActionPerformed
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
+        try {
+            client.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_closeLabelMouseClicked
 
@@ -224,49 +237,7 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIDFocusLost
 
-    private void txtStudentIDMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtStudentIDMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentIDMouseReleased
-
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CrNewAccButton;
     private javax.swing.JPanel LeftPanel;

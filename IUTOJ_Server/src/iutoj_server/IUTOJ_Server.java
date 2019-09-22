@@ -5,6 +5,9 @@
  */
 package iutoj_server;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 /**
  *
  * @author KAWSAR
@@ -14,8 +17,11 @@ public class IUTOJ_Server {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here
+        Thread server = new Thread(new Server(1235));
+        server.start();
+        ServerGUI serverStarter = new ServerGUI();
     }
     
 }
