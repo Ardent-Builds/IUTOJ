@@ -14,19 +14,16 @@ import java.net.SocketException;
  * @author ASADUZZAMAN HEROK
  */
 public class AdminSocket {
+
     private Socket socket;
     private DataOutputStream dataout;
     private DataInputStream datain;
-    
-    
-    public AdminSocket() throws IOException
-    {
-        this.socket = new Socket(); 
+
+    public AdminSocket() throws IOException {
+        this.socket = new Socket();
     }
-    
-    
-    public int  sendData(String data) 
-    {
+
+    public int sendData(String data) {
         try {
             socket.setSoTimeout(5000);
             dataout.writeUTF(data);
@@ -36,9 +33,9 @@ public class AdminSocket {
         } catch (IOException ex) {
             return -1;
         }
-        
+
     }
-    
+
     public String readData()
     {
         try{
@@ -48,22 +45,20 @@ public class AdminSocket {
             return null;
         }
     }
-    public boolean connect(String add, int port)
-    {
+    public boolean connect(String add, int port) {
         try {
-            socket = new Socket(add,port);
+            socket = new Socket(add, port);
             dataout = new DataOutputStream(socket.getOutputStream());
             datain = new DataInputStream(socket.getInputStream());
+            dataout.writeUTF("Client");
             return true;
         } catch (IOException ex) {
             return false;
         }
     }
-    
-    public void close() throws IOException{
+
+    public void close() throws IOException {
         socket.close();
     }
-    
-    
-    
+
 }

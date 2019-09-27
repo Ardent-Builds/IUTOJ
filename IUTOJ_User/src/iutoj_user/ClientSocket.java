@@ -42,7 +42,7 @@ public class ClientSocket {
             socket.setSoTimeout(3000);
             return datain.readUTF();
         } catch (IOException ex) {
-            return "timeup";
+            return null;
         }
     }
     public boolean connect(String add, int port) {

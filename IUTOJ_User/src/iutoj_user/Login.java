@@ -57,11 +57,21 @@ public class Login extends javax.swing.JFrame {
         PasswordField = new javax.swing.JPasswordField();
         PasswordLabel = new javax.swing.JLabel();
         StudentIDLabel = new javax.swing.JLabel();
-        leftSeparator1 = new javax.swing.JSeparator();
+        rightSeparator = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
         setUndecorated(true);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LeftPanel.setBackground(new java.awt.Color(0, 181, 204));
@@ -164,7 +174,7 @@ public class Login extends javax.swing.JFrame {
         StudentIDLabel.setForeground(new java.awt.Color(0, 181, 204));
         StudentIDLabel.setText("Student ID");
         RightPanel.add(StudentIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 120, 30));
-        RightPanel.add(leftSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 170, 40));
+        RightPanel.add(rightSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 170, 40));
 
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 530, 560));
 
@@ -190,18 +200,18 @@ public class Login extends javax.swing.JFrame {
         String datain = client.readData();
         System.out.println("data read");
         if(datain != null){
-            if(datain.equals("LginTrue")){
-                JOptionPane.showMessageDialog(null,"Login Successfull !!!","Status",JOptionPane.INFORMATION_MESSAGE);
+            if(datain.equals("LoginTrue")){
+                JOptionPane.showMessageDialog(null,"Login Successfull!","Status",JOptionPane.INFORMATION_MESSAGE);
                 dashboard = new UserDashboard(client);
                 dashboard.setVisible(rootPaneCheckingEnabled);
                 //this.setVisible(false);
             }
-            else if(datain.equals("LginFlse")){
-                JOptionPane.showMessageDialog(null,"Invalid Username, Password!!!","Status",JOptionPane.ERROR_MESSAGE);
+            else if(datain.equals("LoginFalse")){
+                JOptionPane.showMessageDialog(null,"Invalid Student ID and Password!","Status",JOptionPane.ERROR_MESSAGE);
             }
         }
         else{
-            JOptionPane.showMessageDialog(null,"Timeout reading data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Timeout reading data!","Timeout",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_LoginButtonActionPerformed
 
@@ -236,6 +246,20 @@ public class Login extends javax.swing.JFrame {
         
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIDFocusLost
+    static int xx, yy;
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        // TODO add your handling code here:
+        xx=evt.getX();
+        yy=evt.getY();
+        
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        int x, y;
+        x=evt.getXOnScreen();
+        y=evt.getYOnScreen();
+        this.setLocation(x-xx, y-yy);// TODO add your handling code here:
+    }//GEN-LAST:event_formMouseDragged
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -249,10 +273,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JLabel closeLabel;
     private javax.swing.JSeparator leftSeparator;
-    private javax.swing.JSeparator leftSeparator1;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel minimizeLabel;
     private javax.swing.JLabel orLabel;
+    private javax.swing.JSeparator rightSeparator;
     private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }

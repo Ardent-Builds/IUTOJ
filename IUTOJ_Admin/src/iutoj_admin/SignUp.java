@@ -5,13 +5,8 @@
  */
 package iutoj_admin;
 
-import com.sun.prism.paint.Color;
-import java.awt.Frame;
 import javax.swing.JFrame;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import static java.lang.Boolean.TRUE;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,13 +17,11 @@ public class SignUp extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    public SignUp() {
+    AdminSocket adminSocket;
+    public SignUp(AdminSocket adminSocket) {
         initComponents();
         txtStudentID.setFocusable(true);
-    
-        
-        
-        
+        this.adminSocket = adminSocket;
     }
 
     /**
@@ -110,16 +103,6 @@ public class SignUp extends javax.swing.JFrame {
                 txtStudentIDFocusLost(evt);
             }
         });
-        txtStudentID.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                txtStudentIDMouseReleased(evt);
-            }
-        });
-        txtStudentID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtStudentIDActionPerformed(evt);
-            }
-        });
         RightPanel.add(txtStudentID, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 270, 50));
 
         SignUpButton.setBackground(new java.awt.Color(0, 181, 204));
@@ -156,11 +139,6 @@ public class SignUp extends javax.swing.JFrame {
         ConfirmPasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         ConfirmPasswordField.setForeground(new java.awt.Color(102, 102, 102));
         ConfirmPasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        ConfirmPasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConfirmPasswordFieldActionPerformed(evt);
-            }
-        });
         RightPanel.add(ConfirmPasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 310, 200, 30));
 
         ConfirmPasswordLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
@@ -181,11 +159,6 @@ public class SignUp extends javax.swing.JFrame {
         PasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         PasswordField.setForeground(new java.awt.Color(102, 102, 102));
         PasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        PasswordField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordFieldActionPerformed(evt);
-            }
-        });
         RightPanel.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 237, 270, 30));
 
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 530, 560));
@@ -194,16 +167,30 @@ public class SignUp extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtStudentIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtStudentIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentIDActionPerformed
-
     private void AlreadyAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AlreadyAccButtonButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_AlreadyAccButtonButtonActionPerformed
 
     private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
-        // TODO add your handling code here:
+       String usrname = txtStudentID.getText();
+       String password = PasswordField.getText();
+       String confirmPassword = ConfirmPasswordField.getText();
+       if(password.equals(confirmPassword)==false){
+           ConfirmPasswordField.setText("");
+           JOptionPane.showMessageDialog(null, "Password didn't match", "Error", JOptionPane.ERROR_MESSAGE);
+       }
+       else{
+           if(adminSocket.sendData("SignUp--["+usrname+"]["+password+"]")<0){
+               JOptionPane.showMessageDialog(null, "Socket write error", "Connection!!!", JOptionPane.ERROR_MESSAGE);
+           }
+           String tmp = adminSocket.readData();
+           if(tmp.equals("SignUpTr")){
+               JOptionPane.showMessageDialog(null, "SignUp Successfull", "SignUP", JOptionPane.INFORMATION_MESSAGE);
+           }
+           else{
+               JOptionPane.showMessageDialog(null, "SignUp Failed", "SignUp!!!", JOptionPane.ERROR_MESSAGE);
+           }
+       }      // TODO add your handling code here:
     }//GEN-LAST:event_SignUpButtonActionPerformed
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
@@ -233,55 +220,10 @@ public class SignUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIDFocusLost
 
-    private void txtStudentIDMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtStudentIDMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtStudentIDMouseReleased
-
-    private void ConfirmPasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmPasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ConfirmPasswordFieldActionPerformed
-
-    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordFieldActionPerformed
-
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SignUp().setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AlreadyAccButton;

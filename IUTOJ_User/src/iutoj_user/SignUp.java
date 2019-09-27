@@ -112,9 +112,9 @@ public class SignUp extends javax.swing.JFrame {
         SignUpButton.setContentAreaFilled(false);
         SignUpButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         SignUpButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        SignUpButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                SignUpButtonMouseClicked(evt);
+        SignUpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SignUpButtonActionPerformed(evt);
             }
         });
         RightPanel.add(SignUpButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, 90, 40));
@@ -198,8 +198,8 @@ public class SignUp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIDFocusLost
 
-    private void SignUpButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignUpButtonMouseClicked
-        String usrname = txtStudentID.getText();
+    private void SignUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpButtonActionPerformed
+       String usrname = txtStudentID.getText();
        String password = PasswordField.getText();
        String confirmPassword = ConfirmPasswordField.getText();
        if(password.equals(confirmPassword)==false){
@@ -218,7 +218,7 @@ public class SignUp extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null, "SignUp Failed", "SignUp!!!", JOptionPane.ERROR_MESSAGE);
            }
        }
-    }//GEN-LAST:event_SignUpButtonMouseClicked
+    }//GEN-LAST:event_SignUpButtonActionPerformed
 
     /**
      * @param args the command line arguments

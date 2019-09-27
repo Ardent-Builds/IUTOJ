@@ -97,7 +97,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        DashboardTabSwitcher.setBackground(new java.awt.Color(51, 255, 204));
+        DashboardTabSwitcher.setBackground(new java.awt.Color(255, 255, 255));
         DashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         DashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         DashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N

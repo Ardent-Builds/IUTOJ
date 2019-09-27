@@ -42,10 +42,10 @@ public class Multi_Thread implements Runnable {
             if (code.equals("Login---")) {
                 LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, type, database);
                 if(loginhandler.isValid()){
-                    client.sendData("LginTrue");
+                    client.sendData("LoginTrue");
                 }
                 else{
-                    client.sendData("LginFlse");
+                    client.sendData("LoginFlse");
                 }
             }
             else if(code.equals("SignUp--")){

@@ -26,7 +26,7 @@ public class Database {
     
     
     public synchronized String getAdminPassword(String usrname){
-        String query = "select password from teacher where username = '"+usrname+"'";
+        String query = "select password from Teacher where username = '"+usrname+"'";
         
         try {
             stmnt = conn.createStatement();
