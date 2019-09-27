@@ -60,7 +60,6 @@ public class Login extends javax.swing.JFrame {
         CrNewAccButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 0, 0));
         setUndecorated(true);
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -244,6 +243,7 @@ public class Login extends javax.swing.JFrame {
         //String
         signup = new SignUp(adminSocket);
         signup.setVisible(rootPaneCheckingEnabled);
+        
     }//GEN-LAST:event_CrNewAccButtonButtonActionPerformed
     
     static int xx, yy;

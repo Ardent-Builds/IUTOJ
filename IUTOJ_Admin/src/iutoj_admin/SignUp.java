@@ -50,9 +50,18 @@ public class SignUp extends javax.swing.JFrame {
         PasswordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 0, 0));
         setUndecorated(true);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         LeftPanel.setBackground(new java.awt.Color(0, 181, 204));
@@ -219,6 +228,18 @@ public class SignUp extends javax.swing.JFrame {
         
         // TODO add your handling code here:
     }//GEN-LAST:event_txtStudentIDFocusLost
+    static int xx,yy;
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        xx=evt.getX();
+        yy=evt.getY();// TODO add your handling code here:
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        int x,y; 
+        x=evt.getXOnScreen();
+        y=evt.getYOnScreen();
+        this.setLocation(x-xx, y-yy);// TODO add your handling code here:
+    }//GEN-LAST:event_formMouseDragged
 
     /**
      * @param args the command line arguments

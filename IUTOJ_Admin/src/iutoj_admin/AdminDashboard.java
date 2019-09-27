@@ -44,6 +44,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         
         ProblemsetTable.setBackground(new Color(0,181,204));
         
+        this.setVisible(true);
         
         
         
@@ -64,6 +65,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         AdminDashboardTabSwitcher = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
+        LogOutButton = new javax.swing.JButton();
         ProblemsetPanel = new javax.swing.JPanel();
         ProblemSetjScrollPane = new javax.swing.JScrollPane();
         ProblemsetTable = new javax.swing.JTable();
@@ -122,6 +124,20 @@ public class AdminDashboard extends javax.swing.JFrame {
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WelcomeLabel.setText("Welcome To IUTOJ");
         HomePanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 137, -1, 167));
+
+        LogOutButton.setBackground(new java.awt.Color(0, 181, 204));
+        LogOutButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        LogOutButton.setForeground(new java.awt.Color(0, 181, 204));
+        LogOutButton.setText("Log Out");
+        LogOutButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
+        LogOutButton.setContentAreaFilled(false);
+        LogOutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        LogOutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LogOutButtonActionPerformed(evt);
+            }
+        });
+        HomePanel.add(LogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, 90, 40));
 
         AdminDashboardTabSwitcher.addTab("Home", HomePanel);
 
@@ -609,6 +625,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
+    private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LogOutButtonActionPerformed
+
  
  
 
@@ -623,6 +643,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable DelProblemsetTable;
     private javax.swing.JPanel DeleteProblemPanel;
     private javax.swing.JPanel HomePanel;
+    private javax.swing.JButton LogOutButton;
     private javax.swing.JPanel ManagePanel;
     private javax.swing.JTabbedPane ManagePanelTabSwitcher;
     private javax.swing.JLabel MemoryLimitLabel;
