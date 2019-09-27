@@ -13,13 +13,13 @@ import java.net.SocketException;
  *
  * @author ASADUZZAMAN HEROK
  */
-public class ClientSocket {
+public class SocketForClient {
     private Socket socket;
     private DataOutputStream dataout;
     private DataInputStream datain;
     
     
-    public ClientSocket(Socket socket) throws IOException
+    public SocketForClient(Socket socket) throws IOException
     {
         this.socket = socket; 
         try {

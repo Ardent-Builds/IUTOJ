@@ -17,11 +17,11 @@ public class SignUp extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    ClientSocket client;
-    public SignUp(ClientSocket client) {
+    UserSocket usersocket;
+    public SignUp(UserSocket usersocket) {
         initComponents();
         txtStudentID.setFocusable(true);
-        this.client = client;
+        this.usersocket = usersocket;
     }
 
     /**
@@ -217,11 +217,16 @@ public class SignUp extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Password didn't match", "Error", JOptionPane.ERROR_MESSAGE);
        }
        else{
-           if(client.sendData("SignUp--["+usrname+"]["+password+"]")<0){
+           if(usersocket.sendData("SignUp--["+usrname+"]["+password+"]")<0){
                JOptionPane.showMessageDialog(null, "Socket write error", "Connection!!!", JOptionPane.ERROR_MESSAGE);
            }
-           String tmp = client.readData();
-           if(tmp.equals("SignUpTr")){
+           
+           String tmp = usersocket.readData();
+           
+           if(tmp.equals("Exist---")){
+               JOptionPane.showMessageDialog(null, "Username already exist", "SignUP", JOptionPane.INFORMATION_MESSAGE);
+           }
+           else if(tmp.equals("SignUpTr")){
                JOptionPane.showMessageDialog(null, "SignUp Successfull", "SignUP", JOptionPane.INFORMATION_MESSAGE);
            }
            else{

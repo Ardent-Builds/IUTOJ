@@ -32,7 +32,7 @@ public class Database {
             stmnt = conn.createStatement();
             ResultSet rs = stmnt.executeQuery(query);
             if(rs.next()==false){
-                return "NoData";
+                return "No#Data";
             }
             
             return rs.getString(1);
@@ -40,7 +40,7 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Statement error "+ex);
-            return "NoData";
+            return "No#Data";
         }
         
     }
@@ -52,7 +52,7 @@ public class Database {
             stmnt = conn.createStatement();
             ResultSet rs = stmnt.executeQuery(query);
             if(rs.next()==false){
-                return "NO#Data";
+                return "No#Data";
             }
             
             return rs.getString(1);
@@ -60,7 +60,7 @@ public class Database {
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Statement error "+ex);
-            return "No$#Data";
+            return "No#Data";
         }
     }
     

@@ -20,29 +20,23 @@ public class IUTOJ_Admin {
      */
     public static void main(String[] args) throws IOException, InterruptedException {
         
-         try {
+        try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SignUp.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         
-        AdminSocket adminSocket = new AdminSocket();
-        if(adminSocket.connect("localhost",1235)){
+        AdminSocket adminsocket = new AdminSocket();
+        if(adminsocket.connect("localhost",1235)){
             System.out.println("connected");
         }
         
-        Login loginPage = new Login(adminSocket);
+        Login loginPage = new Login(adminsocket);
     }
     
 }

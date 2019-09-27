@@ -17,11 +17,11 @@ public class SignUp extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    AdminSocket adminSocket;
+    AdminSocket adminsocket;
     public SignUp(AdminSocket adminSocket) {
         initComponents();
         txtStudentID.setFocusable(true);
-        this.adminSocket = adminSocket;
+        this.adminsocket = adminSocket;
     }
 
     /**
@@ -184,16 +184,22 @@ public class SignUp extends javax.swing.JFrame {
        String usrname = txtStudentID.getText();
        String password = PasswordField.getText();
        String confirmPassword = ConfirmPasswordField.getText();
+       
        if(password.equals(confirmPassword)==false){
            ConfirmPasswordField.setText("");
            JOptionPane.showMessageDialog(null, "Password didn't match", "Error", JOptionPane.ERROR_MESSAGE);
        }
        else{
-           if(adminSocket.sendData("SignUp--["+usrname+"]["+password+"]")<0){
+           if(adminsocket.sendData("SignUp--["+usrname+"]["+password+"]")<0){
                JOptionPane.showMessageDialog(null, "Socket write error", "Connection!!!", JOptionPane.ERROR_MESSAGE);
            }
-           String tmp = adminSocket.readData();
-           if(tmp.equals("SignUpTr")){
+           
+           String tmp = adminsocket.readData();
+           
+           if(tmp.equals("Exist---")){
+               JOptionPane.showMessageDialog(null, "Username already exist", "SignUP", JOptionPane.INFORMATION_MESSAGE);
+           }
+           else if(tmp.equals("SignUpTr")){
                JOptionPane.showMessageDialog(null, "SignUp Successfull", "SignUP", JOptionPane.INFORMATION_MESSAGE);
            }
            else{

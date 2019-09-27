@@ -197,6 +197,7 @@ public class Login extends javax.swing.JFrame {
             if(datain.equals("LoginTrue")){
                 JOptionPane.showMessageDialog(null,"Login Successfull!","Status",JOptionPane.INFORMATION_MESSAGE);
                 dashboard = new AdminDashboard(adminSocket);
+                this.setVisible(false);
             }
             else if(datain.equals("LoginFalse")){
                 JOptionPane.showMessageDialog(null,"Invalid Username and Password","Status",JOptionPane.ERROR_MESSAGE);

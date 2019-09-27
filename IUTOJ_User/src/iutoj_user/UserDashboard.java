@@ -7,6 +7,10 @@ package iutoj_user;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -17,10 +21,13 @@ public class UserDashboard extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboard
      */
-    private final ClientSocket client;
-    public UserDashboard(ClientSocket client) {
+    private final UserSocket usersocket;
+    private File  codefile;
+    
+    public UserDashboard(UserSocket usersocket) {
         initComponents();
-        this.client = client;
+        this.usersocket = usersocket;
+        this.codefile = null;
         
         setBackground(new Color(0,0,0));
         
@@ -421,7 +428,18 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_LanguageComboBoxActionPerformed
 
     private void ChooseFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChooseFileButtonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser filemanager = new JFileChooser("Documents");
+
+        filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filemanager.addChoosableFileFilter(new FileNameExtensionFilter("C++ Documents", "cpp"));
+        filemanager.showOpenDialog(this);
+        codefile = filemanager.getSelectedFile();
+
+        if (codefile != null) {
+            ChooseFileButton.setText(codefile.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Input files missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed

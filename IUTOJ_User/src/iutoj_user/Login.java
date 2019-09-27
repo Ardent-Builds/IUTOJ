@@ -22,14 +22,14 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     
-    private ClientSocket client;
+    private UserSocket usersocket;
     private SignUp signup;
     UserDashboard dashboard;
     
-    public Login(ClientSocket client) {
+    public Login(UserSocket usersocket) {
         initComponents();
         this.setVisible(true);
-        this.client = client;
+        this.usersocket = usersocket;
        
         
     }
@@ -184,7 +184,7 @@ public class Login extends javax.swing.JFrame {
 
     private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
         //String 
-        signup = new SignUp(client);
+        signup = new SignUp(usersocket);
         signup.setVisible(rootPaneCheckingEnabled);
     }//GEN-LAST:event_CrNewAccButtonButtonActionPerformed
 
@@ -193,18 +193,20 @@ public class Login extends javax.swing.JFrame {
         String password = PasswordField.getText();
         String dataout = "Login---["+studentid+"]["+password+"]";
         System.out.println(dataout);
-        if(client.sendData(dataout)<0){
+        if(usersocket.sendData(dataout)<0){
             JOptionPane.showMessageDialog(null,"Timeout sending data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
         }
         
-        String datain = client.readData();
-        System.out.println("data read");
+        String datain = usersocket.readData();
+                          
+        System.out.println(datain);             //Debuging;
+        
         if(datain != null){
             if(datain.equals("LoginTrue")){
                 JOptionPane.showMessageDialog(null,"Login Successfull!","Status",JOptionPane.INFORMATION_MESSAGE);
-                dashboard = new UserDashboard(client);
+                dashboard = new UserDashboard(usersocket);
                 dashboard.setVisible(rootPaneCheckingEnabled);
-                //this.setVisible(false);
+                this.setVisible(false);
             }
             else if(datain.equals("LoginFalse")){
                 JOptionPane.showMessageDialog(null,"Invalid Student ID and Password!","Status",JOptionPane.ERROR_MESSAGE);
@@ -217,7 +219,7 @@ public class Login extends javax.swing.JFrame {
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         try {
-            client.close();
+            usersocket.close();
         } catch (IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }

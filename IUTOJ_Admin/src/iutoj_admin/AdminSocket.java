@@ -15,17 +15,17 @@ import java.net.SocketException;
  */
 public class AdminSocket {
 
-    private Socket socket;
+    private Socket adminsocket;
     private DataOutputStream dataout;
     private DataInputStream datain;
 
     public AdminSocket() throws IOException {
-        this.socket = new Socket();
+        this.adminsocket = new Socket();
     }
 
     public int sendData(String data) {
         try {
-            socket.setSoTimeout(5000);
+            adminsocket.setSoTimeout(5000);
             dataout.writeUTF(data);
             return data.length();
         } catch (SocketException ex) {
@@ -39,7 +39,7 @@ public class AdminSocket {
     public String readData()
     {
         try{
-            socket.setSoTimeout(3000);
+            adminsocket.setSoTimeout(3000);
             return datain.readUTF();
         } catch (IOException ex) {
             return null;
@@ -47,10 +47,10 @@ public class AdminSocket {
     }
     public boolean connect(String add, int port) {
         try {
-            socket = new Socket(add, port);
-            dataout = new DataOutputStream(socket.getOutputStream());
-            datain = new DataInputStream(socket.getInputStream());
-            dataout.writeUTF("Client");
+            adminsocket = new Socket(add, port);
+            dataout = new DataOutputStream(adminsocket.getOutputStream());
+            datain = new DataInputStream(adminsocket.getInputStream());
+            dataout.writeUTF("Admin");
             return true;
         } catch (IOException ex) {
             return false;
@@ -58,7 +58,7 @@ public class AdminSocket {
     }
 
     public void close() throws IOException {
-        socket.close();
+        adminsocket.close();
     }
 
 }

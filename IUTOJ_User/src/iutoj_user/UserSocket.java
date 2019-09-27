@@ -13,13 +13,13 @@ import java.net.SocketException;
  *
  * @author ASADUZZAMAN HEROK
  */
-public class ClientSocket {
+public class UserSocket {
 
     private Socket socket;
     private DataOutputStream dataout;
     private DataInputStream datain;
 
-    public ClientSocket() throws IOException {
+    public UserSocket() throws IOException {
         this.socket = new Socket();
     }
 
@@ -50,7 +50,7 @@ public class ClientSocket {
             socket = new Socket(add, port);
             dataout = new DataOutputStream(socket.getOutputStream());
             datain = new DataInputStream(socket.getInputStream());
-            dataout.writeUTF("Client");
+            dataout.writeUTF("User");
             return true;
         } catch (IOException ex) {
             return false;

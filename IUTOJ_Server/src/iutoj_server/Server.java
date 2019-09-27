@@ -18,13 +18,11 @@ import java.util.logging.Logger;
  */
 public class Server implements Runnable {
 
-    private final ServerSocket server;
-    private Socket client;
+    private final ServerSocket ss;
     private final Database database;
 
     public Server(int port) throws IOException, SQLException {
-        this.server = new ServerSocket(port);
-        client = null;
+        this.ss = new ServerSocket(port);
         database = new Database();
     }
     
@@ -36,7 +34,7 @@ public class Server implements Runnable {
         while (true) {
             
             try {
-                Thread t = new Thread(new Multi_Thread(server.accept(),database));
+                Thread t = new Thread(new Multi_Thread(ss.accept(),database));
                 t.start();
                 System.out.println("Client "+ t.getId() + " connected");
             } catch (IOException ex) {
@@ -46,7 +44,7 @@ public class Server implements Runnable {
             }
         }
         try {
-            server.close();
+            ss.close();
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("server didn't closed "+ex);

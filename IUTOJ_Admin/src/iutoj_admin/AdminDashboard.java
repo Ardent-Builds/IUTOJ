@@ -7,6 +7,10 @@ package iutoj_admin;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -17,10 +21,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     /**
      * Creates new form UserDashboard
      */
-    private final AdminSocket adminSocket;
-    public AdminDashboard(AdminSocket adminSocket) {
+    private final AdminSocket adminsocket;
+    private File problem, inputs, outputs;
+    
+    public AdminDashboard(AdminSocket adminsocket) {
         initComponents();
-        this.adminSocket = adminSocket;
+        this.adminsocket = adminsocket;
         
         setBackground(new Color(0,0,0));
         
@@ -606,15 +612,48 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_txtProblemNameActionPerformed
 
     private void AddInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddInputButtonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser filemanager = new JFileChooser("Documents");
+
+        filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filemanager.addChoosableFileFilter(new FileNameExtensionFilter("Text Documents", "txt"));
+        filemanager.showOpenDialog(this);
+        inputs = filemanager.getSelectedFile();
+
+        if (inputs != null) {
+            AddInputButton.setText(inputs.getName());
+        } else {
+            JOptionPane.showMessageDialog(null, "Input files missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_AddInputButtonActionPerformed
 
     private void ChProblemStatementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChProblemStatementButtonActionPerformed
-        // TODO add your handling code here:
+        JFileChooser filemanager = new JFileChooser("Documents");
+
+        filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filemanager.addChoosableFileFilter(new FileNameExtensionFilter("PDF Documents", "pdf"));
+        filemanager.showOpenDialog(this);
+        problem = filemanager.getSelectedFile();
+        if (problem != null) {
+            ChProblemStatementButton.setText(problem.getName());
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
     private void AddOutputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOutputButtonActionPerformed
-        // TODO add your handling code here:
+       JFileChooser filemanager = new JFileChooser("Documents");
+
+        filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filemanager.addChoosableFileFilter(new FileNameExtensionFilter("Text Document", "txt"));
+        filemanager.showOpenDialog(this);
+        outputs = filemanager.getSelectedFile();
+        if (outputs != null) {
+            AddOutputButton.setText(outputs.getName());
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Output file missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_AddOutputButtonActionPerformed
 
     private void MyProblemsTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MyProblemsTableComponentResized
@@ -626,7 +665,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-        // TODO add your handling code here:
+//        super.setVisible(true);
+//        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
  

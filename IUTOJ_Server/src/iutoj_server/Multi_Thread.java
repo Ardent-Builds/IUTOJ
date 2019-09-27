@@ -7,8 +7,6 @@ package iutoj_server;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -16,45 +14,49 @@ import java.util.logging.Logger;
  */
 public class Multi_Thread implements Runnable {
 
-    private final ClientSocket client;
+    private final SocketForClient sc;
     private final Database database;
-    private String type;
+    private String clienttype;
 
-    Multi_Thread(Socket client, Database db) throws IOException {
-        this.client = new ClientSocket(client);
+    Multi_Thread(Socket sc, Database db) throws IOException {
+        this.sc = new SocketForClient(sc);
         this.database = db;
-        type = null;
+        clienttype = null;
         
     }
 
     @Override
     public void run() {
         
-        type = client.readData();
-        System.out.println(type);
+        clienttype = sc.readData();
+        System.out.println(clienttype);
         while (true) {
-            String data = client.readData();
+            String data = sc.readData();
             if(data==null)
                 break;
 
             String code = data.substring(0, 8);
             System.out.println(data + " " + code);
             if (code.equals("Login---")) {
-                LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, type, database);
+                LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, clienttype, database);
                 if(loginhandler.isValid()){
-                    client.sendData("LoginTrue");
+                    sc.sendData("LoginTrue");
                 }
                 else{
-                    client.sendData("LoginFlse");
+                    sc.sendData("LoginFalse");
                 }
             }
             else if(code.equals("SignUp--")){
-                LoginSignUpHandler signUPhandler = new LoginSignUpHandler(data, type, database);
-                if(signUPhandler.SignUp()){
-                    client.sendData("SignUpTr");
+                LoginSignUpHandler signUPhandler = new LoginSignUpHandler(data, clienttype, database);
+                
+                if(signUPhandler.doesExist()){
+                    sc.sendData("Exist---");
+                }
+                else if(signUPhandler.SignUp()){
+                    sc.sendData("SignUpTr");
                 }
                 else{
-                    client.sendData("SignUpFl");
+                    sc.sendData("SignUpFl");
                 }
             }
 
