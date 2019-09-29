@@ -10,8 +10,12 @@ import java.awt.Font;
 <<<<<<< Updated upstream
 =======
 import java.io.File;
+<<<<<<< Updated upstream
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+=======
+import java.io.IOException;
+>>>>>>> Stashed changes
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -597,6 +601,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
+<<<<<<< Updated upstream
   
             String probname = txtProblemName.getText();
             String probid = txtProblemID.getText();
@@ -617,6 +622,23 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         
                 
+=======
+        String problemid = txtProblemID.getText();
+        String problemname = txtProblemName.getText();
+        String timelimit = txtTimeLimit.getText();
+        String memorylimit = txtMemoryLimit.getText();
+        
+//        if(problem!=null && inputs!=null && outputs!=null){
+            try {
+                adminsocket.sendData("AddProb-["+problem.getName()+"]["+problem.length()+"]["+inputs.getName()+"]["+inputs.length()+"]["+outputs.getName()+"]["+outputs.length()+"]");
+                if(adminsocket.addProblem(problem, inputs, outputs, problemid, problemname, timelimit, memorylimit)>0){
+                    JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//        }
+>>>>>>> Stashed changes
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void txtMemoryLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemoryLimitActionPerformed
@@ -655,6 +677,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+        
 >>>>>>> Stashed changes
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
