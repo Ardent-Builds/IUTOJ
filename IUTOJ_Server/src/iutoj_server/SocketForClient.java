@@ -8,6 +8,8 @@ package iutoj_server;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,6 +57,27 @@ public class SocketForClient {
         } catch (IOException ex) {
             return null;
         }
+    }
+    
+    public File readFile(String fname, long size){
+        try {
+            FileOutputStream fos = new FileOutputStream(fname);
+            byte[] data = new byte[1024];
+            long receivedfilesize =0;
+            
+            while(receivedfilesize<size){
+                receivedfilesize+=datain.read(data);
+                fos.write(data);
+            }
+            fos.close();
+            dataout.writeUTF("EOF-----"); 
+            return new File(fname);
+        } catch (FileNotFoundException ex) {
+            return null;
+        } catch (IOException ex) {
+            Logger.getLogger(SocketForClient.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        } 
     }
     
     

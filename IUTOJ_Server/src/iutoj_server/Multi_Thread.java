@@ -5,6 +5,7 @@
  */
 package iutoj_server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -22,42 +23,58 @@ public class Multi_Thread implements Runnable {
         this.sc = new SocketForClient(sc);
         this.database = db;
         clienttype = null;
-        
+
     }
 
     @Override
     public void run() {
-        
+
         clienttype = sc.readData();
         System.out.println(clienttype);
         while (true) {
             String data = sc.readData();
-            if(data==null)
+            if (data == null) {
                 break;
+            }
 
             String code = data.substring(0, 8);
             System.out.println(data + " " + code);
-            if (code.equals("Login---")) {
-                LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, clienttype, database);
-                if(loginhandler.isValid()){
-                    sc.sendData("LoginTrue");
-                }
-                else{
-                    sc.sendData("LoginFalse");
-                }
-            }
-            else if(code.equals("SignUp--")){
-                LoginSignUpHandler signUPhandler = new LoginSignUpHandler(data, clienttype, database);
-                
-                if(signUPhandler.doesExist()){
-                    sc.sendData("Exist---");
-                }
-                else if(signUPhandler.SignUp()){
-                    sc.sendData("SignUpTr");
-                }
-                else{
-                    sc.sendData("SignUpFl");
-                }
+            switch (code) {
+                case "Login---":
+                    LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, clienttype, database);
+                    if (loginhandler.isValid()) {
+                        sc.sendData("LoginTrue");
+                    } else {
+                        sc.sendData("LoginFalse");
+                    }
+                    break;
+                case "SignUp--":
+                    LoginSignUpHandler signUPhandler = new LoginSignUpHandler(data, clienttype, database);
+                    if (signUPhandler.doesExist()) {
+                        sc.sendData("Exist---");
+                    } else if (signUPhandler.SignUp()) {
+                        sc.sendData("SignUpTr");
+                    } else {
+                        sc.sendData("SignUpFl");
+                    }
+                    break;
+                case "file----":
+                    
+                    int x = data.indexOf(']', 9);
+                    int y = data.lastIndexOf(']');
+                    String fname = data.substring(9, x);
+                    long  fsize = Integer.parseInt(data.substring(x + 2, y));
+                    System.out.println(fname+ " " + fsize);
+                    
+                    File file = sc.readFile(fname, fsize);
+                    
+                    file.delete();
+                    
+                    
+                    
+                    break;
+                default:
+                    break;
             }
 
         }

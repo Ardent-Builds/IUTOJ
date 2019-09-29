@@ -592,7 +592,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        // TODO add your handling code here:
+        if(problem!=null){
+            adminsocket.sendData("file----["+problem.getName()+"]["+problem.length()+"]");
+            if(adminsocket.sendFile(problem)){
+                JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void txtMemoryLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemoryLimitActionPerformed
@@ -639,6 +644,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
     private void AddOutputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOutputButtonActionPerformed

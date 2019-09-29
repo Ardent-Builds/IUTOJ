@@ -8,6 +8,7 @@ package iutoj_admin;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -44,6 +45,37 @@ public class AdminSocket {
         } catch (IOException ex) {
             return null;
         }
+    }
+    
+    public boolean sendFile(File file){
+        
+        long filesize = file.length();
+        long sentfilesize = 0;
+        byte [] data = new byte[1024];
+        JProgressBar progressbar = new JProgressBar();
+        progressbar.setMaximum(100);
+        progressbar.setMinimum(0);
+        progressbar.setValue(0);
+        progressbar.setVisible(true);
+        
+        
+        
+        try {
+            FileInputStream fis = new FileInputStream(file);
+            while(sentfilesize<filesize){
+                sentfilesize+= fis.read(data);
+                progressbar.setValue((int) (sentfilesize*100/filesize));
+                progressbar.updateUI();
+                dataout.write(data);
+                dataout.flush();
+            }  
+            fis.close();
+            return true;
+        } catch (FileNotFoundException ex) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        } 
     }
     public boolean connect(String add, int port) {
         try {
