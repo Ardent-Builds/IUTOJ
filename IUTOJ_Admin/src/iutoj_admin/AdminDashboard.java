@@ -7,6 +7,17 @@ package iutoj_admin;
 
 import java.awt.Color;
 import java.awt.Font;
+<<<<<<< Updated upstream
+=======
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+>>>>>>> Stashed changes
 
 /**
  *
@@ -42,7 +53,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.getTableHeader().setBackground(new Color(255,255,255));
         MyProblemsTable.setRowHeight(25);
         
-        ProblemsetTable.setBackground(new Color(0,181,204));
+        //ProblemsetTable.setBackground(new Color(0,181,204));
         
         this.setVisible(true);
         
@@ -141,6 +152,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Home", HomePanel);
 
+        ProblemsetPanel.setFocusCycleRoot(true);
         ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
@@ -195,7 +207,6 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
-        ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
         ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
@@ -586,7 +597,26 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
+  
+            String probname = txtProblemName.getText();
+            String probid = txtProblemID.getText();
+            String timelimit = txtTimeLimit.getText();
+            String memlimit = txtMemoryLimit.getText();
+            String dataout = "AddProb-["+probname+"]["+probid+"]["+timelimit+"]["+memlimit+"]";
+            if(adminsocket.sendData(dataout)<0){
+            JOptionPane.showMessageDialog(null,"Timeout sending data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
+            }
+            FileInputStream probselected = new FileInputStream(problem); 
+            byte prob[] = new byte[probselected.available()];
+            probselected.read(prob);
+            if(adminsocket.sendFile(prob)<0){
+                JOptionPane.showMessageDialog(null,"Timeout sending file!","Timeout",JOptionPane.ERROR_MESSAGE);
+            }
+            String probconfirm = adminsocket.readFile();
+            
         // TODO add your handling code here:
+        
+                
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void txtMemoryLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemoryLimitActionPerformed
@@ -610,7 +640,22 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_AddInputButtonActionPerformed
 
     private void ChProblemStatementButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ChProblemStatementButtonActionPerformed
+<<<<<<< Updated upstream
         // TODO add your handling code here:
+=======
+        JFileChooser filemanager = new JFileChooser("Documents");
+
+        filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        filemanager.addChoosableFileFilter(new FileNameExtensionFilter("PDF Files (*.pdf)", "pdf"));
+        filemanager.showOpenDialog(this);
+        problem = filemanager.getSelectedFile();
+        if (problem != null) {
+            ChProblemStatementButton.setText(problem.getName());
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+>>>>>>> Stashed changes
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
     private void AddOutputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOutputButtonActionPerformed
@@ -621,13 +666,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_MyProblemsTableComponentResized
 
-    private void ProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProblemsetTableComponentResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProblemsetTableComponentResized
-
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LogOutButtonActionPerformed
+
+    private void ProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProblemsetTableComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProblemsetTableComponentResized
 
  
  

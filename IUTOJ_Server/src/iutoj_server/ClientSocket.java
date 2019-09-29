@@ -17,6 +17,7 @@ public class ClientSocket {
     private Socket socket;
     private DataOutputStream dataout;
     private DataInputStream datain;
+    private FileInputStream filein;
     
     
     public ClientSocket(Socket socket) throws IOException
@@ -55,6 +56,17 @@ public class ClientSocket {
         } catch (IOException ex) {
             return null;
         }
+    }
+    
+    public String readFile()
+    {
+         try{
+            socket.setSoTimeout(2);
+            return filein.
+        } catch (IOException ex) {
+            return null;
+        }
+        
     }
     
     

@@ -57,6 +57,9 @@ public class Multi_Thread implements Runnable {
                     client.sendData("SignUpFl");
                 }
             }
+            else if(code.equals("AddProb-")){
+                AddProblemHandler addproblemhandler = new AddProblemHandler(data, clienttype, database);
+            }
 
         }
         System.out.println("Thread is done");

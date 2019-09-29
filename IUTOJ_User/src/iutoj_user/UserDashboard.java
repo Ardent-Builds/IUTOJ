@@ -128,6 +128,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         DashboardTabSwitcher.addTab("Home", HomePanel);
 
+        ProblemsetPanel.setFocusCycleRoot(true);
         ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));

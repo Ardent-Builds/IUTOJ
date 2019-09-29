@@ -8,6 +8,8 @@ package iutoj_admin;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +20,10 @@ public class AdminSocket {
     private Socket socket;
     private DataOutputStream dataout;
     private DataInputStream datain;
+    private FileOutputStream fileout;
+   
+    
+    
 
     public AdminSocket() throws IOException {
         this.socket = new Socket();
@@ -45,6 +51,21 @@ public class AdminSocket {
             return null;
         }
     }
+    
+    public int sendFile(byte[] b) {
+        try {
+            adminsocket.setSoTimeout(10000);
+            fileout.write(b);
+            return b.length;
+        } catch (SocketException ex) {
+            return -2;
+        } catch (IOException ex) {
+            return -1;
+        } 
+        
+    }
+    
+    public String 
     public boolean connect(String add, int port) {
         try {
             socket = new Socket(add, port);

@@ -21,15 +21,15 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     
-    private AdminSocket adminSocket;
+    private AdminSocket adminsocket;
     private SignUp signup;
     AdminDashboard dashboard;
     
     
-    public Login(AdminSocket adminSocket) {
+    public Login(AdminSocket adminsocket) {
         initComponents();
         this.setVisible(true);
-        this.adminSocket = adminSocket;
+        this.adminsocket = adminsocket;
        
         
     }
@@ -187,16 +187,21 @@ public class Login extends javax.swing.JFrame {
         String password = PasswordField.getText();
         String dataout = "Login---["+username+"]["+password+"]";
         System.out.println(dataout);
-        if(adminSocket.sendData(dataout)<0){
+        if(adminsocket.sendData(dataout)<0){
             JOptionPane.showMessageDialog(null,"Timeout sending data!!!","Timeout",JOptionPane.ERROR_MESSAGE);
         }
         
-        String datain=adminSocket.readData();
+        String datain=adminsocket.readData();
         System.out.println("data read");
         if(datain != null){
             if(datain.equals("LoginTrue")){
                 JOptionPane.showMessageDialog(null,"Login Successfull!","Status",JOptionPane.INFORMATION_MESSAGE);
+<<<<<<< Updated upstream
                 dashboard = new AdminDashboard(adminSocket);
+=======
+                dashboard = new AdminDashboard(adminsocket);
+                this.setVisible(false);
+>>>>>>> Stashed changes
             }
             else if(datain.equals("LoginFalse")){
                 JOptionPane.showMessageDialog(null,"Invalid Username and Password","Status",JOptionPane.ERROR_MESSAGE);
@@ -209,7 +214,7 @@ public class Login extends javax.swing.JFrame {
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         try{
-            adminSocket.close();
+            adminsocket.close();
         }catch(IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -241,7 +246,7 @@ public class Login extends javax.swing.JFrame {
 
     private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
         //String
-        signup = new SignUp(adminSocket);
+        signup = new SignUp(adminsocket);
         signup.setVisible(rootPaneCheckingEnabled);
         
     }//GEN-LAST:event_CrNewAccButtonButtonActionPerformed
