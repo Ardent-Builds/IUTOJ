@@ -8,6 +8,9 @@ package iutoj_admin;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -592,7 +595,21 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        // TODO add your handling code here:
+        String problemid = txtProblemID.getText();
+        String problemname = txtProblemName.getText();
+        String timelimit = txtTimeLimit.getText();
+        String memorylimit = txtMemoryLimit.getText();
+        
+//        if(problem!=null && inputs!=null && outputs!=null){
+            try {
+                adminsocket.sendData("AddProb-["+problem.getName()+"]["+inputs.getName()+"]["+outputs.getName()+"]");
+                if(adminsocket.addProblem(problem, inputs, outputs, problemid, problemname, timelimit, memorylimit)>0){
+                    JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+//        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void txtMemoryLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemoryLimitActionPerformed
@@ -639,6 +656,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
     private void AddOutputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOutputButtonActionPerformed
