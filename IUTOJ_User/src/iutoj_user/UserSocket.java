@@ -15,22 +15,26 @@ import java.net.SocketException;
  */
 public class UserSocket {
 
-    private Socket socket;
+    private Socket usersocket;
     private DataOutputStream dataout;
     private DataInputStream datain;
+    private ObjectOutputStream objectout;
+    private ObjectInputStream objectin;
 
     public UserSocket() throws IOException {
-        this.socket = new Socket();
+        this.usersocket = new Socket();
     }
 
     public int sendData(String data) {
         try {
-            socket.setSoTimeout(5000);
+            usersocket.setSoTimeout(5000);
             dataout.writeUTF(data);
             return data.length();
         } catch (SocketException ex) {
+            System.out.println("SocketExceptionSendData "+ex.getMessage());
             return -2;
         } catch (IOException ex) {
+            System.out.println("IOExceptionSendData "+ex.getMessage());
             return -1;
         }
 
@@ -39,7 +43,7 @@ public class UserSocket {
     public String readData()
     {
         try{
-            socket.setSoTimeout(3000);
+            usersocket.setSoTimeout(3000);
             return datain.readUTF();
         } catch (IOException ex) {
             return null;
@@ -47,9 +51,11 @@ public class UserSocket {
     }
     public boolean connect(String add, int port) {
         try {
-            socket = new Socket(add, port);
-            dataout = new DataOutputStream(socket.getOutputStream());
-            datain = new DataInputStream(socket.getInputStream());
+            usersocket = new Socket(add, port);
+            dataout = new DataOutputStream(usersocket.getOutputStream());
+            datain = new DataInputStream(usersocket.getInputStream());
+            objectout = new ObjectOutputStream(usersocket.getOutputStream());
+            objectin = new ObjectInputStream(usersocket.getInputStream());
             dataout.writeUTF("User");
             return true;
         } catch (IOException ex) {
@@ -57,8 +63,22 @@ public class UserSocket {
         }
     }
 
+    public String[][] getProblemTable(){
+        String[][] table;
+        
+        try{
+            table = (String[][]) objectin.readObject();
+            return table;
+        } catch (IOException ex) {
+            System.out.println("SocketGetProblem I/O Err "+ex.getMessage());
+            return null;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("SocketGetProblem ClassNotFound Err "+ex.getMessage());
+            return null;
+        }
+    }
     public void close() throws IOException {
-        socket.close();
+        usersocket.close();
     }
 
 }

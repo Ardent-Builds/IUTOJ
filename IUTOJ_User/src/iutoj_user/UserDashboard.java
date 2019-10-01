@@ -11,6 +11,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -41,8 +42,6 @@ public class UserDashboard extends javax.swing.JFrame {
         
         //ProblemsetTable.getTableHeader().setOpaque(false);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        ProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
-        ProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
         ProblemsetTable.setRowHeight(25);
         
         
@@ -109,6 +108,11 @@ public class UserDashboard extends javax.swing.JFrame {
         DashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         DashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         DashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N
+        DashboardTabSwitcher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DashboardTabSwitcherMouseClicked(evt);
+            }
+        });
 
         HomePanel.setBackground(new java.awt.Color(255, 255, 255));
         HomePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -140,8 +144,8 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        ProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        ProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
+        ProblemsetTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        ProblemsetTable.setForeground(new java.awt.Color(0, 0, 102));
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -183,11 +187,6 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemsetTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
         ProblemsetTable.setShowHorizontalLines(false);
         ProblemsetTable.getTableHeader().setReorderingAllowed(false);
-        ProblemsetTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                ProblemsetTableComponentResized(evt);
-            }
-        });
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
         ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
@@ -202,12 +201,6 @@ public class UserDashboard extends javax.swing.JFrame {
         ChooseFileLabel.setForeground(new java.awt.Color(0, 181, 204));
         ChooseFileLabel.setText("Or choose File:");
         SubmitSolPanel.add(ChooseFileLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, 160, 30));
-
-        txtProblem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProblemActionPerformed(evt);
-            }
-        });
         SubmitSolPanel.add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, 30));
 
         ProblemLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
@@ -312,11 +305,6 @@ public class UserDashboard extends javax.swing.JFrame {
         StatusTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
         StatusTable.setShowHorizontalLines(false);
         StatusTable.getTableHeader().setReorderingAllowed(false);
-        StatusTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                StatusTableComponentResized(evt);
-            }
-        });
         StatusScrollPane.setViewportView(StatusTable);
 
         StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
@@ -370,16 +358,13 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
         MySubTable.setShowHorizontalLines(false);
         MySubTable.getTableHeader().setReorderingAllowed(false);
-        MySubTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentResized(java.awt.event.ComponentEvent evt) {
-                MySubTableComponentResized(evt);
-            }
-        });
         MySubScrollPane.setViewportView(MySubTable);
 
         MySubPanel.add(MySubScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
         DashboardTabSwitcher.addTab("My Submissions", MySubPanel);
+
+        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -391,7 +376,6 @@ public class UserDashboard extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(DashboardTabSwitcher)
         );
-        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -406,22 +390,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void ProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProblemsetTableComponentResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ProblemsetTableComponentResized
-
-    private void StatusTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_StatusTableComponentResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_StatusTableComponentResized
-
-    private void MySubTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_MySubTableComponentResized
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MySubTableComponentResized
-
-    private void txtProblemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProblemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProblemActionPerformed
 
     private void LanguageComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LanguageComboBoxActionPerformed
         // TODO add your handling code here:
@@ -449,6 +417,40 @@ public class UserDashboard extends javax.swing.JFrame {
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_LogOutButtonActionPerformed
+
+    private void DashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashboardTabSwitcherMouseClicked
+        int x = DashboardTabSwitcher.getSelectedIndex();
+        switch(x){
+            
+            case 1:
+                
+                usersocket.sendData("PrbTable[null]");
+                Object[][] table = usersocket.getProblemTable();
+                if(table==null){
+                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+                } else{
+                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
+                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                        public boolean isCellEditable(int row, int col){
+                            return false;
+                        }
+                    };
+                    
+                    ProblemsetTable.setModel(tableModel);
+                }
+                
+                
+                break;
+            case 2:
+                
+                break;
+            case 3:
+                break;
+            default:
+                break;
+                
+        }
+    }//GEN-LAST:event_DashboardTabSwitcherMouseClicked
 
     
 

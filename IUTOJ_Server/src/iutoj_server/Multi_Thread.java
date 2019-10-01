@@ -5,12 +5,9 @@
  */
 package iutoj_server;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import newproblem.NewProblem;
 
 /**
  *
@@ -21,6 +18,7 @@ public class Multi_Thread implements Runnable {
     private final SocketForClient sc;
     private final Database database;
     private String clienttype;
+    private String username;
 
     Multi_Thread(Socket sc, Database db) throws IOException {
         this.sc = new SocketForClient(sc);
@@ -47,6 +45,9 @@ public class Multi_Thread implements Runnable {
                     LoginSignUpHandler loginhandler = new LoginSignUpHandler(data, clienttype, database);
                     if (loginhandler.isValid()) {
                         sc.sendData("LoginTrue");
+                        int x = data.indexOf(']', 9);
+                        username = data.substring(9, x);
+
                     } else {
                         sc.sendData("LoginFalse");
                     }
@@ -62,25 +63,39 @@ public class Multi_Thread implements Runnable {
                     }
                     break;
                 case "AddProb-":
-                    
-                    int x, y, temp,z;
-                    x = data.indexOf(']', 9);
-                    y = data.indexOf(']',x+1);
-                    z = data.lastIndexOf(']');
-                    String probfname = data.substring(9, x);
-                    String inpfname = data.substring(x+2,y);
-                    String outpfname = data.substring(y+2,z);
-                    System.out.println("ekhane "+outpfname);
-                    
-                    
-                    {
-                        try {
-                            sc.saveProblem(probfname, inpfname, outpfname);
-                        } catch (IOException | ClassNotFoundException ex) {
-                            Logger.getLogger(Multi_Thread.class.getName()).log(Level.SEVERE, null, ex);
+
+                    System.out.println("AddProb- called");
+
+                    NewProblem newproblem;
+
+                    try {
+                        newproblem = sc.saveProblem();
+                        if (database.addProblemToDB(newproblem, username)) {
+                            System.out.println("Problems Added");
+                        } else {
+                            System.out.println("Problem adding failed");
                         }
+                    } catch (IOException | ClassNotFoundException ex) {
+                        System.out.println("Problem Object reading err "+ex.getMessage());
                     }
-              
+
+
+                case "PrbTable":
+                    
+                    int x = data.indexOf(']', 9);
+                    
+                    String identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    if(identifier.equals("My")) identifier = username;
+                    
+                    if(sc.sendProblemTable(database.getProblemTable(identifier))){
+                        System.out.println("ProblemTableSend");
+                    }
+                    else{
+                        System.out.println("ProblemTableSend Failed");
+                    }
+                    
                     break;
                 default:
                     break;

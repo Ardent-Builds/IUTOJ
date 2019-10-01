@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,8 +38,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setRowHeight(25);
         //ProblemsetTable.getTableHeader().setOpaque(false);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        ProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
-        ProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
         ProblemsetTable.setRowHeight(25);
         
         DelProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
@@ -51,7 +50,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.getTableHeader().setBackground(new Color(255,255,255));
         MyProblemsTable.setRowHeight(25);
         
-        ProblemsetTable.setBackground(new Color(0,181,204));
+       
         
         this.setVisible(true);
         
@@ -89,10 +88,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         AddInputButton = new javax.swing.JButton();
         MemoryLimitLabel = new javax.swing.JLabel();
         ProblemNameLabel = new javax.swing.JLabel();
-        ProblemIDLabel = new javax.swing.JLabel();
         TimeLimitLabel = new javax.swing.JLabel();
         txtProblemName = new javax.swing.JTextField();
-        txtProblemID = new javax.swing.JTextField();
         txtTimeLimit = new javax.swing.JTextField();
         txtMemoryLimit = new javax.swing.JTextField();
         SubmitButton = new javax.swing.JButton();
@@ -124,6 +121,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         AdminDashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         AdminDashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         AdminDashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N
+        AdminDashboardTabSwitcher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AdminDashboardTabSwitcherMouseClicked(evt);
+            }
+        });
 
         HomePanel.setBackground(new java.awt.Color(255, 255, 255));
         HomePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -155,8 +157,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        ProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        ProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
+        ProblemsetTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        ProblemsetTable.setForeground(new java.awt.Color(0, 0, 51));
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -215,8 +217,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         MyProblemsjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        MyProblemsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        MyProblemsTable.setForeground(new java.awt.Color(0, 181, 204));
+        MyProblemsTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        MyProblemsTable.setForeground(new java.awt.Color(0, 0, 51));
         MyProblemsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -311,37 +313,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
         ProblemNameLabel.setText("Problem Name:");
 
-        ProblemIDLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        ProblemIDLabel.setForeground(new java.awt.Color(0, 181, 204));
-        ProblemIDLabel.setText("Problem ID:");
-
         TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         TimeLimitLabel.setText("Time Limit (ms):");
-
-        txtProblemName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProblemNameActionPerformed(evt);
-            }
-        });
-
-        txtProblemID.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtProblemIDActionPerformed(evt);
-            }
-        });
-
-        txtTimeLimit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTimeLimitActionPerformed(evt);
-            }
-        });
-
-        txtMemoryLimit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMemoryLimitActionPerformed(evt);
-            }
-        });
 
         SubmitButton.setBackground(new java.awt.Color(0, 181, 204));
         SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -365,27 +339,23 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(AddProblemPanelLayout.createSequentialGroup()
+                        .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtProblemName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ChProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddInputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddOutputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(AddProblemPanelLayout.createSequentialGroup()
                         .addComponent(TimeLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTimeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                        .addComponent(ProblemIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProblemID, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                        .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProblemName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(AddProblemPanelLayout.createSequentialGroup()
                         .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ChProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddInputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddOutputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddProblemPanelLayout.createSequentialGroup()
-                .addContainerGap(456, Short.MAX_VALUE)
+                .addContainerGap(459, Short.MAX_VALUE)
                 .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(369, 369, 369))
         );
@@ -402,19 +372,15 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProblemName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ProblemIDLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtProblemID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TimeLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTimeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
                 .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -556,6 +522,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -568,7 +536,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -595,7 +562,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        String problemid = txtProblemID.getText();
+        
         String problemname = txtProblemName.getText();
         String timelimit = txtTimeLimit.getText();
         String memorylimit = txtMemoryLimit.getText();
@@ -603,7 +570,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 //        if(problem!=null && inputs!=null && outputs!=null){
             try {
                 adminsocket.sendData("AddProb-["+problem.getName()+"]["+inputs.getName()+"]["+outputs.getName()+"]");
-                if(adminsocket.addProblem(problem, inputs, outputs, problemid, problemname, timelimit, memorylimit)>0){
+                if(adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit)>0){
                     JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (IOException ex) {
@@ -611,22 +578,6 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
 //        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
-
-    private void txtMemoryLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMemoryLimitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMemoryLimitActionPerformed
-
-    private void txtTimeLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeLimitActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimeLimitActionPerformed
-
-    private void txtProblemIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProblemIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProblemIDActionPerformed
-
-    private void txtProblemNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProblemNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtProblemNameActionPerformed
 
     private void AddInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddInputButtonActionPerformed
         JFileChooser filemanager = new JFileChooser("Documents");
@@ -687,6 +638,52 @@ public class AdminDashboard extends javax.swing.JFrame {
 //        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
+    private void AdminDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminDashboardTabSwitcherMouseClicked
+        int x = AdminDashboardTabSwitcher.getSelectedIndex();
+        switch(x){
+            
+            case 1:
+                
+                adminsocket.sendData("PrbTable[null]");
+                Object[][] table = adminsocket.getProblemTable();
+                if(table==null){
+                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+                } else{
+                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
+                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                        public boolean isCellEditable(int row, int col){
+                            return false;
+                        }
+                    };
+                    ProblemsetTable.setModel(tableModel);
+                }
+                
+                
+                break;
+            case 2:
+                adminsocket.sendData("PrbTable[My]");
+                table = adminsocket.getProblemTable();
+                if(table==null){
+                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+                } else{
+                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
+                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                        public boolean isCellEditable(int row, int col){
+                            return false;
+                        }
+                    };
+                    MyProblemsTable.setModel(tableModel);
+                }
+                break;
+            case 3:
+                break;
+            default:
+                break;
+                
+        }
+        
+    }//GEN-LAST:event_AdminDashboardTabSwitcherMouseClicked
+
  
  
 
@@ -708,7 +705,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel MyProblemsPanel;
     private javax.swing.JTable MyProblemsTable;
     private javax.swing.JScrollPane MyProblemsjScrollPane;
-    private javax.swing.JLabel ProblemIDLabel;
     private javax.swing.JLabel ProblemNameLabel;
     private javax.swing.JScrollPane ProblemSetjScrollPane;
     private javax.swing.JPanel ProblemsetPanel;
@@ -721,7 +717,6 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField txtMemoryLimit;
-    private javax.swing.JTextField txtProblemID;
     private javax.swing.JTextField txtProblemName;
     private javax.swing.JTextField txtTimeLimit;
     // End of variables declaration//GEN-END:variables

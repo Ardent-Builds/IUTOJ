@@ -10,7 +10,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JProgressBar;
 import newproblem.NewProblem;
 
 /**
@@ -23,6 +22,7 @@ public class AdminSocket {
     private DataOutputStream dataout;
     private DataInputStream datain;
     private ObjectOutputStream objectout;
+    private ObjectInputStream objectin;
 
     public AdminSocket() throws IOException {
         this.adminsocket = new Socket();
@@ -34,8 +34,10 @@ public class AdminSocket {
             dataout.writeUTF(data);
             return data.length();
         } catch (SocketException ex) {
+            System.out.println("SocketExceptionSendData "+ex.getMessage());
             return -2;
         } catch (IOException ex) {
+            System.out.println("IOExceptionSendData "+ex.getMessage());
             return -1;
         }
 
@@ -80,6 +82,21 @@ public class AdminSocket {
         }
         
     }
+    
+    public String[][] getProblemTable(){
+        String[][] table;
+        
+        try{
+            table = (String[][]) objectin.readObject();
+            return table;
+        } catch (IOException ex) {
+            System.out.println("SocketGetProblem I/O Err "+ex.getMessage());
+            return null;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("SocketGetProblem ClassNotFound Err "+ex.getMessage());
+            return null;
+        }
+    }
 
     public boolean connect(String add, int port) {
         try {
@@ -87,6 +104,8 @@ public class AdminSocket {
             dataout = new DataOutputStream(adminsocket.getOutputStream());
             datain = new DataInputStream(adminsocket.getInputStream());
             objectout = new ObjectOutputStream(adminsocket.getOutputStream());
+            objectin = new ObjectInputStream(adminsocket.getInputStream());
+            
             dataout.writeUTF("Admin");
             return true;
         } catch (IOException ex) {

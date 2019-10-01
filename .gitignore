@@ -2,3 +2,5 @@
 /IUTOJ_Server/build/
 /IUTOJ_User/build/
 /IUTOJ_Admin/build/
+/IUTOJ_Admin/dist/
+/IUTOJ_Server/dist/

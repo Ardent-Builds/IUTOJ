@@ -22,6 +22,7 @@ public class SocketForClient {
     private DataOutputStream dataout;
     private DataInputStream datain;
     private ObjectInputStream objectin;
+    private ObjectOutputStream objectout;
     
     
     public SocketForClient(Socket socket) throws IOException
@@ -32,6 +33,7 @@ public class SocketForClient {
             dataout = new DataOutputStream(socket.getOutputStream());
             datain = new DataInputStream(socket.getInputStream());
             objectin = new ObjectInputStream(socket.getInputStream());
+            objectout = new ObjectOutputStream(socket.getOutputStream());
           
         } catch (IOException ex) {
      
@@ -63,25 +65,32 @@ public class SocketForClient {
         }
     }
     
-    public void saveProblem(String probfname, String inpfname, String outpfname) throws IOException, ClassNotFoundException
+    public NewProblem saveProblem() throws IOException, ClassNotFoundException
     {
-        System.out.println(probfname+" "+inpfname+" "+outpfname);
         NewProblem newproblem = (NewProblem) objectin.readObject();
-        FileOutputStream probos = new FileOutputStream(probfname);
-        FileOutputStream inpos = new FileOutputStream(inpfname);
-        FileOutputStream outpos = new FileOutputStream(outpfname);
-        probos.write(newproblem.getProb());
-        inpos.write(newproblem.getInp());
-        outpos.write(newproblem.getOutp());
-        probos.close();
-        inpos.close();
-        outpos.close();
-        String problemid = newproblem.getProblemID();
-        String problemname = newproblem.getProblemName();
-        String timelimit = newproblem.getTimeLimit();
-        String memorylimit = newproblem.getMemoryLimit();
-       
         
+        return newproblem;
+        
+    }
+    
+    public boolean sendProblem(NewProblem newproblem){
+        try {
+            objectout.writeObject(newproblem);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("SocketProblemSending Err "+ex.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean sendProblemTable(String[][] table){
+        try{
+            objectout.writeObject(table);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("SocketProblemTableSending Err "+ex.getMessage());
+            return false;
+        }
     }
     
     public File readFile(String fname, long size){
