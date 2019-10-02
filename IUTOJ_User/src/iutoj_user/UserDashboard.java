@@ -6,8 +6,14 @@
 package iutoj_user;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -23,12 +29,13 @@ public class UserDashboard extends javax.swing.JFrame {
      * Creates new form UserDashboard
      */
     private final UserSocket usersocket;
-    private File  codefile;
+    private File  codefile, codetext;
     
     public UserDashboard(UserSocket usersocket) {
         initComponents();
         this.usersocket = usersocket;
         this.codefile = null;
+        this.codetext = null;
         
         setBackground(new Color(0,0,0));
         
@@ -43,7 +50,9 @@ public class UserDashboard extends javax.swing.JFrame {
         //ProblemsetTable.getTableHeader().setOpaque(false);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
         ProblemsetTable.setRowHeight(25);
-        
+        //ProblemsetTable.setPreferredSize(new Dimension(920, 620));
+        //ProblemsetTable.setPreferredScrollableViewportSize(ProblemsetTable.getParent().getPreferredSize());
+        //ProblemsetTable.setFillsViewportHeight(true);
         
         
         //this.setVisible(true);
@@ -71,8 +80,8 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemsetTable = new javax.swing.JTable();
         SubmitSolPanel = new javax.swing.JPanel();
         ChooseFileLabel = new javax.swing.JLabel();
-        txtProblem = new javax.swing.JTextField();
-        ProblemLabel = new javax.swing.JLabel();
+        txtProblemID = new javax.swing.JTextField();
+        ProblemIDLabel = new javax.swing.JLabel();
         LanguageLabel = new javax.swing.JLabel();
         SourceCodeScrollPane = new javax.swing.JScrollPane();
         SourceCodeTextArea = new javax.swing.JTextArea();
@@ -143,9 +152,9 @@ public class UserDashboard extends javax.swing.JFrame {
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
+        ProblemSetjScrollPane.setPreferredSize(new java.awt.Dimension(920, 620));
 
-        ProblemsetTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
-        ProblemsetTable.setForeground(new java.awt.Color(0, 0, 102));
+        ProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -182,9 +191,10 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemsetTable.setGridColor(new java.awt.Color(255, 255, 255));
         ProblemsetTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
         ProblemsetTable.setOpaque(false);
+        ProblemsetTable.setPreferredSize(new java.awt.Dimension(920, 620));
         ProblemsetTable.setRequestFocusEnabled(false);
         ProblemsetTable.setRowHeight(25);
-        ProblemsetTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        ProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setShowHorizontalLines(false);
         ProblemsetTable.getTableHeader().setReorderingAllowed(false);
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
@@ -201,12 +211,12 @@ public class UserDashboard extends javax.swing.JFrame {
         ChooseFileLabel.setForeground(new java.awt.Color(0, 181, 204));
         ChooseFileLabel.setText("Or choose File:");
         SubmitSolPanel.add(ChooseFileLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, 160, 30));
-        SubmitSolPanel.add(txtProblem, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, 30));
+        SubmitSolPanel.add(txtProblemID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, 30));
 
-        ProblemLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        ProblemLabel.setForeground(new java.awt.Color(0, 181, 204));
-        ProblemLabel.setText("Problem: ");
-        SubmitSolPanel.add(ProblemLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, 30));
+        ProblemIDLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        ProblemIDLabel.setForeground(new java.awt.Color(0, 181, 204));
+        ProblemIDLabel.setText("Problem ID: ");
+        SubmitSolPanel.add(ProblemIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, 30));
 
         LanguageLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         LanguageLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -364,8 +374,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
         DashboardTabSwitcher.addTab("My Submissions", MySubPanel);
 
-        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
@@ -376,6 +384,7 @@ public class UserDashboard extends javax.swing.JFrame {
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(DashboardTabSwitcher)
         );
+        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -406,12 +415,36 @@ public class UserDashboard extends javax.swing.JFrame {
         if (codefile != null) {
             ChooseFileButton.setText(codefile.getName());
         } else {
-            JOptionPane.showMessageDialog(null, "Input files missing", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "No file chosen!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        // TODO add your handling code here:
+        
+        String problemid = txtProblemID.getText();
+        String language = (String)LanguageComboBox.getSelectedItem();
+        if(codefile == null){
+            try {
+                BufferedWriter bwforcodetext = new BufferedWriter(new FileWriter(codetext, true)); // true for append
+                SourceCodeTextArea.write(bwforcodetext);
+                bwforcodetext.close();
+                codefile = codetext;
+            } catch (IOException ex) {
+                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(codefile == null){
+            JOptionPane.showMessageDialog(null, "No file chosen!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+   
+        usersocket.sendData("AddSub--["+codefile.getName()+"]");
+        try {
+            if(usersocket.addSubmission(codefile, problemid, language)>0){
+                JOptionPane.showMessageDialog(null, "Submitted!", "Status", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
@@ -465,7 +498,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel MySubPanel;
     private javax.swing.JScrollPane MySubScrollPane;
     private javax.swing.JTable MySubTable;
-    private javax.swing.JLabel ProblemLabel;
+    private javax.swing.JLabel ProblemIDLabel;
     private javax.swing.JScrollPane ProblemSetjScrollPane;
     private javax.swing.JPanel ProblemsetPanel;
     private javax.swing.JTable ProblemsetTable;
@@ -480,6 +513,6 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField txtProblem;
+    private javax.swing.JTextField txtProblemID;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,7 @@ package iutoj_server;
 import java.io.IOException;
 import java.net.Socket;
 import newproblem.NewProblem;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -52,6 +53,7 @@ public class Multi_Thread implements Runnable {
                         sc.sendData("LoginFalse");
                     }
                     break;
+                    
                 case "SignUp--":
                     LoginSignUpHandler signUPhandler = new LoginSignUpHandler(data, clienttype, database);
                     if (signUPhandler.doesExist()) {
@@ -62,6 +64,7 @@ public class Multi_Thread implements Runnable {
                         sc.sendData("SignUpFl");
                     }
                     break;
+                    
                 case "AddProb-":
 
                     System.out.println("AddProb- called");
@@ -71,15 +74,32 @@ public class Multi_Thread implements Runnable {
                     try {
                         newproblem = sc.saveProblem();
                         if (database.addProblemToDB(newproblem, username)) {
-                            System.out.println("Problems Added");
+                            System.out.println("Problem Added");
                         } else {
                             System.out.println("Problem adding failed");
                         }
                     } catch (IOException | ClassNotFoundException ex) {
                         System.out.println("Problem Object reading err "+ex.getMessage());
                     }
+                    break;
+                    
+                case "AddSub--":
+                   System.out.println("AddSub-- called");
 
-
+                    NewSubmission newsubmission;
+                
+                    try {
+                        newsubmission = sc.saveSubmission();
+                        if(database.addSubmissionToDB(newsubmission, username)) {
+                         System.out.println("Problem Added");
+                        } else {
+                            System.out.println("Problem adding failed");
+                        }   
+                    } catch (IOException | ClassNotFoundException ex) {
+                        System.out.println("Submission Object reading err "+ex.getMessage());
+                    }
+                    break;
+            
                 case "PrbTable":
                     
                     int x = data.indexOf(']', 9);

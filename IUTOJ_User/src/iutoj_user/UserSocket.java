@@ -8,6 +8,9 @@ package iutoj_user;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -79,6 +82,27 @@ public class UserSocket {
     }
     public void close() throws IOException {
         usersocket.close();
+    }
+
+    public int addSubmission(File codefile, String problemid, String language) throws IOException {
+        
+        try {
+            FileInputStream codefis = new FileInputStream(codefile);
+            byte codef[] = new byte[codefis.available()];
+            codefis.read(codef);
+            NewSubmission newsubmission = new NewSubmission();
+            newsubmission.setProblemID(problemid);
+            newsubmission.setLanguage(language);
+            newsubmission.setCodeF(codef);
+            objectout.writeObject(newsubmission);
+            objectout.flush();
+            return 1;
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(UserSocket.class.getName()).log(Level.SEVERE, null, ex);
+            return 0;
+        }
+        
     }
 
 }

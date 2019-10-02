@@ -11,6 +11,7 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import newproblem.NewProblem;
+import newsubmission.NewSubmission;
 
 
 /**
@@ -117,6 +118,12 @@ public class SocketForClient {
     
     public void close() throws IOException{
         socket.close();
+    }
+
+    public NewSubmission saveSubmission() throws IOException, ClassNotFoundException {
+        NewSubmission newsubmission = (NewSubmission) objectin.readObject();
+        
+        return newsubmission;
     }
     
     

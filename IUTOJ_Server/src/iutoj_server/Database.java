@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import newproblem.NewProblem;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -100,16 +101,16 @@ public class Database {
 
     public synchronized boolean addProblemToDB(NewProblem problem, String username) {
 
-        String rowCounttQuery = "SELECT COUNT(*) AS ROWCOUNT FROM problemset";
+        String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM problemset";
         String update = "INSERT INTO problemset(ProblemID, ProblemName, ProblemSetter, TimeLimit, MemoryLimit, ProblemStatement, Inputs, Outputs) VALUES(?,?,?,?,?,?,?,?)";
-        int rowCount = 0;
+        int rowcount = 0;
 
         try {
             stmnt = conn.createStatement();
-            ResultSet rs = stmnt.executeQuery(rowCounttQuery);
+            ResultSet rs = stmnt.executeQuery(rowcountquery);
 
             if (rs.next()) {
-                rowCount = rs.getInt("rowcount");
+                rowcount = rs.getInt("rowcount");
             }
         } catch (SQLException ex) {
             System.out.println("RowCountErr " + ex.getMessage());
@@ -120,7 +121,7 @@ public class Database {
 
             prprdstmnt = conn.prepareStatement(update);
 
-            prprdstmnt.setInt(1, rowCount + 1);
+            prprdstmnt.setInt(1, rowcount + 1);
             prprdstmnt.setString(2, problem.getProblemName());
             prprdstmnt.setString(3, username);
             prprdstmnt.setInt(4, Integer.parseInt(problem.getTimeLimit()));
@@ -137,6 +138,43 @@ public class Database {
             return false;
         }
 
+    }
+    public synchronized boolean addSubmissionToDB(NewSubmission submission, String username) {
+         String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM submissions";
+         String update = "INSERT INTO submissions(SubmissionID, ProblemID, Language, SubmittedBy, CodeFile, TimeOfSubmission, TimeTaken, Verdict) VALUES(?,?,?,?,?,?,?,?)";
+         int rowcount = 0;
+         
+          try {
+            stmnt = conn.createStatement();
+            ResultSet rs = stmnt.executeQuery(rowcountquery);
+
+            if (rs.next()) {
+                rowcount = rs.getInt("rowcount");
+            }
+        } catch (SQLException ex) {
+            System.out.println("RowCountErr " + ex.getMessage());
+        }
+
+        try {
+            System.out.println(username + ' ' + submission.getCodeF().length);
+
+            prprdstmnt = conn.prepareStatement(update);
+
+            prprdstmnt.setInt(1, rowcount + 1);
+            prprdstmnt.setString(2, username);
+            prprdstmnt.setString(3, submission.getProblemID());
+            prprdstmnt.setString(4, submission.getLanguage());
+            prprdstmnt.setBytes(5, submission.getCodeF());
+           
+
+            prprdstmnt.executeUpdate();
+            return true;
+
+        } catch (SQLException ex) {
+            System.out.println("Insert problem Err " + ex.getMessage());
+            return false;
+        }
+         
     }
 
     public synchronized NewProblem getProblem(int problemID) {
@@ -183,7 +221,7 @@ public class Database {
             rs = stmnt.executeQuery(query);
             
             int x;
-            String[][] table = new String[10][3];
+            String[][] table = new String[25][3];
             
             while(rs.next()){
                 x = rs.getRow()-1;
@@ -202,5 +240,7 @@ public class Database {
         }
 
     }
+
+    
 
 }

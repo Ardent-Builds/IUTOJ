@@ -157,8 +157,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        ProblemsetTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
-        ProblemsetTable.setForeground(new java.awt.Color(0, 0, 51));
+        ProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -197,7 +196,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetTable.setOpaque(false);
         ProblemsetTable.setRequestFocusEnabled(false);
         ProblemsetTable.setRowHeight(25);
-        ProblemsetTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        ProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setShowHorizontalLines(false);
         ProblemsetTable.getTableHeader().setReorderingAllowed(false);
         ProblemsetTable.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -217,7 +216,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         MyProblemsjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        MyProblemsTable.setFont(new java.awt.Font("Tahoma", 2, 18)); // NOI18N
+        MyProblemsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         MyProblemsTable.setForeground(new java.awt.Color(0, 0, 51));
         MyProblemsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -257,7 +256,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.setOpaque(false);
         MyProblemsTable.setRequestFocusEnabled(false);
         MyProblemsTable.setRowHeight(25);
-        MyProblemsTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        MyProblemsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         MyProblemsTable.setShowHorizontalLines(false);
         MyProblemsTable.getTableHeader().setReorderingAllowed(false);
         MyProblemsTable.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -394,31 +393,31 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
         DelProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Problem ID", "Problem Name"
+                "Problem ID", "Problem Name", "Problem Setter"
             }
         ));
         DelProblemsetTable.setFocusable(false);
@@ -522,8 +521,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -536,6 +533,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -553,6 +551,52 @@ public class AdminDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void AdminDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminDashboardTabSwitcherMouseClicked
+        int x = AdminDashboardTabSwitcher.getSelectedIndex();
+        switch(x){
+
+            case 1:
+
+            adminsocket.sendData("PrbTable[null]");
+            Object[][] table = adminsocket.getProblemTable();
+            if(table==null){
+                JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+            } else{
+                String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
+                DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+
+                    public boolean isCellEditable(int row, int col){
+                        return false;
+                    }
+                };
+                ProblemsetTable.setModel(tableModel);
+            }
+
+            break;
+            case 2:
+            adminsocket.sendData("PrbTable[My]");
+            table = adminsocket.getProblemTable();
+            if(table==null){
+                JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+            } else{
+                String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
+                DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                    public boolean isCellEditable(int row, int col){
+                        return false;
+                    }
+                };
+                MyProblemsTable.setModel(tableModel);
+            }
+            break;
+            case 3:
+            break;
+            default:
+            break;
+
+        }
+
+    }//GEN-LAST:event_AdminDashboardTabSwitcherMouseClicked
+
     private void StatusTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_StatusTableComponentResized
         // TODO add your handling code here:
     }//GEN-LAST:event_StatusTableComponentResized
@@ -562,12 +606,12 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_DelProblemsetTableComponentResized
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        
+
         String problemname = txtProblemName.getText();
         String timelimit = txtTimeLimit.getText();
         String memorylimit = txtMemoryLimit.getText();
-        
-//        if(problem!=null && inputs!=null && outputs!=null){
+
+        //        if(problem!=null && inputs!=null && outputs!=null){
             try {
                 adminsocket.sendData("AddProb-["+problem.getName()+"]["+inputs.getName()+"]["+outputs.getName()+"]");
                 if(adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit)>0){
@@ -576,7 +620,7 @@ public class AdminDashboard extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
-//        }
+            //        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void AddInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddInputButtonActionPerformed
@@ -607,11 +651,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_ChProblemStatementButtonActionPerformed
 
     private void AddOutputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddOutputButtonActionPerformed
-       JFileChooser filemanager = new JFileChooser("Documents");
+        JFileChooser filemanager = new JFileChooser("Documents");
 
         filemanager.setFileSelectionMode(JFileChooser.FILES_ONLY);
         filemanager.addChoosableFileFilter(new FileNameExtensionFilter("Text Document", "txt"));
@@ -634,55 +678,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-//        super.setVisible(true);
-//        this.dispose();
+        //        super.setVisible(true);
+        //        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
-
-    private void AdminDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminDashboardTabSwitcherMouseClicked
-        int x = AdminDashboardTabSwitcher.getSelectedIndex();
-        switch(x){
-            
-            case 1:
-                
-                adminsocket.sendData("PrbTable[null]");
-                Object[][] table = adminsocket.getProblemTable();
-                if(table==null){
-                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-                } else{
-                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
-                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
-                        public boolean isCellEditable(int row, int col){
-                            return false;
-                        }
-                    };
-                    ProblemsetTable.setModel(tableModel);
-                }
-                
-                
-                break;
-            case 2:
-                adminsocket.sendData("PrbTable[My]");
-                table = adminsocket.getProblemTable();
-                if(table==null){
-                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-                } else{
-                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
-                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
-                        public boolean isCellEditable(int row, int col){
-                            return false;
-                        }
-                    };
-                    MyProblemsTable.setModel(tableModel);
-                }
-                break;
-            case 3:
-                break;
-            default:
-                break;
-                
-        }
-        
-    }//GEN-LAST:event_AdminDashboardTabSwitcherMouseClicked
 
  
  
