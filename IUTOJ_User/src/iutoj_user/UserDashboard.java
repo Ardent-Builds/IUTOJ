@@ -29,35 +29,29 @@ public class UserDashboard extends javax.swing.JFrame {
      * Creates new form UserDashboard
      */
     private final UserSocket usersocket;
-    private File  codefile, codetext;
-    
+    private File codefile;
+
     public UserDashboard(UserSocket usersocket) {
         initComponents();
         this.usersocket = usersocket;
         this.codefile = null;
-        this.codetext = null;
-        
-        setBackground(new Color(0,0,0));
-        
-       
-        
-        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+
+        setBackground(new Color(0, 0, 0));
+
+        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
-        
+
         MySubTable.setRowHeight(25);
-        MySubTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        
+        MySubTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+
         //ProblemsetTable.getTableHeader().setOpaque(false);
-        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
         //ProblemsetTable.setPreferredSize(new Dimension(920, 620));
         //ProblemsetTable.setPreferredScrollableViewportSize(ProblemsetTable.getParent().getPreferredSize());
         //ProblemsetTable.setFillsViewportHeight(true);
-        
-        
+
         //this.setVisible(true);
-        
-        
     }
 
     /**
@@ -420,31 +414,29 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
-        
+
         String problemid = txtProblemID.getText();
-        String language = (String)LanguageComboBox.getSelectedItem();
-        if(codefile == null){
+        String language = (String) LanguageComboBox.getSelectedItem();
+        if (codefile == null) {
             try {
-                BufferedWriter bwforcodetext = new BufferedWriter(new FileWriter(codetext, true)); // true for append
-                SourceCodeTextArea.write(bwforcodetext);
-                bwforcodetext.close();
-                codefile = codetext;
+                codefile = new File("Submission.txt");
+                FileWriter txtcodewriter = new FileWriter(codefile);
+                txtcodewriter.write(SourceCodeTextArea.getText());
+                txtcodewriter.close();
             } catch (IOException ex) {
-                Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Source code writing Err: "+ex.getMessage());
             }
         }
-        if(codefile == null){
+        if (codefile == null) {
             JOptionPane.showMessageDialog(null, "No file chosen!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-   
-        usersocket.sendData("AddSub--["+codefile.getName()+"]");
-        try {
-            if(usersocket.addSubmission(codefile, problemid, language)>0){
-                JOptionPane.showMessageDialog(null, "Submitted!", "Status", JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(UserDashboard.class.getName()).log(Level.SEVERE, null, ex);
+
+        usersocket.sendData("AddSub--[" + codefile.getName() + "]");
+
+        if (usersocket.addSubmission(codefile, problemid, language) > 0) {
+            JOptionPane.showMessageDialog(null, "Submitted!", "Status", JOptionPane.INFORMATION_MESSAGE);
         }
+
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
@@ -453,39 +445,37 @@ public class UserDashboard extends javax.swing.JFrame {
 
     private void DashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashboardTabSwitcherMouseClicked
         int x = DashboardTabSwitcher.getSelectedIndex();
-        switch(x){
-            
+        switch (x) {
+
             case 1:
-                
+
                 usersocket.sendData("PrbTable[null]");
                 Object[][] table = usersocket.getProblemTable();
-                if(table==null){
-                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-                } else{
-                    String[] columns = {"Problem ID","Problem Name", "ProblemSetter"};
-                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
-                        public boolean isCellEditable(int row, int col){
+                if (table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"Problem ID", "Problem Name", "ProblemSetter"};
+                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
+                        public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    
+
                     ProblemsetTable.setModel(tableModel);
                 }
-                
-                
+
                 break;
             case 2:
-                
+
                 break;
             case 3:
                 break;
             default:
                 break;
-                
+
         }
     }//GEN-LAST:event_DashboardTabSwitcherMouseClicked
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChooseFileButton;

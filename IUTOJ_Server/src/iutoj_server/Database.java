@@ -6,6 +6,8 @@
 package iutoj_server;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import newproblem.NewProblem;
@@ -141,7 +143,7 @@ public class Database {
     }
     public synchronized boolean addSubmissionToDB(NewSubmission submission, String username) {
          String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM submissions";
-         String update = "INSERT INTO submissions(SubmissionID, ProblemID, Language, SubmittedBy, CodeFile, TimeOfSubmission, TimeTaken, Verdict) VALUES(?,?,?,?,?,?,?,?)";
+         String update = "INSERT INTO Submissions(SubmissionID, ProblemID, Language, SubmittedBy, CodeFile, TimeOfSubmission, TimeTaken, Verdict) VALUES(?,?,?,?,?,?,?,?)";
          int rowcount = 0;
          
           try {
@@ -156,15 +158,19 @@ public class Database {
         }
 
         try {
-            System.out.println(username + ' ' + submission.getCodeF().length);
+            String timeStamp = new SimpleDateFormat("yyyy:MM:dd_HH:mm:ss").format(Calendar.getInstance().getTime());
+            System.out.println(submission.getCodeF());
 
             prprdstmnt = conn.prepareStatement(update);
 
             prprdstmnt.setInt(1, rowcount + 1);
-            prprdstmnt.setString(2, username);
-            prprdstmnt.setString(3, submission.getProblemID());
-            prprdstmnt.setString(4, submission.getLanguage());
+            prprdstmnt.setInt(2, Integer.parseInt(submission.getProblemID()));
+            prprdstmnt.setString(3, submission.getLanguage());
+            prprdstmnt.setString(4, username);
             prprdstmnt.setBytes(5, submission.getCodeF());
+            prprdstmnt.setString(6,timeStamp);
+            prprdstmnt.setInt(7, -1);
+            prprdstmnt.setString(8, "Not Judged");
            
 
             prprdstmnt.executeUpdate();

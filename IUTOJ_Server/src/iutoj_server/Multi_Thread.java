@@ -90,6 +90,7 @@ public class Multi_Thread implements Runnable {
                 
                     try {
                         newsubmission = sc.saveSubmission();
+                        
                         if(database.addSubmissionToDB(newsubmission, username)) {
                          System.out.println("Problem Added");
                         } else {

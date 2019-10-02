@@ -74,6 +74,12 @@ public class SocketForClient {
         
     }
     
+    public NewSubmission saveSubmission() throws IOException, ClassNotFoundException {
+        NewSubmission newsubmission = (NewSubmission) objectin.readObject();
+        
+        return newsubmission;
+    }
+    
     public boolean sendProblem(NewProblem newproblem){
         try {
             objectout.writeObject(newproblem);
@@ -120,11 +126,7 @@ public class SocketForClient {
         socket.close();
     }
 
-    public NewSubmission saveSubmission() throws IOException, ClassNotFoundException {
-        NewSubmission newsubmission = (NewSubmission) objectin.readObject();
-        
-        return newsubmission;
-    }
+    
     
     
     

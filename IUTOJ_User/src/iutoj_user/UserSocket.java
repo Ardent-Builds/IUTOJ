@@ -8,8 +8,8 @@ package iutoj_user;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import newsubmission.NewSubmission;
 
 /**
@@ -84,22 +84,29 @@ public class UserSocket {
         usersocket.close();
     }
 
-    public int addSubmission(File codefile, String problemid, String language) throws IOException {
+    public int addSubmission(File codefile, String problemid, String language) {
         
         try {
+            
             FileInputStream codefis = new FileInputStream(codefile);
             byte codef[] = new byte[codefis.available()];
             codefis.read(codef);
+            codefis.close();
+
             NewSubmission newsubmission = new NewSubmission();
             newsubmission.setProblemID(problemid);
             newsubmission.setLanguage(language);
             newsubmission.setCodeF(codef);
+            
             objectout.writeObject(newsubmission);
             objectout.flush();
             return 1;
             
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(UserSocket.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("AddSubmission FileNotFound Err "+ex.getMessage());
+            return 0;
+        } catch (IOException ex) {
+            System.out.println("AddSubmission I/O Err "+ex.getMessage());
             return 0;
         }
         
