@@ -137,19 +137,21 @@ public class CompileAndRun implements Runnable {
         run.redirectOutput(useroutputs);
         System.out.println(Integer.parseInt(problem.getTimeLimit()));
         try {
-            timetaken = System.currentTimeMillis();
+            long starttime = System.nanoTime();
             Process p = run.start();
             try {
                 if (!p.waitFor(Integer.parseInt(problem.getTimeLimit()), TimeUnit.MILLISECONDS)) {
+                    long stoptime = System.nanoTime();
                     p.destroy();
-                    timetaken = System.currentTimeMillis()-timetaken;
+                    timetaken = (stoptime - starttime)/1000000;
                     return -1;
                 }
             } catch (InterruptedException ex) {
                 System.out.println("At runCppC runtime TLE Err " + ex.getMessage());
                 return -1;
             }
-            timetaken = System.currentTimeMillis()-timetaken;
+            long stoptime = System.nanoTime();
+            timetaken = (stoptime-starttime)/1000000;
             return p.exitValue();
 
         } catch (IOException ex) {
@@ -165,19 +167,21 @@ public class CompileAndRun implements Runnable {
         run.redirectOutput(useroutputs);
 
         try {
-            timetaken = System.currentTimeMillis();
+            long starttime = System.nanoTime();
             Process p = run.start();
             try {
                 if (!p.waitFor(Integer.parseInt(problem.getTimeLimit()), TimeUnit.MILLISECONDS)) {
+                    long stoptime = System.nanoTime();
                     p.destroy();
-                    timetaken = System.currentTimeMillis()-timetaken;
+                    timetaken = (stoptime - starttime)/1000000;
                     return -1;
                 }
             } catch (InterruptedException ex) {
                 p.destroy();
                 return -1;
             }
-            timetaken = System.currentTimeMillis()-timetaken;
+            long stoptime = System.nanoTime();
+            timetaken = (stoptime - starttime)/1000000;
             return p.exitValue();
 
         } catch (IOException ex) {
@@ -293,6 +297,11 @@ public class CompileAndRun implements Runnable {
                 System.out.println("Too long to compare outputs");
             }
         }
+        
+        validoutputs.delete();
+        inputs.delete();
+        useroutputs.delete();
+        submissionfile.delete();
     }
 
 }
