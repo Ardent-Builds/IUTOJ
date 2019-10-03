@@ -22,6 +22,7 @@ public class IUTOJ_Server {
         Thread server = new Thread(new Server(1235));
         server.start();
         ServerGUI serverStarter = new ServerGUI();
+        serverStarter.startGUI();
     }
     
 }

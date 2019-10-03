@@ -6,7 +6,11 @@
 package iutoj_server;
 
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -20,7 +24,7 @@ public class ServerGUI extends javax.swing.JFrame {
      */
     public ServerGUI() {
         initComponents();
-        this.setVisible(true);
+        
     }
 
     /**
@@ -97,6 +101,22 @@ public class ServerGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    void startGUI(){
+        this.setVisible(true);
+        ProcessBuilder pb = new ProcessBuilder("g++","--version");
+        try {
+            pb.start();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "g++ Compiler path not Found, Err:"+ex.getMessage(),"Compiler Error",JOptionPane.ERROR_MESSAGE);
+        }
+        pb.command("Javac", "--version");
+        try{
+            pb.start();
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(null, "Java Compiler path not Found, Err:"+ex.getMessage(),"Compiler Error",JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         System.exit(0);        // TODO add your handling code here:
     }//GEN-LAST:event_closeLabelMouseClicked

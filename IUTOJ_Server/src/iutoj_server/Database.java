@@ -182,14 +182,15 @@ public class Database {
          
     }
     
-    public synchronized void updateVerdict(int sumbimmissionID, String verdict){
-        String update = "UPDATE Submissions SET Verdict = ? WHERE SubmissionID = ?";
+    public synchronized void updateVerdict(int sumbimmissionID, String verdict, int timetaken){
+        String update = "UPDATE Submissions SET Verdict = ?, TimeTaken = ? WHERE SubmissionID = ?";
         System.out.println("DB Update verdict called");
         
         try{
             prprdstmnt = conn.prepareStatement(update);
             prprdstmnt.setString(1, verdict);
-            prprdstmnt.setInt(2, sumbimmissionID);
+            prprdstmnt.setInt(3, sumbimmissionID);
+            prprdstmnt.setInt(2, timetaken);
             
             prprdstmnt.executeUpdate();
             
