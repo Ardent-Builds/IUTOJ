@@ -141,7 +141,7 @@ public class Database {
         }
 
     }
-    public synchronized boolean addSubmissionToDB(NewSubmission submission, String username) {
+    public synchronized int addSubmissionToDB(NewSubmission submission, String username) {
          String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM submissions";
          String update = "INSERT INTO Submissions(SubmissionID, ProblemID, Language, SubmittedBy, CodeFile, TimeOfSubmission, TimeTaken, Verdict) VALUES(?,?,?,?,?,?,?,?)";
          int rowcount = 0;
@@ -159,7 +159,6 @@ public class Database {
 
         try {
             String timeStamp = new SimpleDateFormat("yyyy:MM:dd_HH:mm:ss").format(Calendar.getInstance().getTime());
-            System.out.println(submission.getCodeF());
 
             prprdstmnt = conn.prepareStatement(update);
 
@@ -174,13 +173,31 @@ public class Database {
            
 
             prprdstmnt.executeUpdate();
-            return true;
+            return rowcount+1;
 
         } catch (SQLException ex) {
             System.out.println("Insert problem Err " + ex.getMessage());
-            return false;
+            return -1;
         }
          
+    }
+    
+    public synchronized void updateVerdict(int sumbimmissionID, String verdict){
+        String update = "UPDATE Submissions SET Verdict = ? WHERE SubmissionID = ?";
+        System.out.println("DB Update verdict called");
+        
+        try{
+            prprdstmnt = conn.prepareStatement(update);
+            prprdstmnt.setString(1, verdict);
+            prprdstmnt.setInt(2, sumbimmissionID);
+            
+            prprdstmnt.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.out.println("DB updateVerdict Err: "+ex.getMessage());
+        }
+        
+        
     }
 
     public synchronized NewProblem getProblem(int problemID) {
