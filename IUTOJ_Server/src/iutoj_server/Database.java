@@ -49,7 +49,7 @@ public class Database {
 
     }
 
-    public synchronized String getClientPassword(String usrname) {
+    public synchronized String getUserPassword(String usrname) {
         String query = "select password from Student where username = '" + usrname + "'";
 
         try {
@@ -84,7 +84,7 @@ public class Database {
         }
     }
 
-    public synchronized boolean updateClient(String usrname, String password) {
+    public synchronized boolean updateUser(String usrname, String password) {
 
         String update = "INSERT INTO student(username,password) values(?,?)";
 
@@ -264,6 +264,47 @@ public class Database {
         }
 
     }
+    
+    public synchronized String[][] getStatusTable(String identifier) {
+        String query;
+        System.out.println(identifier);
+        if (identifier.equals("null")) {
+            query = "SELECT Submissions.SubmissionID AS SubmissionID, Submissions.SubmittedBy AS SubmittedBy, Submissions.ProblemID AS ProblemID, Problemset.ProblemName AS ProblemName, Submissions.Language AS Language, Submissions.TimeOfSubmission AS TimeOfSubmission, Submissions.Verdict AS Verdict, Submissions.TimeTaken AS TimeTaken FROM Submissions, Problemset WHERE Submissions.ProblemID=Problemset.ProblemID";
+        } else {
+            query = "SELECT Submissions.SubmissionID AS SubmissionID, Submissions.SubmittedBy AS SubmittedBy, Submissions.ProblemID AS ProblemID, Problemset.ProblemName AS ProblemName, Submissions.Language AS Language, Submissions.TimeOfSubmission AS TimeOfSubmission, Submissions.Verdict AS Verdict, Submissions.TimeTaken AS TimeTaken FROM Submissions, Problemset WHERE Submissions.ProblemID=Problemset.ProblemID and Submissions.Submittedby = '"+identifier+"'";
+        }
+        
+        ResultSet rs;
+        try{
+            stmnt = conn.createStatement();
+            rs = stmnt.executeQuery(query);
+            
+            int x;
+            String[][] table = new String[25][7];
+            
+            while(rs.next()){
+                x = rs.getRow()-1;
+                table[x][0] = Integer.toString(rs.getInt("SubmissionID"));
+                table[x][1] = rs.getString("TimeOfSubmission");
+                table[x][2] = rs.getString("SubmittedBy");
+                table[x][3] = Integer.toString(rs.getInt("ProblemID"))+"-"+ rs.getString("ProblemName");
+                table[x][4] = rs.getString("Language");
+                table[x][5] = rs.getString("Verdict");
+                table[x][6] = rs.getString("TimeTaken");
+                System.out.println(table[x][0]+" "+table[x][1]+" "+table[x][2]+" "+table[x][3]+" "+table[x][4]+" "+table[x][5]+" "+table[x][6]);
+            }
+            
+            return table;
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("DB getProblemTable err"+ ex.getMessage());
+            return null;
+        }
+
+    }
+    
+    
 
     
 

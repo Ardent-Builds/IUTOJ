@@ -6,14 +6,10 @@
 package iutoj_user;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -65,7 +61,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         jPanel6 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
-        DashboardTabSwitcher = new javax.swing.JTabbedPane();
+        UserDashboardTabSwitcher = new javax.swing.JTabbedPane();
         HomePanel = new javax.swing.JPanel();
         WelcomeLabel = new javax.swing.JLabel();
         LogOutButton = new javax.swing.JButton();
@@ -107,13 +103,13 @@ public class UserDashboard extends javax.swing.JFrame {
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        DashboardTabSwitcher.setBackground(new java.awt.Color(255, 255, 255));
-        DashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
-        DashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        DashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N
-        DashboardTabSwitcher.addMouseListener(new java.awt.event.MouseAdapter() {
+        UserDashboardTabSwitcher.setBackground(new java.awt.Color(255, 255, 255));
+        UserDashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
+        UserDashboardTabSwitcher.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+        UserDashboardTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 29)); // NOI18N
+        UserDashboardTabSwitcher.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                DashboardTabSwitcherMouseClicked(evt);
+                UserDashboardTabSwitcherMouseClicked(evt);
             }
         });
 
@@ -140,7 +136,7 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         HomePanel.add(LogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, 90, 40));
 
-        DashboardTabSwitcher.addTab("Home", HomePanel);
+        UserDashboardTabSwitcher.addTab("Home", HomePanel);
 
         ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -196,7 +192,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
         ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
-        DashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
+        UserDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
 
         SubmitSolPanel.setBackground(new java.awt.Color(255, 255, 255));
         SubmitSolPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -260,14 +256,13 @@ public class UserDashboard extends javax.swing.JFrame {
         });
         SubmitSolPanel.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, 90, 40));
 
-        DashboardTabSwitcher.addTab("Submit Solution", SubmitSolPanel);
+        UserDashboardTabSwitcher.addTab("Submit Solution", SubmitSolPanel);
 
         StatusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        StatusTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        StatusTable.setForeground(new java.awt.Color(0, 181, 204));
+        StatusTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         StatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -306,21 +301,20 @@ public class UserDashboard extends javax.swing.JFrame {
         StatusTable.setOpaque(false);
         StatusTable.setRequestFocusEnabled(false);
         StatusTable.setRowHeight(25);
-        StatusTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        StatusTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         StatusTable.setShowHorizontalLines(false);
         StatusTable.getTableHeader().setReorderingAllowed(false);
         StatusScrollPane.setViewportView(StatusTable);
 
         StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
-        DashboardTabSwitcher.addTab("Status", StatusPanel);
+        UserDashboardTabSwitcher.addTab("Status", StatusPanel);
 
         MySubPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         MySubScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        MySubTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        MySubTable.setForeground(new java.awt.Color(0, 181, 204));
+        MySubTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         MySubTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -359,26 +353,26 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubTable.setOpaque(false);
         MySubTable.setRequestFocusEnabled(false);
         MySubTable.setRowHeight(25);
-        MySubTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        MySubTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         MySubTable.setShowHorizontalLines(false);
         MySubTable.getTableHeader().setReorderingAllowed(false);
         MySubScrollPane.setViewportView(MySubTable);
 
         MySubPanel.add(MySubScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
 
-        DashboardTabSwitcher.addTab("My Submissions", MySubPanel);
+        UserDashboardTabSwitcher.addTab("My Submissions", MySubPanel);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DashboardTabSwitcher)
+            .addComponent(UserDashboardTabSwitcher)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DashboardTabSwitcher)
+            .addComponent(UserDashboardTabSwitcher)
         );
-        jDesktopPane1.setLayer(DashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(UserDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -443,19 +437,20 @@ public class UserDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
-    private void DashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashboardTabSwitcherMouseClicked
+    private void UserDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserDashboardTabSwitcherMouseClicked
         txtProblemID.setText(null);
         ChooseFileButton.setText("Choose file");
         codefile = null;
         SourceCodeTextArea.setText(null);
         
-        int x = DashboardTabSwitcher.getSelectedIndex();
+        int x = UserDashboardTabSwitcher.getSelectedIndex();
+        Object[][] table;
         switch (x) {
 
             case 1:
 
                 usersocket.sendData("PrbTable[null]");
-                Object[][] table = usersocket.getProblemTable();
+                table = usersocket.getProblemTable();
                 if (table == null) {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -474,18 +469,51 @@ public class UserDashboard extends javax.swing.JFrame {
 
                 break;
             case 3:
+                
+                usersocket.sendData("StTable-[null]");
+                table = usersocket.getStatusTable();
+                if(table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
+                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                        public boolean isCellEditable(int row, int col) {
+                            return false;
+                        }
+                    };
+                    
+                    StatusTable.setModel(tablemodel);
+                }
+                
+                break;
+            case 4:
+                    
+                usersocket.sendData("StTable-[My]");
+                table = usersocket.getStatusTable();
+                if(table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
+                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                        public boolean isCellEditable(int row, int col) {
+                            return false;
+                        }
+                    };
+                    
+                    MySubTable.setModel(tablemodel);
+                }
+            
                 break;
             default:
                 break;
 
         }
-    }//GEN-LAST:event_DashboardTabSwitcherMouseClicked
+    }//GEN-LAST:event_UserDashboardTabSwitcherMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ChooseFileButton;
     private javax.swing.JLabel ChooseFileLabel;
-    private javax.swing.JTabbedPane DashboardTabSwitcher;
     private javax.swing.JPanel HomePanel;
     private javax.swing.JComboBox LanguageComboBox;
     private javax.swing.JLabel LanguageLabel;
@@ -505,6 +533,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JTable StatusTable;
     private javax.swing.JButton SubmitButton;
     private javax.swing.JPanel SubmitSolPanel;
+    private javax.swing.JTabbedPane UserDashboardTabSwitcher;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JPanel jPanel6;

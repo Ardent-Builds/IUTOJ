@@ -97,6 +97,21 @@ public class AdminSocket {
             return null;
         }
     }
+    
+    public String[][] getStatusTable() {
+        String[][] table;
+        
+        try{
+            table = (String[][]) objectin.readObject();
+            return table;
+        } catch (IOException ex) {
+            System.out.println("SocketGetProblem I/O Err "+ex.getMessage());
+            return null;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("SocketGetProblem ClassNotFound Err "+ex.getMessage());
+            return null;
+        }
+    }
 
     public boolean connect(String add, int port) {
         try {

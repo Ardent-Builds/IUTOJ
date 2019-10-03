@@ -39,7 +39,7 @@ public class LoginSignUpHandler {
         }
         else if( clienttype.equals("User"))
         {
-            String tmp = database.getClientPassword(usrnm);
+            String tmp = database.getUserPassword(usrnm);
             
             if(tmp.equals(pswd))
                 return true;
@@ -65,7 +65,7 @@ public class LoginSignUpHandler {
         }
         else if( clienttype.equals("User"))
         {
-            if(database.updateClient(usrnm, pswd)) {
+            if(database.updateUser(usrnm, pswd)) {
                 return true;
             }
         }
@@ -90,7 +90,7 @@ public class LoginSignUpHandler {
         }
         else if( clienttype.equals("User"))
         {
-            String tmp = database.getClientPassword(usrnm);
+            String tmp = database.getUserPassword(usrnm);
             
             if(tmp.equals("No#Data"))
                 return false;

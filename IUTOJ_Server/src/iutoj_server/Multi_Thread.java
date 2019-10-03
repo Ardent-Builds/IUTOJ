@@ -118,13 +118,29 @@ public class Multi_Thread implements Runnable {
                     if(identifier.equals("My")) identifier = username;
                     
                     if(sc.sendProblemTable(database.getProblemTable(identifier))){
-                        System.out.println("ProblemTableSend");
+                        System.out.println("ProblemTable Sent");
                     }
                     else{
-                        System.out.println("ProblemTableSend Failed");
+                        System.out.println("ProblemTable Sending Failed");
                     }
-                    
                     break;
+                    
+                case "StTable-":
+                    
+                    x = data.indexOf(']', 9);
+                    identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    if(identifier.equals("My")) identifier = username;
+                    
+                    if(sc.sendStatusTable(database.getStatusTable(identifier))){
+                        System.out.println("StatusTable Sent");
+                    }
+                    else{
+                        System.out.println("StatusTable Sending Failed");
+                    }
+                    break;
+                
                 default:
                     break;
             }

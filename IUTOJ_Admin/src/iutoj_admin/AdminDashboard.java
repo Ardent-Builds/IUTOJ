@@ -467,8 +467,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        StatusTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        StatusTable.setForeground(new java.awt.Color(0, 181, 204));
+        StatusTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         StatusTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -507,7 +506,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setOpaque(false);
         StatusTable.setRequestFocusEnabled(false);
         StatusTable.setRowHeight(25);
-        StatusTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        StatusTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         StatusTable.setShowHorizontalLines(false);
         StatusTable.getTableHeader().setReorderingAllowed(false);
         StatusTable.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -557,41 +556,56 @@ public class AdminDashboard extends javax.swing.JFrame {
 
             case 1:
 
-            adminsocket.sendData("PrbTable[null]");
-            Object[][] table = adminsocket.getProblemTable();
-            if(table==null){
-                JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-            } else{
-                String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
-                DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                adminsocket.sendData("PrbTable[null]");
+                Object[][] table = adminsocket.getProblemTable();
+                if(table==null){
+                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+                } else{
+                    String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
+                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
 
-                    public boolean isCellEditable(int row, int col){
-                        return false;
-                    }
-                };
+                        public boolean isCellEditable(int row, int col){
+                            return false;
+                        }
+                    };
                 ProblemsetTable.setModel(tableModel);
-            }
+                }
 
-            break;
+                break;
             case 2:
-            adminsocket.sendData("PrbTable[My]");
-            table = adminsocket.getProblemTable();
-            if(table==null){
-                JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-            } else{
-                String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
-                DefaultTableModel tableModel= new DefaultTableModel(table,columns){
-                    public boolean isCellEditable(int row, int col){
-                        return false;
-                    }
-                };
-                MyProblemsTable.setModel(tableModel);
-            }
-            break;
-            case 3:
-            break;
+                adminsocket.sendData("PrbTable[My]");
+                table = adminsocket.getProblemTable();
+                if(table==null){
+                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
+                } else{
+                    String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
+                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                        public boolean isCellEditable(int row, int col){
+                            return false;
+                        }
+                    };
+                    MyProblemsTable.setModel(tableModel);
+                }
+                break;
+            case 4:
+                
+                adminsocket.sendData("StTable-[null]");
+                table = adminsocket.getStatusTable();
+                if(table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
+                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                        public boolean isCellEditable(int row, int col) {
+                            return false;
+                        }
+                    };
+                    
+                    StatusTable.setModel(tablemodel);
+                }
+                break;
             default:
-            break;
+                break;
 
         }
 
