@@ -1,1 +1,33 @@
-kawsar vai vala na
+#define ll long long
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    ll n,m,i,j;
+    cin>>n;
+    ll a[n];
+    for(i=0;i<n;i++)
+        cin>>a[i];
+    cin>>m;
+    ll b[m];
+    for(i=0;i<m;i++)
+        cin>>b[i];
+    sort(a,a+n);
+    sort(b,b+m);
+    ll c=0;
+    ll ma[n]={};
+    ll mb[m]={};
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<m;j++)
+        {
+            if(llabs(a[i]-b[j])<=1 && ma[i]==0 && mb[j]==0)
+            {
+                c++;
+                ma[i]=1;
+                mb[j]=1;
+            }
+        }
+    }
+    cout<<c;
+}

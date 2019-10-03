@@ -6,14 +6,10 @@
 package iutoj_user;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
