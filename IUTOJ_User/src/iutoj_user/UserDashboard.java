@@ -440,6 +440,11 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
     private void DashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DashboardTabSwitcherMouseClicked
+        txtProblemID.setText(null);
+        ChooseFileButton.setText("Choose file");
+        codefile = null;
+        SourceCodeTextArea.setText(null);
+        
         int x = DashboardTabSwitcher.getSelectedIndex();
         switch (x) {
 
