@@ -11,9 +11,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -33,19 +37,76 @@ public class UserDashboard extends javax.swing.JFrame {
         this.codefile = null;
 
         setBackground(new Color(0, 0, 0));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 
+        StatusTable.setDefaultRenderer(Object.class, centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
-
-        MySubTable.setRowHeight(25);
+        JTableHeader statustableheader = StatusTable.getTableHeader();
+        ((DefaultTableCellRenderer)statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        
+        MySubTable.setDefaultRenderer(Object.class, centerRenderer);
         MySubTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+        MySubTable.setRowHeight(25);
+        JTableHeader mysubtableheader = MySubTable.getTableHeader();
+        ((DefaultTableCellRenderer)mysubtableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
 
         //ProblemsetTable.getTableHeader().setOpaque(false);
+        ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
+        JTableHeader problemsettableheader = ProblemsetTable.getTableHeader();
+        ((DefaultTableCellRenderer)problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
         //ProblemsetTable.setPreferredSize(new Dimension(920, 620));
         //ProblemsetTable.setPreferredScrollableViewportSize(ProblemsetTable.getParent().getPreferredSize());
         //ProblemsetTable.setFillsViewportHeight(true);
+        
+        StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = StatusTable.rowAtPoint(evt.getPoint());
+                    int col = StatusTable.columnAtPoint(evt.getPoint());
+                    if (row >= 0 && col == 0) {
+                        SubmissionShow subshow = new SubmissionShow();
+                        DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
+                        subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
+                        
+                        usersocket.sendData("SrcCode-["+tablemodel.getValueAt(row, 0).toString()+"]");
+                        NewSubmission submission = usersocket.getSubmission();
+                        subshow.setSourceCOde(submission);
+                        
+                    } else if (row >= 0 && col == 3) {
+                        
+                    }
+                }
+            }
+        });
+        
+        MySubTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = StatusTable.rowAtPoint(evt.getPoint());
+                    int col = StatusTable.columnAtPoint(evt.getPoint());
+                    if (row >= 0 && col == 0) {
+                        SubmissionShow subshow = new SubmissionShow();
+                        DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
+                        subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
+                        
+                        usersocket.sendData("SrcCode-["+tablemodel.getValueAt(row, 0).toString()+"]");
+                        NewSubmission submission = usersocket.getSubmission();
+                        subshow.setSourceCOde(submission);
+                        
+                    } else if (row >= 0 && col == 3) {
+                        
+                    }
+                }
+            }
+        });
 
         //this.setVisible(true);
     }
@@ -455,13 +516,13 @@ public class UserDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"Problem ID", "Problem Name", "ProblemSetter"};
-                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
 
-                    ProblemsetTable.setModel(tableModel);
+                    ProblemsetTable.setModel(tablemodel);
                 }
 
                 break;

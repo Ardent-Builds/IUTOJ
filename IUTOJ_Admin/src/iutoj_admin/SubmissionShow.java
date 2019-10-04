@@ -11,7 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.text.Document;
 import javax.xml.parsers.DocumentBuilder;
 import newsubmission.NewSubmission;
@@ -50,8 +53,8 @@ public class SubmissionShow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(920, 680));
-        setSize(new java.awt.Dimension(920, 680));
+        setPreferredSize(new java.awt.Dimension(1900, 700));
+        setSize(new java.awt.Dimension(1900, 700));
 
         SubDetailsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         SubDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -78,13 +81,13 @@ public class SubmissionShow extends javax.swing.JFrame {
         });
 
         SourceCodeLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        SourceCodeLabel.setForeground(new java.awt.Color(0, 0, 102));
+        SourceCodeLabel.setForeground(new java.awt.Color(0, 181, 204));
         SourceCodeLabel.setText("Source Code");
 
         SourceCodeTextArea.setEditable(false);
-        SourceCodeTextArea.setBackground(new java.awt.Color(204, 255, 255));
+        SourceCodeTextArea.setBackground(new java.awt.Color(239, 240, 242));
         SourceCodeTextArea.setColumns(20);
-        SourceCodeTextArea.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        SourceCodeTextArea.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         SourceCodeTextArea.setForeground(new java.awt.Color(0, 51, 51));
         SourceCodeTextArea.setRows(5);
         jScrollPane2.setViewportView(SourceCodeTextArea);
@@ -97,10 +100,10 @@ public class SubmissionShow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1107, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(SourceCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(SourceCodeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(CopyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -120,7 +123,7 @@ public class SubmissionShow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(SubDetailsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
+            .addComponent(SubDetailsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1131, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -139,16 +142,23 @@ public class SubmissionShow extends javax.swing.JFrame {
     }//GEN-LAST:event_CopyButtonActionPerformed
 
     public void setSubDetailsTable(Object subID, Object author, Object problem, Object lang, Object verdict, Object time, Object submitted) {
-        Object[][] ob = {{subID, author, problem, lang, verdict, time, submitted}};
-        Object[] col = { "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"};
-        DefaultTableModel tableModel = new DefaultTableModel(ob, col){
+        Object[][] table = {{subID, author, problem, lang, verdict, time, submitted}};
+        Object[] columns = { "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"};
+        DefaultTableModel tablemodel = new DefaultTableModel(table, columns){
 
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
         
-        SubDetailsTable.setModel(tableModel);
+        SubDetailsTable.setModel(tablemodel);
+        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+
+        SubDetailsTable.setDefaultRenderer(Object.class, centerRenderer);
+        JTableHeader subdetailstableheader = SubDetailsTable.getTableHeader();
+        ((DefaultTableCellRenderer)subdetailstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
     }
     
     public void setSourceCOde(NewSubmission submission){

@@ -5,6 +5,7 @@
  */
 package iutoj_admin;
 
+import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
@@ -12,9 +13,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 import newsubmission.NewSubmission;
 
@@ -35,22 +39,41 @@ public class AdminDashboard extends javax.swing.JFrame {
         this.adminsocket = adminsocket;
 
         setBackground(new Color(0, 0, 0));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        StatusTable.setDefaultRenderer(Object.class, centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
-        //ProblemsetTable.getTableHeader().setOpaque(false);
+        StatusTable.setRowHeight(25);
+        JTableHeader statustableheader = StatusTable.getTableHeader();
+        ((DefaultTableCellRenderer)statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        
+        //ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
+        JTableHeader problemsettableheader = ProblemsetTable.getTableHeader();
+        ((DefaultTableCellRenderer)problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        //ProblemsetTable.getTableHeader().setOpaque(false);
 
+        DelProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         DelProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
-        DelProblemsetTable.getTableHeader().setBackground(new Color(0, 181, 204));
-        DelProblemsetTable.getTableHeader().setBackground(new Color(255, 255, 255));
         DelProblemsetTable.setRowHeight(25);
-
+        ProblemsetTable.setRowHeight(25);
+        JTableHeader delproblemsettableheader = DelProblemsetTable.getTableHeader();
+        ((DefaultTableCellRenderer)delproblemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        //DelProblemsetTable.getTableHeader().setBackground(new Color(0, 181, 204));
+        //DelProblemsetTable.getTableHeader().setBackground(new Color(255, 255, 255));
+        
+        MyProblemsTable.setDefaultRenderer(Object.class, centerRenderer);
         MyProblemsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
-        MyProblemsTable.getTableHeader().setBackground(new Color(0, 181, 204));
-        MyProblemsTable.getTableHeader().setBackground(new Color(255, 255, 255));
         MyProblemsTable.setRowHeight(25);
+        ProblemsetTable.setRowHeight(25);
+        JTableHeader myproblemstableheader = MyProblemsTable.getTableHeader();
+        ((DefaultTableCellRenderer)myproblemstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        //MyProblemsTable.getTableHeader().setBackground(new Color(0, 181, 204));
+        //MyProblemsTable.getTableHeader().setBackground(new Color(255, 255, 255));
+        
 
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -61,10 +84,10 @@ public class AdminDashboard extends javax.swing.JFrame {
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
                         SubmissionShow subshow = new SubmissionShow();
-                        DefaultTableModel model = (DefaultTableModel) StatusTable.getModel();
-                        subshow.setSubDetailsTable(model.getValueAt(row, 0), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), model.getValueAt(row, 5), model.getValueAt(row, 6), model.getValueAt(row, 1));
+                        DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
+                        subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
                         
-                        adminsocket.sendData("SrcCode-["+model.getValueAt(row, 0).toString()+"]");
+                        adminsocket.sendData("SrcCode-["+tablemodel.getValueAt(row, 0).toString()+"]");
                         NewSubmission submission = adminsocket.getSubmission();
                         subshow.setSourceCOde(submission);
                         
@@ -540,8 +563,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -554,6 +575,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -583,13 +605,13 @@ public class AdminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
-                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
 
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    ProblemsetTable.setModel(tableModel);
+                    ProblemsetTable.setModel(tablemodel);
                 }
 
                 break;
@@ -600,12 +622,12 @@ public class AdminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
-                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    MyProblemsTable.setModel(tableModel);
+                    MyProblemsTable.setModel(tablemodel);
                 }
                 break;
             case 4:
