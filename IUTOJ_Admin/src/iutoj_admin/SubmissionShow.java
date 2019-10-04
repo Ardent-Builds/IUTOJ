@@ -6,6 +6,15 @@
 package iutoj_admin;
 
 import java.awt.Font;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.Document;
+import javax.xml.parsers.DocumentBuilder;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -13,15 +22,13 @@ import java.awt.Font;
  */
 public class SubmissionShow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form SubmissionShow
-     */
     public SubmissionShow() {
         initComponents();
-        
-        SubDetailsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+
+        SubDetailsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         SubDetailsTable.setRowHeight(25);
-        SourceCodeTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+
+        this.setVisible(rootPaneCheckingEnabled);
     }
 
     /**
@@ -36,11 +43,12 @@ public class SubmissionShow extends javax.swing.JFrame {
         SubDetailsScrollPane = new javax.swing.JScrollPane();
         SubDetailsTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
-        SourceCodeScrollPane = new javax.swing.JScrollPane();
-        SourceCodeTable = new javax.swing.JTable();
         CopyButton = new javax.swing.JButton();
+        SourceCodeLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        SourceCodeTextArea = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(920, 680));
         setSize(new java.awt.Dimension(920, 680));
@@ -48,7 +56,7 @@ public class SubmissionShow extends javax.swing.JFrame {
         SubDetailsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         SubDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"
@@ -61,19 +69,6 @@ public class SubmissionShow extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        SourceCodeScrollPane.setBackground(new java.awt.Color(255, 255, 255));
-
-        SourceCodeTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null}
-            },
-            new String [] {
-                "Source"
-            }
-        ));
-        SourceCodeTable.setRowHeight(500);
-        SourceCodeScrollPane.setViewportView(SourceCodeTable);
-
         CopyButton.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         CopyButton.setText("Copy");
         CopyButton.addActionListener(new java.awt.event.ActionListener() {
@@ -82,22 +77,43 @@ public class SubmissionShow extends javax.swing.JFrame {
             }
         });
 
+        SourceCodeLabel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        SourceCodeLabel.setForeground(new java.awt.Color(0, 0, 102));
+        SourceCodeLabel.setText("Source Code");
+
+        SourceCodeTextArea.setEditable(false);
+        SourceCodeTextArea.setBackground(new java.awt.Color(204, 255, 255));
+        SourceCodeTextArea.setColumns(20);
+        SourceCodeTextArea.setFont(new java.awt.Font("Georgia", 0, 14)); // NOI18N
+        SourceCodeTextArea.setForeground(new java.awt.Color(0, 51, 51));
+        SourceCodeTextArea.setRows(5);
+        jScrollPane2.setViewportView(SourceCodeTextArea);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(SourceCodeScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(CopyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(SourceCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(CopyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(CopyButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(SourceCodeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 521, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(CopyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SourceCodeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -122,47 +138,33 @@ public class SubmissionShow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_CopyButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SubmissionShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SubmissionShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SubmissionShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SubmissionShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    public void setSubDetailsTable(Object subID, Object author, Object problem, Object lang, Object verdict, Object time, Object submitted) {
+        Object[][] ob = {{subID, author, problem, lang, verdict, time, submitted}};
+        Object[] col = { "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"};
+        DefaultTableModel tableModel = new DefaultTableModel(ob, col){
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new SubmissionShow().setVisible(true);
+            public boolean isCellEditable(int row, int col) {
+                return false;
             }
-        });
+        };
+        
+        SubDetailsTable.setModel(tableModel);
+    }
+    
+    public void setSourceCOde(NewSubmission submission){
+        SourceCodeTextArea.setTabSize(4);
+        SourceCodeTextArea.setText(new String(submission.getCodeF()));
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CopyButton;
-    private javax.swing.JScrollPane SourceCodeScrollPane;
-    private javax.swing.JTable SourceCodeTable;
+    private javax.swing.JLabel SourceCodeLabel;
+    private javax.swing.JTextArea SourceCodeTextArea;
     private javax.swing.JScrollPane SubDetailsScrollPane;
     private javax.swing.JTable SubDetailsTable;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane2;
     // End of variables declaration//GEN-END:variables
 }

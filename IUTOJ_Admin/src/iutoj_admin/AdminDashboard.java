@@ -15,6 +15,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import newsubmission.NewSubmission;
 
 /**
  *
@@ -27,36 +29,54 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     private final AdminSocket adminsocket;
     private File problem, inputs, outputs;
-    
+
     public AdminDashboard(AdminSocket adminsocket) {
         initComponents();
         this.adminsocket = adminsocket;
-        
-        setBackground(new Color(0,0,0));
-        
-        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+
+        setBackground(new Color(0, 0, 0));
+
+        StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
         //ProblemsetTable.getTableHeader().setOpaque(false);
-        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
+        ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
-        
-        DelProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        DelProblemsetTable.getTableHeader().setBackground(new Color(0,181,204));
-        DelProblemsetTable.getTableHeader().setBackground(new Color(255,255,255));
+
+        DelProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+        DelProblemsetTable.getTableHeader().setBackground(new Color(0, 181, 204));
+        DelProblemsetTable.getTableHeader().setBackground(new Color(255, 255, 255));
         DelProblemsetTable.setRowHeight(25);
-        
-        MyProblemsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD,20));
-        MyProblemsTable.getTableHeader().setBackground(new Color(0,181,204));
-        MyProblemsTable.getTableHeader().setBackground(new Color(255,255,255));
+
+        MyProblemsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+        MyProblemsTable.getTableHeader().setBackground(new Color(0, 181, 204));
+        MyProblemsTable.getTableHeader().setBackground(new Color(255, 255, 255));
         MyProblemsTable.setRowHeight(25);
-        
-       
-        
+
+        StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = StatusTable.rowAtPoint(evt.getPoint());
+                    int col = StatusTable.columnAtPoint(evt.getPoint());
+                    if (row >= 0 && col == 0) {
+                        SubmissionShow subshow = new SubmissionShow();
+                        DefaultTableModel model = (DefaultTableModel) StatusTable.getModel();
+                        subshow.setSubDetailsTable(model.getValueAt(row, 0), model.getValueAt(row, 2), model.getValueAt(row, 3), model.getValueAt(row, 4), model.getValueAt(row, 5), model.getValueAt(row, 6), model.getValueAt(row, 1));
+                        
+                        adminsocket.sendData("SrcCode-["+model.getValueAt(row, 0).toString()+"]");
+                        NewSubmission submission = adminsocket.getSubmission();
+                        subshow.setSourceCOde(submission);
+                        
+                    } else if (row >= 0 && col == 3) {
+                        
+                    }
+                }
+            }
+        });
+
         this.setVisible(true);
-        
-        
-        
-        
+
     }
 
     /**
@@ -520,6 +540,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -532,7 +554,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -552,35 +573,35 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void AdminDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AdminDashboardTabSwitcherMouseClicked
         int x = AdminDashboardTabSwitcher.getSelectedIndex();
-        switch(x){
+        switch (x) {
 
             case 1:
 
                 adminsocket.sendData("PrbTable[null]");
                 Object[][] table = adminsocket.getProblemTable();
-                if(table==null){
-                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-                } else{
-                    String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
-                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
+                if (table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
 
-                        public boolean isCellEditable(int row, int col){
+                        public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                ProblemsetTable.setModel(tableModel);
+                    ProblemsetTable.setModel(tableModel);
                 }
 
                 break;
             case 2:
                 adminsocket.sendData("PrbTable[My]");
                 table = adminsocket.getProblemTable();
-                if(table==null){
-                    JOptionPane.showMessageDialog(null, "Table Not found","Table Error",JOptionPane.ERROR_MESSAGE);
-                } else{
-                    String[] columns = {"Problem ID","Problem Name", "Problem Setter"};
-                    DefaultTableModel tableModel= new DefaultTableModel(table,columns){
-                        public boolean isCellEditable(int row, int col){
+                if (table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                    DefaultTableModel tableModel = new DefaultTableModel(table, columns) {
+                        public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
@@ -588,19 +609,19 @@ public class AdminDashboard extends javax.swing.JFrame {
                 }
                 break;
             case 4:
-                
+
                 adminsocket.sendData("StTable-[null]");
                 table = adminsocket.getStatusTable();
-                if(table == null) {
+                if (table == null) {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
-                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    
+
                     StatusTable.setModel(tablemodel);
                 }
                 break;
@@ -626,15 +647,15 @@ public class AdminDashboard extends javax.swing.JFrame {
         String memorylimit = txtMemoryLimit.getText();
 
         //        if(problem!=null && inputs!=null && outputs!=null){
-            try {
-                adminsocket.sendData("AddProb-["+problem.getName()+"]["+inputs.getName()+"]["+outputs.getName()+"]");
-                if(adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit)>0){
-                    JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            adminsocket.sendData("AddProb-[" + problem.getName() + "][" + inputs.getName() + "][" + outputs.getName() + "]");
+            if (adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit) > 0) {
+                JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
             }
-            //        }
+        } catch (IOException ex) {
+            Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void AddInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddInputButtonActionPerformed
@@ -696,8 +717,6 @@ public class AdminDashboard extends javax.swing.JFrame {
         //        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
- 
- 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddInputButton;

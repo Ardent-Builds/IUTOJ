@@ -302,6 +302,7 @@ public class CompileAndRun implements Runnable {
         inputs.delete();
         useroutputs.delete();
         submissionfile.delete();
+        new File(folderpath + submissionID + ".exe").delete();
     }
 
 }

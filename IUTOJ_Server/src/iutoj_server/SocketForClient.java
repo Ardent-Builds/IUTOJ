@@ -90,6 +90,16 @@ public class SocketForClient {
         }
     }
     
+    public boolean sendSubmission(NewSubmission submission){
+        try {
+            objectout.writeObject(submission);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("SocketSubmisionSending Err "+ex.getMessage());
+            return false;
+        }
+    }
+    
     public boolean sendProblemTable(String[][] table){
         try{
             objectout.writeObject(table);

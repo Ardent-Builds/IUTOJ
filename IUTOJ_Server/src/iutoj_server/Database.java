@@ -230,6 +230,33 @@ public class Database {
         }
 
     }
+    
+    public synchronized NewSubmission getSubmission(int submissionID) {
+
+        String query = "SELECT * FROM Submissions WHERE SubmissionID = " + submissionID;
+
+        try {
+            stmnt = conn.createStatement();
+            ResultSet rs = stmnt.executeQuery(query);
+
+            if (rs.next() == false) {
+                return null;
+            }
+
+            NewSubmission submission = new NewSubmission();
+            
+            submission.setProblemID(rs.getString("ProblemID"));
+            submission.setLanguage(rs.getString("Language"));
+            submission.setCodeF(rs.getBytes("CodeFile"));
+
+            return submission;
+
+        } catch (SQLException ex) {
+            System.out.println("problem query Err " + ex.getMessage());
+            return null;
+        }
+
+    }
 
     public synchronized String[][] getProblemTable(String identifier) {
         String query;

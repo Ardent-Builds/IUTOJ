@@ -140,7 +140,18 @@ public class Multi_Thread implements Runnable {
                         System.out.println("StatusTable Sending Failed");
                     }
                     break;
-                
+                case "SrcCode-":
+                    x = data.indexOf(']', 9);
+                    identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    if(sc.sendSubmission(database.getSubmission(Integer.parseInt(identifier))))
+                    {
+                        System.out.println("Submission Sent");
+                    }else{
+                        System.out.println("Submission Sending Failed");
+                    }
+                    break;
                 default:
                     break;
             }
