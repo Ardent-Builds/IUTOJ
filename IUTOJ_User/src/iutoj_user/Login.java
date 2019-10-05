@@ -203,13 +203,13 @@ public class Login extends javax.swing.JFrame {
         
         if(datain != null){
             if(datain.equals("LoginTrue")){
-                JOptionPane.showMessageDialog(null,"Login Successfull!","Status",JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Login Successful!","Status",JOptionPane.INFORMATION_MESSAGE);
                 dashboard = new UserDashboard(usersocket);
                 dashboard.setVisible(rootPaneCheckingEnabled);
                 this.setVisible(false);
             }
             else if(datain.equals("LoginFalse")){
-                JOptionPane.showMessageDialog(null,"Invalid Student ID and Password!","Status",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Incorrect Student ID Or Password!","Status",JOptionPane.ERROR_MESSAGE);
             }
         }
         else{

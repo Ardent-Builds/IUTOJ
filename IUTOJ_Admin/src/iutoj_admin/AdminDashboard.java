@@ -5,7 +5,6 @@
  */
 package iutoj_admin;
 
-import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
@@ -18,12 +17,10 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
 import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
@@ -45,7 +42,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         setBackground(new Color(0, 0, 0));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-        centerRenderer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
         StatusTable.setDefaultRenderer(Object.class, centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -116,7 +113,45 @@ public class AdminDashboard extends javax.swing.JFrame {
                 }
             }
         });
+        
+         MyProblemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = MyProblemsTable.rowAtPoint(evt.getPoint());
+                    int col = MyProblemsTable.columnAtPoint(evt.getPoint());
 
+                    if (row >= 0) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) MyProblemsTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, 0).toString();
+
+                        adminsocket.sendData("ProbFile[" + problemid + "]");
+                        NewProblem problem = adminsocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+         
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -178,7 +213,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         String problemid = tablemodel.getValueAt(row, 0).toString();
                         String problemname = tablemodel.getValueAt(row, 1).toString();
 
-                        if (JOptionPane.showConfirmDialog(rootPane, "Delete Problem " + problemid+"-"+problemname, "Confime", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid+"-"+problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                             adminsocket.sendData("DelProb-[" + problemid + "]");
 
                             Object[][] table;
@@ -457,7 +492,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
-        MemoryLimitLabel.setText("Memory Limit (kB):");
+        MemoryLimitLabel.setText("Memory Limit (KB):");
 
         ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -540,8 +575,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         DelProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
-        DelProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        DelProblemsetTable.setForeground(new java.awt.Color(0, 181, 204));
+        DelProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         DelProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -577,7 +611,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.setOpaque(false);
         DelProblemsetTable.setRequestFocusEnabled(false);
         DelProblemsetTable.setRowHeight(25);
-        DelProblemsetTable.setSelectionBackground(new java.awt.Color(102, 255, 102));
+        DelProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         DelProblemsetTable.setShowHorizontalLines(false);
         DelProblemsetTable.getTableHeader().setReorderingAllowed(false);
         DelProblemsetTable.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -671,8 +705,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -685,6 +717,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
