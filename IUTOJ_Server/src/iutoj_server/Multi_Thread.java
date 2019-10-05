@@ -152,6 +152,32 @@ public class Multi_Thread implements Runnable {
                         System.out.println("Submission Sending Failed");
                     }
                     break;
+                case "ProbFile":
+                    x = data.indexOf(']', 9);
+                    identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    if(sc.sendProblem(database.getProblem(Integer.parseInt(identifier)))){
+                        System.out.println("Problem Sent");
+                    }else{
+                        System.out.println("Problem Sending Failed");
+                    }
+                    break;
+                case "DelProb-":
+                    x = data.indexOf(']', 9);
+                    identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    database.deleteProblem(Integer.parseInt(identifier));
+                    
+                    if(sc.sendProblemTable(database.getProblemTable(username))){
+                        System.out.println("ProblemTable Sent");
+                    }
+                    else{
+                        System.out.println("ProblemTable Sending Failed");
+                    }
+                    
+                    
                 default:
                     break;
             }

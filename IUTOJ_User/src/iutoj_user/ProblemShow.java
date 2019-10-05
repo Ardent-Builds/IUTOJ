@@ -19,15 +19,12 @@ import static java.lang.Boolean.TRUE;
  */
 public class ProblemShow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Login
-     */
-    public ProblemShow() {
+    UserDashboard parent;
+    public ProblemShow(String time, String memory) {
         initComponents();
-        
-        
-        
-        
+        timeLabel.setText(time);
+        memoryLabel.setText(memory);
+        this.setVisible(true);
     }
 
     /**
@@ -40,15 +37,17 @@ public class ProblemShow extends javax.swing.JFrame {
     private void initComponents() {
 
         RightPanel = new javax.swing.JPanel();
-        MLLabel = new javax.swing.JLabel();
+        memoryLabel = new javax.swing.JLabel();
         closeLabel = new javax.swing.JLabel();
         minimizeLabel = new javax.swing.JLabel();
         SubmitButton = new javax.swing.JButton();
         Separator = new javax.swing.JSeparator();
         ProblemNameLabel = new javax.swing.JLabel();
-        TimeLimitLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
         TLLabel = new javax.swing.JLabel();
         MemoryLimitLabel = new javax.swing.JLabel();
+        TimeLimitLabel = new javax.swing.JLabel();
+        MLLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -59,10 +58,9 @@ public class ProblemShow extends javax.swing.JFrame {
         RightPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 204, 204), null));
         RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        MLLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        MLLabel.setForeground(new java.awt.Color(0, 181, 204));
-        MLLabel.setText("ML");
-        RightPanel.add(MLLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 140, 30));
+        memoryLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        memoryLabel.setForeground(new java.awt.Color(0, 181, 204));
+        RightPanel.add(memoryLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 80, 30));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -104,10 +102,9 @@ public class ProblemShow extends javax.swing.JFrame {
         ProblemNameLabel.setText("Problem Name");
         RightPanel.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 180, 30));
 
-        TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
-        TimeLimitLabel.setText("Time Limit:");
-        RightPanel.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 140, 30));
+        timeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        timeLabel.setForeground(new java.awt.Color(0, 181, 204));
+        RightPanel.add(timeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 100, 30));
 
         TLLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         TLLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -119,6 +116,16 @@ public class ProblemShow extends javax.swing.JFrame {
         MemoryLimitLabel.setText("Memory Limit:");
         RightPanel.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 140, 30));
 
+        TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
+        TimeLimitLabel.setText("Time Limit:");
+        RightPanel.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 140, 30));
+
+        MLLabel1.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        MLLabel1.setForeground(new java.awt.Color(0, 181, 204));
+        MLLabel1.setText("ML");
+        RightPanel.add(MLLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 140, 30));
+
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 560));
 
         setSize(new java.awt.Dimension(635, 556));
@@ -126,55 +133,21 @@ public class ProblemShow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SubmitButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_SubmitButtonButtonActionPerformed
 
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
-        System.exit(0);        // TODO add your handling code here:
+        this.dispose();       // TODO add your handling code here:
     }//GEN-LAST:event_closeLabelMouseClicked
 
     private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked
         this.setExtendedState(JFrame.ICONIFIED);      // TODO add your handling code here:
     }//GEN-LAST:event_minimizeLabelMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProblemShow().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel MLLabel;
+    private javax.swing.JLabel MLLabel1;
     private javax.swing.JLabel MemoryLimitLabel;
     private javax.swing.JLabel ProblemNameLabel;
     private javax.swing.JPanel RightPanel;
@@ -183,6 +156,8 @@ public class ProblemShow extends javax.swing.JFrame {
     private javax.swing.JLabel TLLabel;
     private javax.swing.JLabel TimeLimitLabel;
     private javax.swing.JLabel closeLabel;
+    private javax.swing.JLabel memoryLabel;
     private javax.swing.JLabel minimizeLabel;
+    private javax.swing.JLabel timeLabel;
     // End of variables declaration//GEN-END:variables
 }

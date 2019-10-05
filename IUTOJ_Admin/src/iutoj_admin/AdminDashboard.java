@@ -7,8 +7,11 @@ package iutoj_admin;
 
 import static com.sun.xml.internal.fastinfoset.alphabet.BuiltInRestrictedAlphabets.table;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
 /**
@@ -48,13 +52,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setRowHeight(25);
         StatusTable.setRowHeight(25);
         JTableHeader statustableheader = StatusTable.getTableHeader();
-        ((DefaultTableCellRenderer)statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
-        
+        ((DefaultTableCellRenderer) statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
         //ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
         JTableHeader problemsettableheader = ProblemsetTable.getTableHeader();
-        ((DefaultTableCellRenderer)problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        ((DefaultTableCellRenderer) problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         //ProblemsetTable.getTableHeader().setOpaque(false);
 
         DelProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
@@ -62,19 +66,56 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.setRowHeight(25);
         ProblemsetTable.setRowHeight(25);
         JTableHeader delproblemsettableheader = DelProblemsetTable.getTableHeader();
-        ((DefaultTableCellRenderer)delproblemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        ((DefaultTableCellRenderer) delproblemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         //DelProblemsetTable.getTableHeader().setBackground(new Color(0, 181, 204));
         //DelProblemsetTable.getTableHeader().setBackground(new Color(255, 255, 255));
-        
+
         MyProblemsTable.setDefaultRenderer(Object.class, centerRenderer);
         MyProblemsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         MyProblemsTable.setRowHeight(25);
         ProblemsetTable.setRowHeight(25);
         JTableHeader myproblemstableheader = MyProblemsTable.getTableHeader();
-        ((DefaultTableCellRenderer)myproblemstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        ((DefaultTableCellRenderer) myproblemstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         //MyProblemsTable.getTableHeader().setBackground(new Color(0, 181, 204));
         //MyProblemsTable.getTableHeader().setBackground(new Color(255, 255, 255));
-        
+
+        ProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = ProblemsetTable.rowAtPoint(evt.getPoint());
+                    int col = ProblemsetTable.columnAtPoint(evt.getPoint());
+
+                    if (row >= 0) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, 0).toString();
+
+                        adminsocket.sendData("ProbFile[" + problemid + "]");
+                        NewProblem problem = adminsocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -87,13 +128,74 @@ public class AdminDashboard extends javax.swing.JFrame {
                         SubmissionShow subshow = new SubmissionShow();
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
-                        
-                        adminsocket.sendData("SrcCode-["+tablemodel.getValueAt(row, 0).toString()+"]");
+
+                        adminsocket.sendData("SrcCode-[" + tablemodel.getValueAt(row, 0).toString() + "]");
                         NewSubmission submission = adminsocket.getSubmission();
                         subshow.setSourceCOde(submission);
-                        
+
                     } else if (row >= 0 && col == 3) {
-                        
+                        DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, col).toString();
+                        int x = problemid.indexOf('-');
+
+                        adminsocket.sendData("ProbFile[" + problemid.substring(0, x) + "]");
+                        NewProblem problem = adminsocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        DelProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = ProblemsetTable.rowAtPoint(evt.getPoint());
+                    int col = ProblemsetTable.columnAtPoint(evt.getPoint());
+
+                    if (row >= 0) {
+
+                        DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, 0).toString();
+                        String problemname = tablemodel.getValueAt(row, 1).toString();
+
+                        if (JOptionPane.showConfirmDialog(rootPane, "Delete Problem " + problemid+"-"+problemname, "Confime", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                            adminsocket.sendData("DelProb-[" + problemid + "]");
+
+                            Object[][] table;
+                            table = adminsocket.getProblemTable();
+                            if (table == null) {
+                                JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                            } else {
+                                String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                                DefaultTableModel model = new DefaultTableModel(table, columns) {
+                                    public boolean isCellEditable(int row, int col) {
+                                        return false;
+                                    }
+                                };
+                                DelProblemsetTable.setModel(model);
+                            }
+                        }
+
                     }
                 }
             }
@@ -320,6 +422,11 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         ManagePanelTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         ManagePanelTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
+        ManagePanelTabSwitcher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ManagePanelTabSwitcherMouseClicked(evt);
+            }
+        });
 
         AddProblemPanel.setBackground(new java.awt.Color(255, 255, 255));
         AddProblemPanel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -564,6 +671,8 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
 
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
@@ -576,7 +685,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -739,6 +847,26 @@ public class AdminDashboard extends javax.swing.JFrame {
         //        super.setVisible(true);
         //        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
+
+    private void ManagePanelTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManagePanelTabSwitcherMouseClicked
+        int x = ManagePanelTabSwitcher.getSelectedIndex();
+        if (x == 1) {
+            Object[][] table;
+            adminsocket.sendData("PrbTable[My]");
+            table = adminsocket.getProblemTable();
+            if (table == null) {
+                JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
+                    public boolean isCellEditable(int row, int col) {
+                        return false;
+                    }
+                };
+                DelProblemsetTable.setModel(tablemodel);
+            }
+        }
+    }//GEN-LAST:event_ManagePanelTabSwitcherMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

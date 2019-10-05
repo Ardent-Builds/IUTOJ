@@ -103,7 +103,7 @@ public class Database {
 
     public synchronized boolean addProblemToDB(NewProblem problem, String username) {
 
-        String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM problemset";
+        String rowcountquery = "SELECT MAX(ProblemID) AS ROWCOUNT FROM problemset";
         String update = "INSERT INTO problemset(ProblemID, ProblemName, ProblemSetter, TimeLimit, MemoryLimit, ProblemStatement, Inputs, Outputs) VALUES(?,?,?,?,?,?,?,?)";
         int rowcount = 0;
 
@@ -139,7 +139,19 @@ public class Database {
             System.out.println("Insert problem Err " + ex.getMessage());
             return false;
         }
-
+    }
+    
+    public synchronized void deleteProblem(int problemid){
+        String update = "DELETE FROM PROBLEMSET WHERE PROBLEMID = ?";
+        System.out.println(update);
+        try{
+            prprdstmnt = conn.prepareStatement(update);
+            prprdstmnt.setInt(1, problemid);
+            prprdstmnt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Delete Problem " + ex.getMessage());
+        }
+        
     }
     public synchronized int addSubmissionToDB(NewSubmission submission, String username) {
          String rowcountquery = "SELECT COUNT(*) AS ROWCOUNT FROM submissions";
