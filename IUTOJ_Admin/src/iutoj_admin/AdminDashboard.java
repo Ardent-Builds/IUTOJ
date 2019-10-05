@@ -6,6 +6,7 @@
 package iutoj_admin;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -35,23 +37,34 @@ public class AdminDashboard extends javax.swing.JFrame {
      */
     private final AdminSocket adminsocket;
     private File problem, inputs, outputs;
+    Login parent;
 
-    public AdminDashboard(AdminSocket adminsocket) {
+    public AdminDashboard(AdminSocket adminsocket, Login parent) {
         initComponents();
         this.adminsocket = adminsocket;
-
+        this.parent = parent;
         setBackground(new Color(0, 0, 0));
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
+                return c;
+            }
+
+        };
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-        StatusTable.setDefaultRenderer(Object.class, centerRenderer);
+        //TableCellRenderer cellRenderer = StatusTable.getCellRenderer(2, 3);
+
+        StatusTable.setDefaultRenderer(Object.class,centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
         StatusTable.setRowHeight(25);
         JTableHeader statustableheader = StatusTable.getTableHeader();
         ((DefaultTableCellRenderer) statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
-        //ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
+        ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
         JTableHeader problemsettableheader = ProblemsetTable.getTableHeader();
@@ -99,22 +112,15 @@ public class AdminDashboard extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
-
-                        if (!Desktop.isDesktopSupported()) {
-                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            try {
-                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
-                            } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
+                        
+                        ProblemShow problemshow = new ProblemShow();
+                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
         });
-        
-         MyProblemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+
+        MyProblemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2 && !evt.isConsumed()) {
@@ -137,21 +143,13 @@ public class AdminDashboard extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
-
-                        if (!Desktop.isDesktopSupported()) {
-                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            try {
-                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
-                            } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
+                        ProblemShow problemshow = new ProblemShow();
+                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
         });
-         
+
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -213,7 +211,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         String problemid = tablemodel.getValueAt(row, 0).toString();
                         String problemname = tablemodel.getValueAt(row, 1).toString();
 
-                        if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid+"-"+problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid + "-" + problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                             adminsocket.sendData("DelProb-[" + problemid + "]");
 
                             Object[][] table;
@@ -877,8 +875,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-        //        super.setVisible(true);
-        //        this.dispose();
+               parent.setVisible(true);
+               this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
     private void ManagePanelTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManagePanelTabSwitcherMouseClicked

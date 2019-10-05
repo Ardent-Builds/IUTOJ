@@ -6,17 +6,10 @@
 package iutoj_admin;
 
 import java.awt.Font;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
 import newsubmission.NewSubmission;
 
 /**

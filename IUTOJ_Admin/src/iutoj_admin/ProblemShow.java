@@ -5,8 +5,12 @@
  */
 package iutoj_admin;
 
+import java.io.File;
 import javax.swing.JFrame;
-
+import javax.swing.JPanel;
+import newproblem.NewProblem;
+import org.icepdf.ri.common.SwingController;
+import org.icepdf.ri.common.SwingViewBuilder;
 /**
  *
  * @author KAWSAR
@@ -18,10 +22,7 @@ public class ProblemShow extends javax.swing.JFrame {
      */
     public ProblemShow() {
         initComponents();
-        
-        
-        
-        
+        this.setVisible(rootPaneCheckingEnabled);
     }
 
     /**
@@ -34,15 +35,13 @@ public class ProblemShow extends javax.swing.JFrame {
     private void initComponents() {
 
         RightPanel = new javax.swing.JPanel();
-        MLLabel = new javax.swing.JLabel();
         closeLabel = new javax.swing.JLabel();
         minimizeLabel = new javax.swing.JLabel();
         SubmitButton = new javax.swing.JButton();
-        Separator = new javax.swing.JSeparator();
         ProblemNameLabel = new javax.swing.JLabel();
         TimeLimitLabel = new javax.swing.JLabel();
-        TLLabel = new javax.swing.JLabel();
         MemoryLimitLabel = new javax.swing.JLabel();
+        viewerScrollPane = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -52,11 +51,6 @@ public class ProblemShow extends javax.swing.JFrame {
         RightPanel.setBackground(new java.awt.Color(255, 255, 255));
         RightPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 204, 204), null));
         RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        MLLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        MLLabel.setForeground(new java.awt.Color(0, 181, 204));
-        MLLabel.setText("ML");
-        RightPanel.add(MLLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 140, 30));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -90,28 +84,23 @@ public class ProblemShow extends javax.swing.JFrame {
                 SubmitButtonButtonActionPerformed(evt);
             }
         });
-        RightPanel.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 150, 40));
-        RightPanel.add(Separator, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 280, -1));
+        RightPanel.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 518, 150, 30));
 
         ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
         ProblemNameLabel.setText("Problem Name");
-        RightPanel.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 180, 30));
+        RightPanel.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 10, 180, 30));
 
         TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         TimeLimitLabel.setText("Time Limit:");
-        RightPanel.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 140, 30));
-
-        TLLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        TLLabel.setForeground(new java.awt.Color(0, 181, 204));
-        TLLabel.setText("TL");
-        RightPanel.add(TLLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 140, 30));
+        RightPanel.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 140, 30));
 
         MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         MemoryLimitLabel.setText("Memory Limit:");
-        RightPanel.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 140, 30));
+        RightPanel.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 140, 30));
+        RightPanel.add(viewerScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 620, 420));
 
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 560));
 
@@ -119,64 +108,38 @@ public class ProblemShow extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    void viewPdf(File problem){
+        SwingController controller = new SwingController();
+        controller.setToolBarVisible(false);
+        SwingViewBuilder factory = new SwingViewBuilder(controller);
+        JPanel viwerpanel = factory.buildViewerPanel();
+        viewerScrollPane.setViewportView(viwerpanel);
+        controller.openDocument(problem.getAbsolutePath());
+    }
     private void SubmitButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_SubmitButtonButtonActionPerformed
-
-    private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
-        System.exit(0);        // TODO add your handling code here:
-    }//GEN-LAST:event_closeLabelMouseClicked
 
     private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked
         this.setExtendedState(JFrame.ICONIFIED);      // TODO add your handling code here:
     }//GEN-LAST:event_minimizeLabelMouseClicked
 
+    private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_closeLabelMouseClicked
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProblemShow().setVisible(true);
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel MLLabel;
     private javax.swing.JLabel MemoryLimitLabel;
     private javax.swing.JLabel ProblemNameLabel;
     private javax.swing.JPanel RightPanel;
-    private javax.swing.JSeparator Separator;
     private javax.swing.JButton SubmitButton;
-    private javax.swing.JLabel TLLabel;
     private javax.swing.JLabel TimeLimitLabel;
     private javax.swing.JLabel closeLabel;
     private javax.swing.JLabel minimizeLabel;
+    private javax.swing.JScrollPane viewerScrollPane;
     // End of variables declaration//GEN-END:variables
 }
