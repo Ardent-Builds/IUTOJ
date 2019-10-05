@@ -5,13 +5,7 @@
  */
 package iutoj_admin;
 
-import com.sun.prism.paint.Color;
-import java.awt.Frame;
 import javax.swing.JFrame;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import static java.lang.Boolean.TRUE;
 
 /**
  *

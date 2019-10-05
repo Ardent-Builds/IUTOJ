@@ -144,5 +144,17 @@ public class AdminSocket {
             return null;
         }
     }
+    
+    NewProblem getProblem() {
+        try {
+            return (NewProblem) objectin.readObject();
+        } catch (IOException ex) {
+            System.out.println("AdminSocket getProblem I/O Err: "+ex.getMessage() );
+            return null;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("AdminSocket getProblem ClassNotFound Err: "+ex.getMessage() );
+            return null;
+        }
+    }
 
 }

@@ -6,10 +6,15 @@
 package iutoj_user;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,6 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
 /**
@@ -30,7 +36,7 @@ public class UserDashboard extends javax.swing.JFrame {
      */
     private final UserSocket usersocket;
     private File codefile;
-
+    UserDashboard temp;
     public UserDashboard(UserSocket usersocket) {
         initComponents();
         this.usersocket = usersocket;
@@ -62,6 +68,45 @@ public class UserDashboard extends javax.swing.JFrame {
         //ProblemsetTable.setPreferredScrollableViewportSize(ProblemsetTable.getParent().getPreferredSize());
         //ProblemsetTable.setFillsViewportHeight(true);
         
+        ProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = ProblemsetTable.rowAtPoint(evt.getPoint());
+                    int col = ProblemsetTable.columnAtPoint(evt.getPoint());
+                  
+                    if (row >= 0) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, 0).toString();
+
+                        usersocket.sendData("ProbFile[" + problemid+"]");
+                        NewProblem problem = usersocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid+".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        });
+        
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -69,17 +114,32 @@ public class UserDashboard extends javax.swing.JFrame {
                     evt.consume();
                     int row = StatusTable.rowAtPoint(evt.getPoint());
                     int col = StatusTable.columnAtPoint(evt.getPoint());
-                    if (row >= 0 && col == 0) {
-                        SubmissionShow subshow = new SubmissionShow();
+                    if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
-                        
-                        usersocket.sendData("SrcCode-["+tablemodel.getValueAt(row, 0).toString()+"]");
-                        NewSubmission submission = usersocket.getSubmission();
-                        subshow.setSourceCOde(submission);
-                        
-                    } else if (row >= 0 && col == 3) {
-                        
+                        String problemid = tablemodel.getValueAt(row, col).toString();
+                        int x = problemid.indexOf('-');
+
+                        usersocket.sendData("ProbFile[" + problemid.substring(0, x) + "]");
+                        NewProblem problem = usersocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid+".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
                     }
                 }
             }
@@ -102,6 +162,31 @@ public class UserDashboard extends javax.swing.JFrame {
                         subshow.setSourceCOde(submission);
                         
                     } else if (row >= 0 && col == 3) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
+                        String problemid = tablemodel.getValueAt(row, col).toString();
+                        int x = problemid.indexOf('-');
+
+                        usersocket.sendData("ProbFile[" + problemid.substring(0, x) + "]");
+                        NewProblem problem = usersocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+
+                        if (!Desktop.isDesktopSupported()) {
+                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
+                        } else {
+                            try {
+                                Desktop.getDesktop().open(new File(problemid+".pdf"));
+                            } catch (IOException ex) {
+                                JOptionPane.showMessageDialog(null, "Couldn't Open file: "+ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
                         
                     }
                 }
@@ -468,6 +553,11 @@ public class UserDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
+    public void setTab(int x, String ID){
+        UserDashboardTabSwitcher.setTabPlacement(x);
+        txtProblemID.setText(ID);
+        txtProblemID.setEditable(false);
+    }
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
 
         String problemid = txtProblemID.getText();
@@ -527,7 +617,7 @@ public class UserDashboard extends javax.swing.JFrame {
 
                 break;
             case 2:
-
+                txtProblemID.setEditable(true);
                 break;
             case 3:
                 

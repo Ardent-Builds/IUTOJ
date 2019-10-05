@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
 /**
@@ -131,10 +132,22 @@ public class UserSocket {
         try {
             return (NewSubmission) objectin.readObject();
         } catch (IOException ex) {
-            System.out.println("AdminSocket Reading Submission I/O Err: "+ex.getMessage() );
+            System.out.println("UserSocket Reading Submission I/O Err: "+ex.getMessage() );
             return null;
         } catch (ClassNotFoundException ex) {
-            System.out.println("AdminSocket Reading ClassNotFound Err: "+ex.getMessage() );
+            System.out.println("UserSocket Reading ClassNotFound Err: "+ex.getMessage() );
+            return null;
+        }
+    }
+
+    NewProblem getProblem() {
+        try {
+            return (NewProblem) objectin.readObject();
+        } catch (IOException ex) {
+            System.out.println("UserSocket Reading Submission I/O Err: "+ex.getMessage() );
+            return null;
+        } catch (ClassNotFoundException ex) {
+            System.out.println("UserSocket Reading ClassNotFound Err: "+ex.getMessage() );
             return null;
         }
     }
