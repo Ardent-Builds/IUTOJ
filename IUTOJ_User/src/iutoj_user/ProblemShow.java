@@ -5,13 +5,10 @@
  */
 package iutoj_user;
 
-import com.sun.prism.paint.Color;
-import java.awt.Frame;
-import javax.swing.JFrame;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
-import static java.lang.Boolean.TRUE;
+import java.io.File;
+import javax.swing.JPanel;
+import org.icepdf.ri.common.SwingController;
+import org.icepdf.ri.common.SwingViewBuilder;
 
 /**
  *
@@ -19,12 +16,12 @@ import static java.lang.Boolean.TRUE;
  */
 public class ProblemShow extends javax.swing.JFrame {
 
-    UserDashboard parent;
-    public ProblemShow(String time, String memory) {
+    /**
+     * Creates new form ProblemShow1
+     */
+    public ProblemShow() {
         initComponents();
-        timeLabel.setText(time);
-        memoryLabel.setText(memory);
-        this.setVisible(true);
+        this.setVisible(rootPaneCheckingEnabled);
     }
 
     /**
@@ -36,128 +33,124 @@ public class ProblemShow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        RightPanel = new javax.swing.JPanel();
-        memoryLabel = new javax.swing.JLabel();
-        closeLabel = new javax.swing.JLabel();
-        minimizeLabel = new javax.swing.JLabel();
-        SubmitButton = new javax.swing.JButton();
-        Separator = new javax.swing.JSeparator();
+        jPanel1 = new javax.swing.JPanel();
         ProblemNameLabel = new javax.swing.JLabel();
-        timeLabel = new javax.swing.JLabel();
-        TLLabel = new javax.swing.JLabel();
-        MemoryLimitLabel = new javax.swing.JLabel();
         TimeLimitLabel = new javax.swing.JLabel();
-        MLLabel1 = new javax.swing.JLabel();
+        MemoryLimitLabel = new javax.swing.JLabel();
+        SubmitButton = new javax.swing.JButton();
+        viewerScrollPane = new javax.swing.JScrollPane();
+        Separator = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 0, 0));
-        setUndecorated(true);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setSize(new java.awt.Dimension(1920, 1080));
 
-        RightPanel.setBackground(new java.awt.Color(255, 255, 255));
-        RightPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 204, 204), null));
-        RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        memoryLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        memoryLabel.setForeground(new java.awt.Color(0, 181, 204));
-        RightPanel.add(memoryLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 80, 30));
+        ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
+        ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
+        ProblemNameLabel.setText("Problem Name");
+        jPanel1.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, 280, 50));
 
-        closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
-        closeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        closeLabel.setText("x");
-        closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                closeLabelMouseClicked(evt);
-            }
-        });
-        RightPanel.add(closeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 30, 20));
+        TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
+        TimeLimitLabel.setText("Time Limit:");
+        jPanel1.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 60, 140, 30));
 
-        minimizeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
-        minimizeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        minimizeLabel.setText("_");
-        minimizeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                minimizeLabelMouseClicked(evt);
-            }
-        });
-        RightPanel.add(minimizeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, -20, 30, 40));
+        MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
+        MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
+        MemoryLimitLabel.setText("Memory Limit:");
+        jPanel1.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, 180, 30));
 
         SubmitButton.setBackground(new java.awt.Color(0, 181, 204));
-        SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         SubmitButton.setForeground(new java.awt.Color(0, 181, 204));
         SubmitButton.setText("Submit");
         SubmitButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
         SubmitButton.setContentAreaFilled(false);
         SubmitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        SubmitButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         SubmitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 SubmitButtonButtonActionPerformed(evt);
             }
         });
-        RightPanel.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 150, 40));
-        RightPanel.add(Separator, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 280, -1));
+        jPanel1.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 170, 40));
+        jPanel1.add(viewerScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 1920, 880));
+        jPanel1.add(Separator, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 1930, 20));
 
-        ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
-        ProblemNameLabel.setText("Problem Name");
-        RightPanel.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 180, 30));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
 
-        timeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        timeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        RightPanel.add(timeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 100, 30));
-
-        TLLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        TLLabel.setForeground(new java.awt.Color(0, 181, 204));
-        TLLabel.setText("TL");
-        RightPanel.add(TLLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 70, 140, 30));
-
-        MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
-        MemoryLimitLabel.setText("Memory Limit:");
-        RightPanel.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 110, 140, 30));
-
-        TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
-        TimeLimitLabel.setText("Time Limit:");
-        RightPanel.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 140, 30));
-
-        MLLabel1.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        MLLabel1.setForeground(new java.awt.Color(0, 181, 204));
-        MLLabel1.setText("ML");
-        RightPanel.add(MLLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 140, 30));
-
-        getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 560));
-
-        setSize(new java.awt.Dimension(635, 556));
-        setLocationRelativeTo(null);
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void SubmitButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonButtonActionPerformed
-        this.dispose();
+        // TODO add your handling code here:
     }//GEN-LAST:event_SubmitButtonButtonActionPerformed
 
-    private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
-        this.dispose();       // TODO add your handling code here:
-    }//GEN-LAST:event_closeLabelMouseClicked
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-    private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked
-        this.setExtendedState(JFrame.ICONIFIED);      // TODO add your handling code here:
-    }//GEN-LAST:event_minimizeLabelMouseClicked
-
-    
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ProblemShow().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel MLLabel1;
     private javax.swing.JLabel MemoryLimitLabel;
     private javax.swing.JLabel ProblemNameLabel;
-    private javax.swing.JPanel RightPanel;
     private javax.swing.JSeparator Separator;
     private javax.swing.JButton SubmitButton;
-    private javax.swing.JLabel TLLabel;
     private javax.swing.JLabel TimeLimitLabel;
-    private javax.swing.JLabel closeLabel;
-    private javax.swing.JLabel memoryLabel;
-    private javax.swing.JLabel minimizeLabel;
-    private javax.swing.JLabel timeLabel;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane viewerScrollPane;
     // End of variables declaration//GEN-END:variables
+
+    void viewPdf(File problem){
+        SwingController controller = new SwingController();
+        controller.setToolBarVisible(false);
+        SwingViewBuilder factory = new SwingViewBuilder(controller);
+        JPanel viwerpanel = factory.buildViewerPanel();
+        viewerScrollPane.setViewportView(viwerpanel);
+        controller.openDocument(problem.getAbsolutePath());
+    }
 }

@@ -59,6 +59,7 @@ public class SubmissionShow extends javax.swing.JFrame {
             }
         ));
         SubDetailsTable.setRowHeight(25);
+        SubDetailsTable.setRowSelectionAllowed(false);
         SubDetailsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         SubDetailsTable.setShowHorizontalLines(false);
         SubDetailsScrollPane.setViewportView(SubDetailsTable);

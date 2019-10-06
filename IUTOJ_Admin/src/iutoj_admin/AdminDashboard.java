@@ -9,16 +9,23 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -30,6 +37,7 @@ import newsubmission.NewSubmission;
  *
  * @author KAWSAR
  */
+
 public class AdminDashboard extends javax.swing.JFrame {
 
     /**
@@ -92,14 +100,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
                     evt.consume();
                     int row = ProblemsetTable.rowAtPoint(evt.getPoint());
                     int col = ProblemsetTable.columnAtPoint(evt.getPoint());
 
-                    if (row >= 0) {
+                    if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
-                        String problemid = tablemodel.getValueAt(row, 0).toString();
+                        String temp = tablemodel.getValueAt(row, 0).toString();
+                        int x = temp.indexOf('<', 9);
+                        String problemid = temp.substring(9, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -123,14 +133,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
                     evt.consume();
                     int row = MyProblemsTable.rowAtPoint(evt.getPoint());
                     int col = MyProblemsTable.columnAtPoint(evt.getPoint());
 
-                    if (row >= 0) {
+                    if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) MyProblemsTable.getModel();
-                        String problemid = tablemodel.getValueAt(row, 0).toString();
+                        String temp = tablemodel.getValueAt(row, 0).toString();
+                        int x = temp.indexOf('<', 9);
+                        String problemid = temp.substring(9, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -153,25 +165,29 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
                     evt.consume();
                     int row = StatusTable.rowAtPoint(evt.getPoint());
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
                         SubmissionShow subshow = new SubmissionShow();
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        subshow.setSubDetailsTable(tablemodel.getValueAt(row, 0), tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
+                        String temp = tablemodel.getValueAt(row, 0).toString();
+                        int x = temp.indexOf('<', 9);
+                        String submissionid = temp.substring(9, x);
+                        subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
 
-                        adminsocket.sendData("SrcCode-[" + tablemodel.getValueAt(row, 0).toString() + "]");
+                        adminsocket.sendData("SrcCode-[" + submissionid + "]");
                         NewSubmission submission = adminsocket.getSubmission();
                         subshow.setSourceCOde(submission);
 
                     } else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        String problemid = tablemodel.getValueAt(row, col).toString();
-                        int x = problemid.indexOf('-');
+                        String temp = tablemodel.getValueAt(row, 3).toString();
+                        int x = temp.indexOf('-',9);
+                        String problemid = temp.substring(9, x);
 
-                        adminsocket.sendData("ProbFile[" + problemid.substring(0, x) + "]");
+                        adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
                         try {
                             FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
@@ -183,15 +199,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
 
-                        if (!Desktop.isDesktopSupported()) {
-                            JOptionPane.showMessageDialog(null, "Desktop is not supported", "Error", JOptionPane.ERROR_MESSAGE);
-                        } else {
-                            try {
-                                Desktop.getDesktop().open(new File(problemid + ".pdf"));
-                            } catch (IOException ex) {
-                                JOptionPane.showMessageDialog(null, "Couldn't Open file", "Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        }
+                        ProblemShow problemshow = new ProblemShow();
+                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
@@ -200,16 +209,22 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                if (evt.getClickCount() == 2 && !evt.isConsumed()) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
                     evt.consume();
-                    int row = ProblemsetTable.rowAtPoint(evt.getPoint());
-                    int col = ProblemsetTable.columnAtPoint(evt.getPoint());
+                    int row = DelProblemsetTable.rowAtPoint(evt.getPoint());
+                    int col = DelProblemsetTable.columnAtPoint(evt.getPoint());
 
-                    if (row >= 0) {
+                    if (row >= 0 && (col == 0 || col == 1)) {
 
                         DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
-                        String problemid = tablemodel.getValueAt(row, 0).toString();
-                        String problemname = tablemodel.getValueAt(row, 1).toString();
+                        String temp;
+                        int x;
+                        temp = tablemodel.getValueAt(row, 0).toString();
+                        x = temp.indexOf('<', 9);
+                        String problemid = temp.substring(9, x);
+                        temp = tablemodel.getValueAt(row, 1).toString();
+                        x = temp.indexOf('<', 9);
+                        String problemname = temp.substring(9, x);
 
                         if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid + "-" + problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                             adminsocket.sendData("DelProb-[" + problemid + "]");
@@ -375,6 +390,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetTable.setOpaque(false);
         ProblemsetTable.setRequestFocusEnabled(false);
         ProblemsetTable.setRowHeight(25);
+        ProblemsetTable.setRowSelectionAllowed(false);
         ProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setShowHorizontalLines(false);
         ProblemsetTable.getTableHeader().setReorderingAllowed(false);
@@ -435,6 +451,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.setOpaque(false);
         MyProblemsTable.setRequestFocusEnabled(false);
         MyProblemsTable.setRowHeight(25);
+        MyProblemsTable.setRowSelectionAllowed(false);
         MyProblemsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         MyProblemsTable.setShowHorizontalLines(false);
         MyProblemsTable.getTableHeader().setReorderingAllowed(false);
@@ -609,6 +626,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.setOpaque(false);
         DelProblemsetTable.setRequestFocusEnabled(false);
         DelProblemsetTable.setRowHeight(25);
+        DelProblemsetTable.setRowSelectionAllowed(false);
         DelProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         DelProblemsetTable.setShowHorizontalLines(false);
         DelProblemsetTable.getTableHeader().setReorderingAllowed(false);
@@ -689,6 +707,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setOpaque(false);
         StatusTable.setRequestFocusEnabled(false);
         StatusTable.setRowHeight(25);
+        StatusTable.setRowSelectionAllowed(false);
         StatusTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         StatusTable.setShowHorizontalLines(false);
         StatusTable.getTableHeader().setReorderingAllowed(false);
@@ -772,7 +791,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 break;
             case 4:
 
-                adminsocket.sendData("StTable-[null]");
+                adminsocket.sendData("StTable-[nullad]");
                 table = adminsocket.getStatusTable();
                 if (table == null) {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);

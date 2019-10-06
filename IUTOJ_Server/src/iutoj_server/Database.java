@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javafx.scene.input.DataFormat.HTML;
+import static javax.swing.text.html.HTML.Tag.U;
 import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
@@ -288,8 +290,8 @@ public class Database {
             
             while(rs.next()){
                 x = rs.getRow()-1;
-                table[x][0] = Integer.toString(rs.getInt("ProblemID"));
-                table[x][1] = rs.getString("ProblemName");
+                table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
+                table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
                 table[x][2] = rs.getString("ProblemSetter");
                 System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]);
             }
@@ -307,7 +309,7 @@ public class Database {
     public synchronized String[][] getStatusTable(String identifier) {
         String query;
         System.out.println(identifier);
-        if (identifier.equals("null")) {
+        if (identifier.equals("nullad") || identifier.equals("nullus")) {
             query = "SELECT Submissions.SubmissionID AS SubmissionID, Submissions.SubmittedBy AS SubmittedBy, Submissions.ProblemID AS ProblemID, Problemset.ProblemName AS ProblemName, Submissions.Language AS Language, Submissions.TimeOfSubmission AS TimeOfSubmission, Submissions.Verdict AS Verdict, Submissions.TimeTaken AS TimeTaken FROM Submissions, Problemset WHERE Submissions.ProblemID=Problemset.ProblemID";
         } else {
             query = "SELECT Submissions.SubmissionID AS SubmissionID, Submissions.SubmittedBy AS SubmittedBy, Submissions.ProblemID AS ProblemID, Problemset.ProblemName AS ProblemName, Submissions.Language AS Language, Submissions.TimeOfSubmission AS TimeOfSubmission, Submissions.Verdict AS Verdict, Submissions.TimeTaken AS TimeTaken FROM Submissions, Problemset WHERE Submissions.ProblemID=Problemset.ProblemID and Submissions.Submittedby = '"+identifier+"'";
@@ -323,10 +325,15 @@ public class Database {
             
             while(rs.next()){
                 x = rs.getRow()-1;
-                table[x][0] = Integer.toString(rs.getInt("SubmissionID"));
+                if(identifier.equals("nullus")){
+                    table[x][0] = Integer.toString(rs.getInt("SubmissionID"));
+                }
+                else{
+                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("SubmissionID"))+"</U></HTML>";
+                }
                 table[x][1] = rs.getString("TimeOfSubmission");
                 table[x][2] = rs.getString("SubmittedBy");
-                table[x][3] = Integer.toString(rs.getInt("ProblemID"))+"-"+ rs.getString("ProblemName");
+                table[x][3] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"-"+ rs.getString("ProblemName")+"</U></HTML>";
                 table[x][4] = rs.getString("Language");
                 table[x][5] = rs.getString("Verdict");
                 table[x][6] = rs.getString("TimeTaken");

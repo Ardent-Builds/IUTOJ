@@ -6,17 +6,10 @@
 package iutoj_user;
 
 import java.awt.Font;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.text.Document;
-import javax.xml.parsers.DocumentBuilder;
 import newsubmission.NewSubmission;
 
 /**
@@ -66,6 +59,7 @@ public class SubmissionShow extends javax.swing.JFrame {
             }
         ));
         SubDetailsTable.setRowHeight(25);
+        SubDetailsTable.setRowSelectionAllowed(false);
         SubDetailsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         SubDetailsTable.setShowHorizontalLines(false);
         SubDetailsScrollPane.setViewportView(SubDetailsTable);
@@ -157,7 +151,6 @@ public class SubmissionShow extends javax.swing.JFrame {
         centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 
         SubDetailsTable.setDefaultRenderer(Object.class, centerRenderer);
-        SubDetailsTable.setModel(tablemodel);
         JTableHeader subdetailstableheader = SubDetailsTable.getTableHeader();
         ((DefaultTableCellRenderer)subdetailstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
     }

@@ -243,6 +243,7 @@
                         </Property>
                         <Property name="requestFocusEnabled" type="boolean" value="false"/>
                         <Property name="rowHeight" type="int" value="25"/>
+                        <Property name="rowSelectionAllowed" type="boolean" value="false"/>
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="cc" green="b5" red="0" type="rgb"/>
                         </Property>
@@ -536,6 +537,7 @@
                         <Property name="opaque" type="boolean" value="false"/>
                         <Property name="requestFocusEnabled" type="boolean" value="false"/>
                         <Property name="rowHeight" type="int" value="25"/>
+                        <Property name="rowSelectionAllowed" type="boolean" value="false"/>
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="cc" green="b5" red="0" type="rgb"/>
                         </Property>
@@ -644,6 +646,7 @@
                         <Property name="opaque" type="boolean" value="false"/>
                         <Property name="requestFocusEnabled" type="boolean" value="false"/>
                         <Property name="rowHeight" type="int" value="25"/>
+                        <Property name="rowSelectionAllowed" type="boolean" value="false"/>
                         <Property name="selectionBackground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="cc" green="b5" red="0" type="rgb"/>
                         </Property>
