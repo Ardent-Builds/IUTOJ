@@ -213,8 +213,28 @@ public class AdminDashboard extends javax.swing.JFrame {
                     evt.consume();
                     int row = DelProblemsetTable.rowAtPoint(evt.getPoint());
                     int col = DelProblemsetTable.columnAtPoint(evt.getPoint());
-
                     if (row >= 0 && (col == 0 || col == 1)) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
+                        String temp = tablemodel.getValueAt(row, 0).toString();
+                        int x = temp.indexOf('<', 9);
+                        String problemid = temp.substring(9, x);
+
+                        adminsocket.sendData("ProbFile[" + problemid + "]");
+                        NewProblem problem = adminsocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+                        ProblemShow problemshow = new ProblemShow();
+                        problemshow.viewPdf(new File(problemid + ".pdf"));
+                    }
+                    
+                    else if (row >= 0 && col == 3){
 
                         DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
                         String temp;
@@ -234,7 +254,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                             if (table == null) {
                                 JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                             } else {
-                                String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                                String[] columns = {"Problem ID", "Problem Name", "Problem Setter", " "};
                                 DefaultTableModel model = new DefaultTableModel(table, columns) {
                                     public boolean isCellEditable(int row, int col) {
                                         return false;
@@ -593,31 +613,31 @@ public class AdminDashboard extends javax.swing.JFrame {
         DelProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         DelProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Problem ID", "Problem Name", "Problem Setter"
+                "Problem ID", "Problem Name", "Problem Setter", ""
             }
         ));
         DelProblemsetTable.setFocusable(false);
@@ -902,12 +922,12 @@ public class AdminDashboard extends javax.swing.JFrame {
         int x = ManagePanelTabSwitcher.getSelectedIndex();
         if (x == 1) {
             Object[][] table;
-            adminsocket.sendData("PrbTable[My]");
+            adminsocket.sendData("PrbTable[MyDel]");
             table = adminsocket.getProblemTable();
             if (table == null) {
                 JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                String[] columns = {"Problem ID", "Problem Name", "Problem Setter"};
+                String[] columns = {"Problem ID", "Problem Name", "Problem Setter", " "};
                 DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                     public boolean isCellEditable(int row, int col) {
                         return false;

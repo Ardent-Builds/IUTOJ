@@ -272,7 +272,7 @@ public class Database {
 
     }
 
-    public synchronized String[][] getProblemTable(String identifier) {
+    public synchronized String[][] getProblemTable(String identifier, String identifier2) {
         String query;
         if (identifier.equals("null")) {
             query = "SELECT ProblemID, ProblemName, ProblemSetter FROM Problemset";
@@ -286,17 +286,34 @@ public class Database {
             rs = stmnt.executeQuery(query);
             
             int x;
-            String[][] table = new String[25][3];
+            if(identifier2.equals("MyDel")){
+                String[][] table = new String[25][4];
+                while(rs.next()){
+                    x = rs.getRow()-1;
+                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
+                    table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
+                    table[x][2] = rs.getString("ProblemSetter");
+                    table[x][3] = "<HTML><U>DELETE</U></HTML>";
+                
+                System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]+" "+table[x][3]);
+                }
+                return table;
+            }
+            else{
+                String[][] table = new String[25][3];
             
-            while(rs.next()){
-                x = rs.getRow()-1;
-                table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
-                table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
-                table[x][2] = rs.getString("ProblemSetter");
+                while(rs.next()){
+                    x = rs.getRow()-1;
+                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
+                    table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
+                    table[x][2] = rs.getString("ProblemSetter");
+                
                 System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]);
+                }
+                return table;
             }
             
-            return table;
+            
             
             
         } catch (SQLException ex) {

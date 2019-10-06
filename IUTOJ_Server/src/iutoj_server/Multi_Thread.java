@@ -113,11 +113,11 @@ public class Multi_Thread implements Runnable {
                     int x = data.indexOf(']', 9);
                     
                     String identifier = data.substring(9,x);
-                    System.out.println(identifier);
+                    String identifier2 = identifier;
+                    System.out.println(identifier); 
+                    if(identifier.equals("My") || identifier.equals("MyDel")) identifier = username;
                     
-                    if(identifier.equals("My")) identifier = username;
-                    
-                    if(sc.sendProblemTable(database.getProblemTable(identifier))){
+                    if(sc.sendProblemTable(database.getProblemTable(identifier, identifier2))){
                         System.out.println("ProblemTable Sent");
                     }
                     else{
@@ -170,7 +170,7 @@ public class Multi_Thread implements Runnable {
                     
                     database.deleteProblem(Integer.parseInt(identifier));
                     
-                    if(sc.sendProblemTable(database.getProblemTable(username))){
+                    if(sc.sendProblemTable(database.getProblemTable(username, "MyDel"))){
                         System.out.println("ProblemTable Sent");
                     }
                     else{
