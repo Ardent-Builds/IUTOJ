@@ -58,6 +58,7 @@ public class SubmissionShow extends javax.swing.JFrame {
                 "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"
             }
         ));
+        SubDetailsTable.setFocusable(false);
         SubDetailsTable.setRowHeight(25);
         SubDetailsTable.setRowSelectionAllowed(false);
         SubDetailsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));

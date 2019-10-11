@@ -290,12 +290,12 @@ public class Database {
                 String[][] table = new String[25][4];
                 while(rs.next()){
                     x = rs.getRow()-1;
-                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
-                    table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
+                    table[x][0] ="<HTML><U><FONT COLOR='BLUE'>"+Integer.toString(rs.getInt("ProblemID"))+"</FONT></U></HTML>";
+                    table[x][1] ="<HTML><U><FONT COLOR='BLUE'>"+rs.getString("ProblemName")+"</FONT></U></HTML>";
                     table[x][2] = rs.getString("ProblemSetter");
-                    table[x][3] = "<HTML><U>DELETE</U></HTML>";
+                    table[x][3] = "<HTML><U><FONT COLOR='RED'>DELETE</FONT></U></HTML>";
                 
-                System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]+" "+table[x][3]);
+                System.out.println(table[x][0]+" "+table[x][1]+" "+table[x][2]+" "+table[x][3]);
                 }
                 return table;
             }
@@ -304,8 +304,8 @@ public class Database {
             
                 while(rs.next()){
                     x = rs.getRow()-1;
-                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"</U></HTML>";
-                    table[x][1] ="<HTML><U>"+rs.getString("ProblemName")+"</U></HTML>";
+                    table[x][0] ="<HTML><U><FONT COLOR='BLUE'>"+Integer.toString(rs.getInt("ProblemID"))+"</FONT></U></HTML>";
+                    table[x][1] ="<HTML><U><FONT COLOR='BLUE'>"+rs.getString("ProblemName")+"</FONT></U></HTML>";
                     table[x][2] = rs.getString("ProblemSetter");
                 
                 System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]);
@@ -346,11 +346,11 @@ public class Database {
                     table[x][0] = Integer.toString(rs.getInt("SubmissionID"));
                 }
                 else{
-                    table[x][0] ="<HTML><U>"+Integer.toString(rs.getInt("SubmissionID"))+"</U></HTML>";
+                    table[x][0] ="<HTML><U><FONT COLOR='BLUE'>"+Integer.toString(rs.getInt("SubmissionID"))+"</FONT></U></HTML>";
                 }
                 table[x][1] = rs.getString("TimeOfSubmission");
                 table[x][2] = rs.getString("SubmittedBy");
-                table[x][3] ="<HTML><U>"+Integer.toString(rs.getInt("ProblemID"))+"-"+ rs.getString("ProblemName")+"</U></HTML>";
+                table[x][3] ="<HTML><U><FONT COLOR='BLUE'>"+Integer.toString(rs.getInt("ProblemID"))+"-"+ rs.getString("ProblemName")+"</FONT></U></HTML>";
                 table[x][4] = rs.getString("Language");
                 table[x][5] = rs.getString("Verdict");
                 table[x][6] = rs.getString("TimeTaken");

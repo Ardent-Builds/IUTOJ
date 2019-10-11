@@ -55,8 +55,8 @@ public class SubmissionShow extends javax.swing.JFrame {
                     if (row >= 0 && col == 2) {
                         DefaultTableModel tablemodel = (DefaultTableModel) SubDetailsTable.getModel();
                         String temp = tablemodel.getValueAt(row, 2).toString();
-                        int x = temp.indexOf('-',9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('-',28);
+                        String problemid = temp.substring(28, x);
 
                         usersocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = usersocket.getProblem();
@@ -110,6 +110,8 @@ public class SubmissionShow extends javax.swing.JFrame {
                 "#", "Author", "Problem ID", "Lang", "Verdict", "Time", "Submitted"
             }
         ));
+        SubDetailsTable.setFocusable(false);
+        SubDetailsTable.setRequestFocusEnabled(false);
         SubDetailsTable.setRowHeight(25);
         SubDetailsTable.setRowSelectionAllowed(false);
         SubDetailsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));

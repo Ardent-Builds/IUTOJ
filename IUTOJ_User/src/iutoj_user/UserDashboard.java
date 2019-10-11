@@ -45,14 +45,14 @@ public class UserDashboard extends javax.swing.JFrame {
         this.login = login;
 
         setBackground(new Color(0, 0, 0));
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() ; {
-//            @Override
-//            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//                c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
-//        
-//                return c;
-//            }
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
+        
+                return c;
+            }
 
         };
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -90,8 +90,8 @@ public class UserDashboard extends javax.swing.JFrame {
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        String problemid = temp.substring(28, x);
 
                         usersocket.sendData("ProbFile[" + problemid+"]");
                         NewProblem problem = usersocket.getProblem();
@@ -123,8 +123,8 @@ public class UserDashboard extends javax.swing.JFrame {
                     if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('-',28);
+                        String problemid = temp.substring(28, x);
 
                         usersocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = usersocket.getProblem();
@@ -155,8 +155,8 @@ public class UserDashboard extends javax.swing.JFrame {
                         SubmissionShow subshow = new SubmissionShow(usersocket,temporary);
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String submissionid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        String submissionid = temp.substring(28, x);
                         subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
                         
                         usersocket.sendData("SrcCode-["+ submissionid +"]");
@@ -166,8 +166,8 @@ public class UserDashboard extends javax.swing.JFrame {
                     }  else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('-',28);
+                        String problemid = temp.substring(28, x);
 
                         usersocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = usersocket.getProblem();

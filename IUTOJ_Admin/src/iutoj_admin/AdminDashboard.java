@@ -108,8 +108,9 @@ public class AdminDashboard extends javax.swing.JFrame {
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        System.out.println(temp+'\n'+x);
+                        String problemid = temp.substring(28, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -141,8 +142,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) MyProblemsTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        String problemid = temp.substring(28, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -173,8 +174,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                         SubmissionShow subshow = new SubmissionShow();
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String submissionid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        String submissionid = temp.substring(28, x);
                         subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
 
                         adminsocket.sendData("SrcCode-[" + submissionid + "]");
@@ -184,8 +185,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                     } else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('-',28);
+                        String problemid = temp.substring(28, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -216,8 +217,8 @@ public class AdminDashboard extends javax.swing.JFrame {
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 9);
-                        String problemid = temp.substring(9, x);
+                        int x = temp.indexOf('<', 28);
+                        String problemid = temp.substring(28, x);
 
                         adminsocket.sendData("ProbFile[" + problemid + "]");
                         NewProblem problem = adminsocket.getProblem();
@@ -240,11 +241,11 @@ public class AdminDashboard extends javax.swing.JFrame {
                         String temp;
                         int x;
                         temp = tablemodel.getValueAt(row, 0).toString();
-                        x = temp.indexOf('<', 9);
-                        String problemid = temp.substring(9, x);
+                        x = temp.indexOf('<', 28);
+                        String problemid = temp.substring(28, x);
                         temp = tablemodel.getValueAt(row, 1).toString();
-                        x = temp.indexOf('<', 9);
-                        String problemname = temp.substring(9, x);
+                        x = temp.indexOf('<', 28);
+                        String problemname = temp.substring(28, x);
 
                         if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid + "-" + problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                             adminsocket.sendData("DelProb-[" + problemid + "]");
