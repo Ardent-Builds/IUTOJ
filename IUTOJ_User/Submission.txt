@@ -1,8 +1,9 @@
-#include<bits/stdc++.h>
-using namespace std;
-
-int main()
-{
-while(1){}
-return 0;
-}
+hunky[anskljfklsdf
+sfsjweklfs
+fs
+f
+sd
+fsd
+fafef
+s
+dfs

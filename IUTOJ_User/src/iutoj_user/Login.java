@@ -204,7 +204,7 @@ public class Login extends javax.swing.JFrame {
         if(datain != null){
             if(datain.equals("LoginTrue")){
                 JOptionPane.showMessageDialog(null,"Login Successful!","Status",JOptionPane.INFORMATION_MESSAGE);
-                dashboard = new UserDashboard(usersocket);
+                dashboard = new UserDashboard(usersocket,this);
                 dashboard.setVisible(rootPaneCheckingEnabled);
                 this.setVisible(false);
             }

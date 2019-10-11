@@ -221,7 +221,7 @@ public class CompileAndRun implements Runnable {
         boolean ErrBeforeCompareOutput = false;
         switch (submission.getLanguage()) {
             case "C":
-                if (compileC() < 0) {
+                if (compileC() != 0) {
                     db.updateVerdict(submissionID, "Compilation Error",-1);
                     ErrBeforeCompareOutput = true;
                 } else {
@@ -238,7 +238,7 @@ public class CompileAndRun implements Runnable {
 
                 break;
             case "C++":
-                if (compileCpp() < 0) {
+                if (compileCpp() != 0) {
                     db.updateVerdict(submissionID, "Compilation Error",-1);
                     ErrBeforeCompareOutput = true;
                  
@@ -255,7 +255,7 @@ public class CompileAndRun implements Runnable {
                 }
                 break;
             case "Java":
-                if (compileJava() < 0) {
+                if (compileJava() != 0) {
                     db.updateVerdict(submissionID, "Compilation Error",-1);
                     ErrBeforeCompareOutput = true;
                 } else {

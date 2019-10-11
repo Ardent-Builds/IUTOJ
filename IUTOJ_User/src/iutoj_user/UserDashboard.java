@@ -7,7 +7,6 @@ package iutoj_user;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Font;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,20 +35,24 @@ public class UserDashboard extends javax.swing.JFrame {
      */
     private final UserSocket usersocket;
     private File codefile;
-    UserDashboard temp;
-    public UserDashboard(UserSocket usersocket) {
+    private UserDashboard temporary;
+    private Login login;
+    public UserDashboard(UserSocket usersocket, Login login) {
         initComponents();
         this.usersocket = usersocket;
         this.codefile = null;
+        temporary = this;
+        this.login = login;
 
         setBackground(new Color(0, 0, 0));
-        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
-                return c;
-            }
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() ; {
+//            @Override
+//            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//                c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
+//        
+//                return c;
+//            }
 
         };
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -102,8 +105,8 @@ public class UserDashboard extends javax.swing.JFrame {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
 
-                        ProblemShow problemshow = new ProblemShow();
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
+                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
+                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
                         
                     }
                 }
@@ -134,8 +137,8 @@ public class UserDashboard extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
-                        ProblemShow problemshow = new ProblemShow();
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
+                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
+                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
                     }
                 }
             }
@@ -149,7 +152,7 @@ public class UserDashboard extends javax.swing.JFrame {
                     int row = StatusTable.rowAtPoint(evt.getPoint());
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
-                        SubmissionShow subshow = new SubmissionShow();
+                        SubmissionShow subshow = new SubmissionShow(usersocket,temporary);
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
                         int x = temp.indexOf('<', 9);
@@ -158,7 +161,7 @@ public class UserDashboard extends javax.swing.JFrame {
                         
                         usersocket.sendData("SrcCode-["+ submissionid +"]");
                         NewSubmission submission = usersocket.getSubmission();
-                        subshow.setSourceCOde(submission);
+                        subshow.setSourceCode(submission);
                         
                     }  else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
@@ -178,8 +181,8 @@ public class UserDashboard extends javax.swing.JFrame {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
                         
-                        ProblemShow problemshow = new ProblemShow();
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
+                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
+                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
                         
                     }
                 }
@@ -197,6 +200,7 @@ public class UserDashboard extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel6 = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -239,8 +243,10 @@ public class UserDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 181, 204));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jDesktopPane1.setLayout(new java.awt.BorderLayout());
 
         UserDashboardTabSwitcher.setBackground(new java.awt.Color(255, 255, 255));
         UserDashboardTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
@@ -253,13 +259,17 @@ public class UserDashboard extends javax.swing.JFrame {
         });
 
         HomePanel.setBackground(new java.awt.Color(255, 255, 255));
-        HomePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        HomePanel.setLayout(new java.awt.GridBagLayout());
 
         WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
         WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WelcomeLabel.setText("Welcome To IUTOJ");
-        HomePanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 137, -1, 167));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(43, 40, 95, 40);
+        HomePanel.add(WelcomeLabel, gridBagConstraints);
 
         LogOutButton.setBackground(new java.awt.Color(0, 181, 204));
         LogOutButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -273,11 +283,18 @@ public class UserDashboard extends javax.swing.JFrame {
                 LogOutButtonActionPerformed(evt);
             }
         });
-        HomePanel.add(LogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, 90, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 20;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.BELOW_BASELINE;
+        gridBagConstraints.insets = new java.awt.Insets(38, 38, 0, 38);
+        HomePanel.add(LogOutButton, gridBagConstraints);
 
         UserDashboardTabSwitcher.addTab("Home", HomePanel);
 
-        ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        ProblemsetPanel.setLayout(new java.awt.BorderLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
@@ -330,34 +347,78 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
         ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
-        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        ProblemsetPanel.add(ProblemSetjScrollPane, java.awt.BorderLayout.CENTER);
 
         UserDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
 
         SubmitSolPanel.setBackground(new java.awt.Color(255, 255, 255));
-        SubmitSolPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        SubmitSolPanel.setLayout(new java.awt.GridBagLayout());
 
         ChooseFileLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         ChooseFileLabel.setForeground(new java.awt.Color(0, 181, 204));
         ChooseFileLabel.setText("Or choose File:");
-        SubmitSolPanel.add(ChooseFileLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 500, 160, 30));
-        SubmitSolPanel.add(txtProblemID, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 170, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 43;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 50, 0, 0);
+        SubmitSolPanel.add(ChooseFileLabel, gridBagConstraints);
+
+        txtProblemID.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.ipadx = 156;
+        gridBagConstraints.ipady = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(40, 0, 0, 0);
+        SubmitSolPanel.add(txtProblemID, gridBagConstraints);
 
         ProblemIDLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         ProblemIDLabel.setForeground(new java.awt.Color(0, 181, 204));
         ProblemIDLabel.setText("Problem ID: ");
-        SubmitSolPanel.add(ProblemIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 160, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 61;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(40, 40, 0, 0);
+        SubmitSolPanel.add(ProblemIDLabel, gridBagConstraints);
 
         LanguageLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         LanguageLabel.setForeground(new java.awt.Color(0, 181, 204));
         LanguageLabel.setText("Language: ");
-        SubmitSolPanel.add(LanguageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 160, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.ipadx = 74;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 40, 0, 0);
+        SubmitSolPanel.add(LanguageLabel, gridBagConstraints);
 
         SourceCodeTextArea.setColumns(20);
         SourceCodeTextArea.setRows(5);
         SourceCodeScrollPane.setViewportView(SourceCodeTextArea);
 
-        SubmitSolPanel.add(SourceCodeScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 140, 560, 340));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 7;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 540;
+        gridBagConstraints.ipady = 320;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(18, 0, 0, 160);
+        SubmitSolPanel.add(SourceCodeScrollPane, gridBagConstraints);
 
         LanguageComboBox.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         LanguageComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "C", "C++", "Java" }));
@@ -366,12 +427,26 @@ public class UserDashboard extends javax.swing.JFrame {
                 LanguageComboBoxActionPerformed(evt);
             }
         });
-        SubmitSolPanel.add(LanguageComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 90, -1, -1));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        SubmitSolPanel.add(LanguageComboBox, gridBagConstraints);
 
         SourceCodeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
         SourceCodeLabel.setForeground(new java.awt.Color(0, 181, 204));
         SourceCodeLabel.setText("Source Code:");
-        SubmitSolPanel.add(SourceCodeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 160, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 55;
+        gridBagConstraints.ipady = 20;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(8, 40, 0, 0);
+        SubmitSolPanel.add(SourceCodeLabel, gridBagConstraints);
 
         ChooseFileButton.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
         ChooseFileButton.setText("Choose File");
@@ -380,7 +455,15 @@ public class UserDashboard extends javax.swing.JFrame {
                 ChooseFileButtonActionPerformed(evt);
             }
         });
-        SubmitSolPanel.add(ChooseFileButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 500, 120, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.ipady = -2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        SubmitSolPanel.add(ChooseFileButton, gridBagConstraints);
 
         SubmitButton.setBackground(new java.awt.Color(0, 181, 204));
         SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -394,11 +477,19 @@ public class UserDashboard extends javax.swing.JFrame {
                 SubmitButtonActionPerformed(evt);
             }
         });
-        SubmitSolPanel.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, 90, 40));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.ipadx = 25;
+        gridBagConstraints.ipady = 18;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(40, 100, 60, 0);
+        SubmitSolPanel.add(SubmitButton, gridBagConstraints);
 
         UserDashboardTabSwitcher.addTab("Submit Solution", SubmitSolPanel);
 
-        StatusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        StatusPanel.setLayout(new java.awt.BorderLayout());
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
@@ -447,11 +538,11 @@ public class UserDashboard extends javax.swing.JFrame {
         StatusTable.getTableHeader().setReorderingAllowed(false);
         StatusScrollPane.setViewportView(StatusTable);
 
-        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        StatusPanel.add(StatusScrollPane, java.awt.BorderLayout.CENTER);
 
         UserDashboardTabSwitcher.addTab("Status", StatusPanel);
 
-        MySubPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        MySubPanel.setLayout(new java.awt.BorderLayout());
 
         MySubScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
@@ -500,32 +591,13 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubTable.getTableHeader().setReorderingAllowed(false);
         MySubScrollPane.setViewportView(MySubTable);
 
-        MySubPanel.add(MySubScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        MySubPanel.add(MySubScrollPane, java.awt.BorderLayout.CENTER);
 
         UserDashboardTabSwitcher.addTab("My Submissions", MySubPanel);
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UserDashboardTabSwitcher)
-        );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(UserDashboardTabSwitcher)
-        );
-        jDesktopPane1.setLayer(UserDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.add(UserDashboardTabSwitcher, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
+        getContentPane().add(jDesktopPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -550,7 +622,7 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
     public void setTab(int x, String ID){
-        UserDashboardTabSwitcher.setTabPlacement(x);
+        UserDashboardTabSwitcher.setSelectedIndex(x);
         txtProblemID.setText(ID);
         txtProblemID.setEditable(false);
     }
@@ -581,7 +653,8 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-        // TODO add your handling code here:
+       login.setVisible(true);
+       this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
     private void UserDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserDashboardTabSwitcherMouseClicked

@@ -32,116 +32,117 @@ public class ProblemShow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         ProblemNameLabel = new javax.swing.JLabel();
         TimeLimitLabel = new javax.swing.JLabel();
         MemoryLimitLabel = new javax.swing.JLabel();
-        SubmitButton = new javax.swing.JButton();
-        viewerScrollPane = new javax.swing.JScrollPane();
         Separator = new javax.swing.JSeparator();
+        pdfviewerpanel = new javax.swing.JPanel();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1920, 1080));
-        setSize(new java.awt.Dimension(1920, 1080));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1920, 1440));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+        setSize(new java.awt.Dimension(1920, 1440));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setMaximumSize(new java.awt.Dimension(1920, 1440));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1280, 960));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1280, 960));
+        jPanel1.setLayout(new java.awt.GridBagLayout());
 
         ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
         ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
         ProblemNameLabel.setText("Problem Name");
-        jPanel1.add(ProblemNameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 0, 280, 50));
+        ProblemNameLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 5, 5, 5);
+        jPanel1.add(ProblemNameLabel, gridBagConstraints);
 
         TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         TimeLimitLabel.setText("Time Limit:");
-        jPanel1.add(TimeLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 60, 140, 30));
+        TimeLimitLabel.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 170, 0, 170);
+        jPanel1.add(TimeLimitLabel, gridBagConstraints);
 
         MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         MemoryLimitLabel.setText("Memory Limit:");
-        jPanel1.add(MemoryLimitLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 100, 180, 30));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 170, 0, 170);
+        jPanel1.add(MemoryLimitLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 1260;
+        gridBagConstraints.ipady = 5;
+        jPanel1.add(Separator, gridBagConstraints);
 
-        SubmitButton.setBackground(new java.awt.Color(0, 181, 204));
-        SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
-        SubmitButton.setForeground(new java.awt.Color(0, 181, 204));
-        SubmitButton.setText("Submit");
-        SubmitButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
-        SubmitButton.setContentAreaFilled(false);
-        SubmitButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        SubmitButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        SubmitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SubmitButtonButtonActionPerformed(evt);
-            }
-        });
-        jPanel1.add(SubmitButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 140, 170, 40));
-        jPanel1.add(viewerScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 1920, 880));
-        jPanel1.add(Separator, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 1930, 20));
+        pdfviewerpanel.setMaximumSize(new java.awt.Dimension(1260, 960));
+        pdfviewerpanel.setPreferredSize(new java.awt.Dimension(1260, 600));
+        pdfviewerpanel.setLayout(new java.awt.BorderLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 1260;
+        gridBagConstraints.ipady = 565;
+        jPanel1.add(pdfviewerpanel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 2;
+        jPanel1.add(filler1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.ipadx = 2;
+        jPanel1.add(filler2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(filler3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        jPanel1.add(filler4, gridBagConstraints);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void SubmitButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SubmitButtonButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProblemShow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ProblemShow().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel MemoryLimitLabel;
     private javax.swing.JLabel ProblemNameLabel;
     private javax.swing.JSeparator Separator;
-    private javax.swing.JButton SubmitButton;
     private javax.swing.JLabel TimeLimitLabel;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane viewerScrollPane;
+    private javax.swing.JPanel pdfviewerpanel;
     // End of variables declaration//GEN-END:variables
 
     void viewPdf(File problem){
@@ -149,7 +150,8 @@ public class ProblemShow extends javax.swing.JFrame {
         controller.setToolBarVisible(false);
         SwingViewBuilder factory = new SwingViewBuilder(controller);
         JPanel viwerpanel = factory.buildViewerPanel();
-        viewerScrollPane.setViewportView(viwerpanel);
+        viwerpanel.setSize(1260, 560);
+        pdfviewerpanel.add(viwerpanel);
         controller.openDocument(problem.getAbsolutePath());
     }
 }

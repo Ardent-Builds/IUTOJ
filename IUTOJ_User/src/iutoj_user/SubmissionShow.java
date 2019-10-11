@@ -5,11 +5,25 @@
  */
 package iutoj_user;
 
+import java.awt.AWTException;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
 /**
@@ -18,13 +32,51 @@ import newsubmission.NewSubmission;
  */
 public class SubmissionShow extends javax.swing.JFrame {
 
-    public SubmissionShow() {
+    
+    UserSocket usersocket;
+    UserDashboard temporary;
+    public SubmissionShow(UserSocket usersocket, UserDashboard dashboard) {
         initComponents();
 
+        this.usersocket = usersocket;
+        this.temporary = dashboard;
         SubDetailsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         SubDetailsTable.setRowHeight(25);
 
         this.setVisible(rootPaneCheckingEnabled);
+        
+        SubDetailsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = SubDetailsTable.rowAtPoint(evt.getPoint());
+                    int col = SubDetailsTable.columnAtPoint(evt.getPoint());
+                    if (row >= 0 && col == 2) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) SubDetailsTable.getModel();
+                        String temp = tablemodel.getValueAt(row, 2).toString();
+                        int x = temp.indexOf('-',9);
+                        String problemid = temp.substring(9, x);
+
+                        usersocket.sendData("ProbFile[" + problemid + "]");
+                        NewProblem problem = usersocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
+                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
+                    }
+                }
+            }
+        });
+        
+        
     }
 
     /**
@@ -132,7 +184,17 @@ public class SubmissionShow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopyButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            SourceCodeTextArea.getToolkit().getSystemClipboard().setContents(new StringSelection(SourceCodeTextArea.getText()), null);
+            Image img = Toolkit.getDefaultToolkit().createImage("icon.png");
+            SystemTray tray = SystemTray.getSystemTray();
+            TrayIcon trayicon = new TrayIcon(img);
+            tray.add(trayicon);
+            trayicon.displayMessage("Source Code", "Code Copied", TrayIcon.MessageType.INFO);
+        } catch (AWTException ex) {
+            Logger.getLogger(SubmissionShow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_CopyButtonActionPerformed
 
     public void setSubDetailsTable(Object subID, Object author, Object problem, Object lang, Object verdict, Object time, Object submitted) {
@@ -155,7 +217,7 @@ public class SubmissionShow extends javax.swing.JFrame {
         ((DefaultTableCellRenderer)subdetailstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
     }
     
-    public void setSourceCOde(NewSubmission submission){
+    public void setSourceCode(NewSubmission submission){
         SourceCodeTextArea.setTabSize(4);
         SourceCodeTextArea.setText(new String(submission.getCodeF()));
         
