@@ -7,25 +7,15 @@ package iutoj_admin;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +41,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents();
         this.adminsocket = adminsocket;
         this.parent = parent;
+        
         setBackground(new Color(0, 0, 0));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -62,8 +53,6 @@ public class AdminDashboard extends javax.swing.JFrame {
 
         };
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-
-        //TableCellRenderer cellRenderer = StatusTable.getCellRenderer(2, 3);
 
         StatusTable.setDefaultRenderer(Object.class,centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -124,7 +113,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
                         
-                        ProblemShow problemshow = new ProblemShow();
+                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
                         problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
@@ -156,7 +145,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
-                        ProblemShow problemshow = new ProblemShow();
+                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
                         problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
@@ -171,7 +160,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                     int row = StatusTable.rowAtPoint(evt.getPoint());
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
-                        SubmissionShow subshow = new SubmissionShow();
+                        SubmissionShow subshow = new SubmissionShow(adminsocket);
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
                         String temp = tablemodel.getValueAt(row, 0).toString();
                         int x = temp.indexOf('<', 28);
@@ -200,7 +189,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
 
-                        ProblemShow problemshow = new ProblemShow();
+                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
                         problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
@@ -231,7 +220,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                         } catch (IOException ex) {
                             System.out.println("At probshow problem write Err: " + ex.getMessage());
                         }
-                        ProblemShow problemshow = new ProblemShow();
+                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
                         problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                     
@@ -305,9 +294,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemNameLabel = new javax.swing.JLabel();
         TimeLimitLabel = new javax.swing.JLabel();
         txtProblemName = new javax.swing.JTextField();
-        txtTimeLimit = new javax.swing.JTextField();
-        txtMemoryLimit = new javax.swing.JTextField();
         SubmitButton = new javax.swing.JButton();
+        txtTimeLimit = new javax.swing.JFormattedTextField();
+        txtMemoryLimit = new javax.swing.JFormattedTextField();
         DeleteProblemPanel = new javax.swing.JPanel();
         DelProblemSetjScrollPane = new javax.swing.JScrollPane();
         DelProblemsetTable = new javax.swing.JTable();
@@ -343,13 +332,11 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
 
         HomePanel.setBackground(new java.awt.Color(255, 255, 255));
-        HomePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
         WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
         WelcomeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         WelcomeLabel.setText("Welcome To IUTOJ");
-        HomePanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 137, -1, 167));
 
         LogOutButton.setBackground(new java.awt.Color(0, 181, 204));
         LogOutButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -363,11 +350,31 @@ public class AdminDashboard extends javax.swing.JFrame {
                 LogOutButtonActionPerformed(evt);
             }
         });
-        HomePanel.add(LogOutButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 520, 90, 40));
+
+        javax.swing.GroupLayout HomePanelLayout = new javax.swing.GroupLayout(HomePanel);
+        HomePanel.setLayout(HomePanelLayout);
+        HomePanelLayout.setHorizontalGroup(
+            HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HomePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(WelcomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, HomePanelLayout.createSequentialGroup()
+                .addContainerGap(381, Short.MAX_VALUE)
+                .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(382, Short.MAX_VALUE))
+        );
+        HomePanelLayout.setVerticalGroup(
+            HomePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HomePanelLayout.createSequentialGroup()
+                .addGap(200, 200, 200)
+                .addComponent(WelcomeLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addComponent(LogOutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
+        );
 
         AdminDashboardTabSwitcher.addTab("Home", HomePanel);
-
-        ProblemsetPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
@@ -408,6 +415,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemsetTable.setFocusable(false);
         ProblemsetTable.setGridColor(new java.awt.Color(255, 255, 255));
         ProblemsetTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        ProblemsetTable.setMinimumSize(new java.awt.Dimension(0, 0));
         ProblemsetTable.setOpaque(false);
         ProblemsetTable.setRequestFocusEnabled(false);
         ProblemsetTable.setRowHeight(25);
@@ -423,11 +431,22 @@ public class AdminDashboard extends javax.swing.JFrame {
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
         ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
-        ProblemsetPanel.add(ProblemSetjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        javax.swing.GroupLayout ProblemsetPanelLayout = new javax.swing.GroupLayout(ProblemsetPanel);
+        ProblemsetPanel.setLayout(ProblemsetPanelLayout);
+        ProblemsetPanelLayout.setHorizontalGroup(
+            ProblemsetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProblemsetPanelLayout.createSequentialGroup()
+                .addComponent(ProblemSetjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        ProblemsetPanelLayout.setVerticalGroup(
+            ProblemsetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProblemsetPanelLayout.createSequentialGroup()
+                .addComponent(ProblemSetjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
 
         AdminDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
-
-        MyProblemsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         MyProblemsjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         MyProblemsjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
@@ -469,6 +488,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         MyProblemsTable.setFocusable(false);
         MyProblemsTable.setGridColor(new java.awt.Color(255, 255, 255));
         MyProblemsTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        MyProblemsTable.setMinimumSize(new java.awt.Dimension(0, 0));
         MyProblemsTable.setOpaque(false);
         MyProblemsTable.setRequestFocusEnabled(false);
         MyProblemsTable.setRowHeight(25);
@@ -483,13 +503,25 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         MyProblemsjScrollPane.setViewportView(MyProblemsTable);
 
-        MyProblemsPanel.add(MyProblemsjScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        javax.swing.GroupLayout MyProblemsPanelLayout = new javax.swing.GroupLayout(MyProblemsPanel);
+        MyProblemsPanel.setLayout(MyProblemsPanelLayout);
+        MyProblemsPanelLayout.setHorizontalGroup(
+            MyProblemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MyProblemsPanelLayout.createSequentialGroup()
+                .addComponent(MyProblemsjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        MyProblemsPanelLayout.setVerticalGroup(
+            MyProblemsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MyProblemsPanelLayout.createSequentialGroup()
+                .addComponent(MyProblemsjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
 
         AdminDashboardTabSwitcher.addTab("My Problems", MyProblemsPanel);
 
         ManagePanel.setBackground(new java.awt.Color(255, 255, 255));
         ManagePanel.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
-        ManagePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ManagePanelTabSwitcher.setForeground(new java.awt.Color(0, 181, 204));
         ManagePanelTabSwitcher.setFont(new java.awt.Font("Segoe UI Emoji", 0, 18)); // NOI18N
@@ -552,58 +584,62 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
 
+        txtTimeLimit.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
+        txtMemoryLimit.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+
         javax.swing.GroupLayout AddProblemPanelLayout = new javax.swing.GroupLayout(AddProblemPanel);
         AddProblemPanel.setLayout(AddProblemPanelLayout);
         AddProblemPanelLayout.setHorizontalGroup(
             AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addGap(100, 100, 100)
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ChProblemStatementButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddInputButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AddOutputButton, javax.swing.GroupLayout.DEFAULT_SIZE, 384, Short.MAX_VALUE)
                     .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                        .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtProblemName, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(ChProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddInputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(AddOutputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtProblemName, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE))
                     .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                        .addComponent(TimeLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(TimeLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTimeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtTimeLimit))
                     .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                        .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(txtMemoryLimit)))
+                .addGap(367, 367, 367))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddProblemPanelLayout.createSequentialGroup()
-                .addContainerGap(459, Short.MAX_VALUE)
-                .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(369, 369, 369))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         AddProblemPanelLayout.setVerticalGroup(
             AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(AddProblemPanelLayout.createSequentialGroup()
-                .addGap(82, 82, 82)
+                .addGap(50, 50, 50)
                 .addComponent(ChProblemStatementButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(AddInputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
                 .addComponent(AddOutputButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addGap(100, 100, 100)
                 .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ProblemNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtProblemName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TimeLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTimeLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TimeLimitLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(txtTimeLimit))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtMemoryLimit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
-                .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(AddProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(MemoryLimitLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addComponent(txtMemoryLimit))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(SubmitButton)
+                .addGap(50, 50, 50))
         );
 
         ManagePanelTabSwitcher.addTab("Add Problem", AddProblemPanel);
@@ -662,30 +698,35 @@ public class AdminDashboard extends javax.swing.JFrame {
         DeleteProblemPanel.setLayout(DeleteProblemPanelLayout);
         DeleteProblemPanelLayout.setHorizontalGroup(
             DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 920, Short.MAX_VALUE)
+            .addGap(0, 851, Short.MAX_VALUE)
             .addGroup(DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(DeleteProblemPanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(DelProblemSetjScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(DelProblemSetjScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 851, Short.MAX_VALUE))
         );
         DeleteProblemPanelLayout.setVerticalGroup(
             DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 576, Short.MAX_VALUE)
+            .addGap(0, 532, Short.MAX_VALUE)
             .addGroup(DeleteProblemPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(DeleteProblemPanelLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(DelProblemSetjScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(DelProblemSetjScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE))
         );
 
         ManagePanelTabSwitcher.addTab("Delete Problem", DeleteProblemPanel);
 
-        ManagePanel.add(ManagePanelTabSwitcher, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 610));
+        javax.swing.GroupLayout ManagePanelLayout = new javax.swing.GroupLayout(ManagePanel);
+        ManagePanel.setLayout(ManagePanelLayout);
+        ManagePanelLayout.setHorizontalGroup(
+            ManagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ManagePanelLayout.createSequentialGroup()
+                .addComponent(ManagePanelTabSwitcher)
+                .addGap(0, 0, 0))
+        );
+        ManagePanelLayout.setVerticalGroup(
+            ManagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ManagePanelLayout.createSequentialGroup()
+                .addComponent(ManagePanelTabSwitcher)
+                .addGap(0, 0, 0))
+        );
 
         AdminDashboardTabSwitcher.addTab("Manage", ManagePanel);
-
-        StatusPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         StatusScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
 
@@ -739,36 +780,40 @@ public class AdminDashboard extends javax.swing.JFrame {
         });
         StatusScrollPane.setViewportView(StatusTable);
 
-        StatusPanel.add(StatusScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 620));
+        javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
+        StatusPanel.setLayout(StatusPanelLayout);
+        StatusPanelLayout.setHorizontalGroup(
+            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StatusScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 853, Short.MAX_VALUE)
+        );
+        StatusPanelLayout.setVerticalGroup(
+            StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
+                .addComponent(StatusScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
+
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
         AdminDashboardDesktopPaneLayout.setHorizontalGroup(
             AdminDashboardDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AdminDashboardTabSwitcher)
+            .addGroup(AdminDashboardDesktopPaneLayout.createSequentialGroup()
+                .addComponent(AdminDashboardTabSwitcher)
+                .addGap(0, 0, 0))
         );
         AdminDashboardDesktopPaneLayout.setVerticalGroup(
             AdminDashboardDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AdminDashboardDesktopPaneLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(AdminDashboardTabSwitcher, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(AdminDashboardDesktopPaneLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(AdminDashboardTabSwitcher)
+                .addContainerGap())
         );
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(AdminDashboardDesktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(AdminDashboardDesktopPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+        getContentPane().add(AdminDashboardDesktopPane, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -847,17 +892,29 @@ public class AdminDashboard extends javax.swing.JFrame {
         String problemname = txtProblemName.getText();
         String timelimit = txtTimeLimit.getText();
         String memorylimit = txtMemoryLimit.getText();
-
-        //        if(problem!=null && inputs!=null && outputs!=null){
+       if(problemname.length()<=0||timelimit.length()<=0||memorylimit.length()<=0){
+           JOptionPane.showMessageDialog(null, "Please fill Problem Name, Timelimit, Memorylimit", "Error", JOptionPane.ERROR_MESSAGE);
+           return;
+       }
+       
+       if(Integer.parseInt(timelimit)<0||Integer.parseInt(memorylimit)<0){
+               JOptionPane.showMessageDialog(null, "Timelimit or Memorylimit cannot be negative", "Error", JOptionPane.ERROR_MESSAGE);
+               return;
+       }
+       
+       if(inputs == null||problem == null || outputs == null){
+           JOptionPane.showMessageDialog(null, "Missing Files", "Error", JOptionPane.ERROR_MESSAGE);
+           return;
+       }
+        
         try {
             adminsocket.sendData("AddProb-[" + problem.getName() + "][" + inputs.getName() + "][" + outputs.getName() + "]");
             if (adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit) > 0) {
                 JOptionPane.showMessageDialog(null, "Problem file Sent", "Status", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (IOException ex) {
-            Logger.getLogger(AdminDashboard.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Problem Submission failed\nCheck Connection", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        //        }
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void AddInputButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddInputButtonActionPerformed
@@ -869,7 +926,15 @@ public class AdminDashboard extends javax.swing.JFrame {
         inputs = filemanager.getSelectedFile();
 
         if (inputs != null) {
-            AddInputButton.setText(inputs.getName());
+            String extension = inputs.getName();
+            int x = extension.lastIndexOf('.');
+            if(x>0) extension = extension.substring(x);
+            
+            if(extension.equals(".txt"))
+                AddInputButton.setText(inputs.getName());
+            else
+                JOptionPane.showMessageDialog(null, "Select txt file", "Error", JOptionPane.ERROR_MESSAGE);
+            
         } else {
             JOptionPane.showMessageDialog(null, "Input files missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -883,8 +948,19 @@ public class AdminDashboard extends javax.swing.JFrame {
         filemanager.showOpenDialog(this);
         problem = filemanager.getSelectedFile();
         if (problem != null) {
-            ChProblemStatementButton.setText(problem.getName());
-
+            
+            String extension = problem.getName();
+            int x = extension.lastIndexOf('.');
+            if(x>0) extension = extension.substring(x);
+            
+            if(extension.equals(".pdf")||extension.equals(".PDF"))
+               ChProblemStatementButton.setText(problem.getName());
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Select pdf file", "Error", JOptionPane.ERROR_MESSAGE);
+                problem = null;
+            }
+            
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -899,7 +975,14 @@ public class AdminDashboard extends javax.swing.JFrame {
         filemanager.showOpenDialog(this);
         outputs = filemanager.getSelectedFile();
         if (outputs != null) {
-            AddOutputButton.setText(outputs.getName());
+            String extension = outputs.getName();
+            int x = extension.lastIndexOf('.');
+            if(x>0) extension = extension.substring(x);
+            
+            if(extension.equals(".txt"))
+                AddOutputButton.setText(outputs.getName());
+            else
+                JOptionPane.showMessageDialog(null, "Select txt file", "Error", JOptionPane.ERROR_MESSAGE);
 
         } else {
             JOptionPane.showMessageDialog(null, "Output file missing", "Error", JOptionPane.ERROR_MESSAGE);
@@ -969,8 +1052,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel TimeLimitLabel;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JTextField txtMemoryLimit;
+    private javax.swing.JFormattedTextField txtMemoryLimit;
     private javax.swing.JTextField txtProblemName;
-    private javax.swing.JTextField txtTimeLimit;
+    private javax.swing.JFormattedTextField txtTimeLimit;
     // End of variables declaration//GEN-END:variables
 }

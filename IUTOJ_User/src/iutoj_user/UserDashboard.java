@@ -149,8 +149,8 @@ public class UserDashboard extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 1 && !evt.isConsumed()) {
                     evt.consume();
-                    int row = StatusTable.rowAtPoint(evt.getPoint());
-                    int col = StatusTable.columnAtPoint(evt.getPoint());
+                    int row = MySubTable.rowAtPoint(evt.getPoint());
+                    int col = MySubTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
                         SubmissionShow subshow = new SubmissionShow(usersocket,temporary);
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
@@ -164,7 +164,7 @@ public class UserDashboard extends javax.swing.JFrame {
                         subshow.setSourceCode(submission);
                         
                     }  else if (row >= 0 && col == 3) {
-                        DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
+                        DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
                         String temp = tablemodel.getValueAt(row, 3).toString();
                         int x = temp.indexOf('-',28);
                         String problemid = temp.substring(28, x);
@@ -615,7 +615,18 @@ public class UserDashboard extends javax.swing.JFrame {
         codefile = filemanager.getSelectedFile();
 
         if (codefile != null) {
-            ChooseFileButton.setText(codefile.getName());
+            String language = (String) LanguageComboBox.getSelectedItem();
+            if(language.equals("C")) language = "c";
+            if(language.equals("C++")) language = "cpp";
+            if(language.equals("Java")) language = "java";
+            String extension = codefile.getName().substring(codefile.getName().lastIndexOf(".")+1);
+            if(extension.toLowerCase().equals(language))
+               ChooseFileButton.setText(codefile.getName());
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Select Correct language or Codefile", "Error", JOptionPane.ERROR_MESSAGE);
+                codefile = null;
+            }
         } else {
             JOptionPane.showMessageDialog(null, "No file chosen!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -629,6 +640,15 @@ public class UserDashboard extends javax.swing.JFrame {
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
 
         String problemid = txtProblemID.getText();
+        try{
+            if(Integer.parseInt(problemid)<0){
+                JOptionPane.showMessageDialog(null, "Problem ID cannot be negative", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }catch(NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Invalid Problem ID", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String language = (String) LanguageComboBox.getSelectedItem();
         if (codefile == null) {
             try {

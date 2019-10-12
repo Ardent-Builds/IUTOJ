@@ -40,7 +40,6 @@ public class ProblemShow extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         problemshow = new javax.swing.JPanel();
         ProblemNameLabel = new javax.swing.JLabel();
@@ -49,51 +48,27 @@ public class ProblemShow extends javax.swing.JFrame {
         SubmitButton = new javax.swing.JButton();
         Separator = new javax.swing.JSeparator();
         pdfviewerpanel = new javax.swing.JPanel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1920, 1440));
-        setMinimumSize(new java.awt.Dimension(1280, 720));
         setSize(new java.awt.Dimension(1920, 1080));
 
         problemshow.setBackground(new java.awt.Color(255, 255, 255));
         problemshow.setMaximumSize(new java.awt.Dimension(1920, 1440));
         problemshow.setMinimumSize(new java.awt.Dimension(1280, 720));
         problemshow.setPreferredSize(new java.awt.Dimension(1280, 720));
-        problemshow.setLayout(new java.awt.GridBagLayout());
 
         ProblemNameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 36)); // NOI18N
         ProblemNameLabel.setForeground(new java.awt.Color(0, 181, 204));
         ProblemNameLabel.setText("Problem Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 6;
-        gridBagConstraints.ipady = 6;
-        problemshow.add(ProblemNameLabel, gridBagConstraints);
 
         TimeLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         TimeLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         TimeLimitLabel.setText("Time Limit:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 12;
-        gridBagConstraints.ipady = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 170, 0, 170);
-        problemshow.add(TimeLimitLabel, gridBagConstraints);
 
         MemoryLimitLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
         MemoryLimitLabel.setForeground(new java.awt.Color(0, 181, 204));
         MemoryLimitLabel.setText("Memory Limit:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.ipadx = 13;
-        gridBagConstraints.ipady = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 173, 0, 0);
-        problemshow.add(MemoryLimitLabel, gridBagConstraints);
 
         SubmitButton.setBackground(new java.awt.Color(153, 255, 255));
         SubmitButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 24)); // NOI18N
@@ -108,36 +83,52 @@ public class ProblemShow extends javax.swing.JFrame {
                 SubmitButtonButtonActionPerformed(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.ipadx = 11;
-        gridBagConstraints.ipady = 11;
-        gridBagConstraints.insets = new java.awt.Insets(8, 8, 8, 8);
-        problemshow.add(SubmitButton, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.ipadx = 1260;
-        gridBagConstraints.ipady = 2;
-        problemshow.add(Separator, gridBagConstraints);
 
         pdfviewerpanel.setMinimumSize(new java.awt.Dimension(1260, 560));
         pdfviewerpanel.setPreferredSize(new java.awt.Dimension(1260, 560));
         pdfviewerpanel.setLayout(new java.awt.BorderLayout());
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(7, 0, 7, 0);
-        problemshow.add(pdfviewerpanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipadx = 2;
-        problemshow.add(filler1, gridBagConstraints);
+
+        javax.swing.GroupLayout problemshowLayout = new javax.swing.GroupLayout(problemshow);
+        problemshow.setLayout(problemshowLayout);
+        problemshowLayout.setHorizontalGroup(
+            problemshowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(problemshowLayout.createSequentialGroup()
+                .addGap(100, 100, 100)
+                .addComponent(TimeLimitLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MemoryLimitLabel)
+                .addGap(100, 100, 100))
+            .addGroup(problemshowLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(pdfviewerpanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, problemshowLayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(Separator)
+                .addGap(10, 10, 10))
+            .addGroup(problemshowLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(problemshowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ProblemNameLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        problemshowLayout.setVerticalGroup(
+            problemshowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(problemshowLayout.createSequentialGroup()
+                .addComponent(ProblemNameLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(problemshowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TimeLimitLabel)
+                    .addComponent(MemoryLimitLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SubmitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(Separator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(pdfviewerpanel, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
+        );
 
         getContentPane().add(problemshow, java.awt.BorderLayout.CENTER);
 
@@ -158,7 +149,6 @@ public class ProblemShow extends javax.swing.JFrame {
     private javax.swing.JSeparator Separator;
     private javax.swing.JButton SubmitButton;
     private javax.swing.JLabel TimeLimitLabel;
-    private javax.swing.Box.Filler filler1;
     private javax.swing.JPanel pdfviewerpanel;
     private javax.swing.JPanel problemshow;
     // End of variables declaration//GEN-END:variables

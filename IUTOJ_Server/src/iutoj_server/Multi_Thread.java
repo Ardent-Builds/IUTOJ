@@ -93,9 +93,9 @@ public class Multi_Thread implements Runnable {
                         newsubmission = sc.saveSubmission();
                         submissionID = database.addSubmissionToDB(newsubmission, username);
                         if(submissionID>-1) {
-                         System.out.println("Problem Added");
+                         System.out.println("submission Added");
                         } else {
-                            System.out.println("Problem adding failed");
+                            System.out.println("submission adding failed");
                         }   
                     } catch (IOException | ClassNotFoundException ex) {
                         System.out.println("Submission Object reading err "+ex.getMessage());
@@ -103,8 +103,10 @@ public class Multi_Thread implements Runnable {
                     }
                     if(newsubmission!=null){
                         NewProblem problem = database.getProblem(Integer.parseInt(newsubmission.getProblemID()));
+                        if(problem!=null){
                         Thread t = new Thread(new CompileAndRun(problem,newsubmission,submissionID,database));
                         t.start();
+                        }
                     }
                     break;
             

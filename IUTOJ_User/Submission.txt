@@ -1,9 +1,12 @@
-hunky[anskljfklsdf
-sfsjweklfs
-fs
-f
-sd
-fsd
-fafef
-s
-dfs
+#include<stdio.h>
+
+int main()
+{
+	int a,b,tst;
+	scanf("%d",&tst);
+	while(tst--){
+	scanf("%d %d", &a,&b);
+	printf("%d\n",a+b);
+	}
+	return 0;
+}

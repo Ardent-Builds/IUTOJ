@@ -10,8 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.DataFormat.HTML;
-import static javax.swing.text.html.HTML.Tag.U;
 import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 

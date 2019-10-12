@@ -6,8 +6,10 @@
 package iutoj_server;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import newproblem.NewProblem;
@@ -71,7 +73,8 @@ public class CompileAndRun implements Runnable {
     }
 
     private int compileJava() {
-        submissionfile = new File(folderpath + submissionID + ".java");
+        new File(Integer.toString(submissionID)).mkdir();
+        submissionfile = new File(submissionID+"/"+ submissionID + ".java");
         try {
             FileOutputStream fos = new FileOutputStream(submissionfile);
             fos.write(submission.getCodeF());
@@ -82,7 +85,7 @@ public class CompileAndRun implements Runnable {
             System.out.println("At CompileJava FWrite Err " + ex.getMessage());
         }
 
-        compile = new ProcessBuilder("javac", folderpath + submissionID + ".java");
+        compile = new ProcessBuilder("javac",submissionID + ".java").directory( new File(Integer.toString(submissionID)));
         try {
             Process p = compile.start();
             try {
@@ -161,8 +164,17 @@ public class CompileAndRun implements Runnable {
     }
 
     private int runJava() {
-
-        run = new ProcessBuilder("java", folderpath + Integer.toString(submissionID));
+        File dir = new File(Integer.toString(submissionID));
+        File[] classfiles = dir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".class");
+            }
+        });
+        String classname = classfiles[0].getName().substring(0,classfiles[0].getName().lastIndexOf("."));
+        System.out.println(classname);
+        
+        run = new ProcessBuilder("java",classname).directory( new File(Integer.toString(submissionID)));
         run.redirectInput(inputs);
         run.redirectOutput(useroutputs);
 
@@ -174,18 +186,22 @@ public class CompileAndRun implements Runnable {
                     long stoptime = System.nanoTime();
                     p.destroy();
                     timetaken = (stoptime - starttime)/1000000;
+                    classfiles[0].delete();
                     return -1;
                 }
             } catch (InterruptedException ex) {
                 p.destroy();
+                classfiles[0].delete();
                 return -1;
             }
             long stoptime = System.nanoTime();
             timetaken = (stoptime - starttime)/1000000;
+            classfiles[0].delete();
             return p.exitValue();
 
         } catch (IOException ex) {
             System.out.println("At runJava runtime Err " + ex.getMessage());
+            classfiles[0].delete();
             return -2;
         }
     }
@@ -303,6 +319,7 @@ public class CompileAndRun implements Runnable {
         useroutputs.delete();
         submissionfile.delete();
         new File(folderpath + submissionID + ".exe").delete();
+        new File(Integer.toString(submissionID)).delete();
     }
 
 }

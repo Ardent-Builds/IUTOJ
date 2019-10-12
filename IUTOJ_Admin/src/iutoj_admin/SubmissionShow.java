@@ -5,11 +5,24 @@
  */
 package iutoj_admin;
 
+import java.awt.AWTException;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.datatransfer.StringSelection;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import newproblem.NewProblem;
 import newsubmission.NewSubmission;
 
 /**
@@ -18,13 +31,45 @@ import newsubmission.NewSubmission;
  */
 public class SubmissionShow extends javax.swing.JFrame {
 
-    public SubmissionShow() {
+    public SubmissionShow(AdminSocket adminsocket) {
         initComponents();
 
         SubDetailsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         SubDetailsTable.setRowHeight(25);
 
         this.setVisible(rootPaneCheckingEnabled);
+        
+        
+        SubDetailsTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 1 && !evt.isConsumed()) {
+                    evt.consume();
+                    int row = SubDetailsTable.rowAtPoint(evt.getPoint());
+                    int col = SubDetailsTable.columnAtPoint(evt.getPoint());
+                    if (row >= 0 && col == 2) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) SubDetailsTable.getModel();
+                        String temp = tablemodel.getValueAt(row, 2).toString();
+                        int x = temp.indexOf('-',28);
+                        String problemid = temp.substring(28, x);
+
+                        adminsocket.sendData("ProbFile[" + problemid + "]");
+                        NewProblem problem = adminsocket.getProblem();
+                        try {
+                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                            fos.write(problem.getProb());
+                            fos.close();
+                        } catch (FileNotFoundException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        } catch (IOException ex) {
+                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                        }
+                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
+                        problemshow.viewPdf(new File(problemid + ".pdf"));
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -46,8 +91,8 @@ public class SubmissionShow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1900, 700));
-        setSize(new java.awt.Dimension(1900, 700));
+        setPreferredSize(new java.awt.Dimension(1280, 720));
+        setSize(new java.awt.Dimension(1920, 1440));
 
         SubDetailsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         SubDetailsTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -92,26 +137,27 @@ public class SubmissionShow extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1107, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1111, Short.MAX_VALUE)
+                        .addGap(10, 10, 10))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(SourceCodeLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(CopyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(CopyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(CopyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SourceCodeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 539, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SourceCodeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(CopyButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -133,7 +179,16 @@ public class SubmissionShow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CopyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopyButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            SourceCodeTextArea.getToolkit().getSystemClipboard().setContents(new StringSelection(SourceCodeTextArea.getText()), null);
+            Image img = Toolkit.getDefaultToolkit().createImage("icon.png");
+            SystemTray tray = SystemTray.getSystemTray();
+            TrayIcon trayicon = new TrayIcon(img);
+            tray.add(trayicon);
+            trayicon.displayMessage("Source Code", "Code Copied", TrayIcon.MessageType.INFO);
+        } catch (AWTException ex) {
+            Logger.getLogger(SubmissionShow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_CopyButtonActionPerformed
 
     public void setSubDetailsTable(Object subID, Object author, Object problem, Object lang, Object verdict, Object time, Object submitted) {
