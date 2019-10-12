@@ -285,7 +285,7 @@ public class Database {
             
             int x;
             if(identifier2.equals("MyDel")){
-                String[][] table = new String[25][4];
+                String[][] table = new String[40][4];
                 while(rs.next()){
                     x = rs.getRow()-1;
                     table[x][0] ="<HTML><U><FONT COLOR='BLUE'>"+Integer.toString(rs.getInt("ProblemID"))+"</FONT></U></HTML>";
@@ -298,7 +298,7 @@ public class Database {
                 return table;
             }
             else{
-                String[][] table = new String[25][3];
+                String[][] table = new String[40][3];
             
                 while(rs.next()){
                     x = rs.getRow()-1;
@@ -306,7 +306,7 @@ public class Database {
                     table[x][1] ="<HTML><U><FONT COLOR='BLUE'>"+rs.getString("ProblemName")+"</FONT></U></HTML>";
                     table[x][2] = rs.getString("ProblemSetter");
                 
-                System.out.println(table[x][0]+" "+table[x][1]+' '+table[x][2]);
+                System.out.println(table[x][0]+" "+table[x][1]+" "+table[x][2]);
                 }
                 return table;
             }
@@ -336,7 +336,7 @@ public class Database {
             rs = stmnt.executeQuery(query);
             
             int x;
-            String[][] table = new String[25][7];
+            String[][] table = new String[40][7];
             
             while(rs.next()){
                 x = rs.getRow()-1;

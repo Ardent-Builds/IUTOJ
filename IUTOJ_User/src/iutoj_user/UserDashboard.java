@@ -243,7 +243,6 @@ public class UserDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAutoRequestFocus(false);
         setBackground(new java.awt.Color(0, 181, 204));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
         jDesktopPane1.setLayout(new java.awt.BorderLayout());

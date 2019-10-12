@@ -788,14 +788,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
         StatusPanelLayout.setVerticalGroup(
             StatusPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, StatusPanelLayout.createSequentialGroup()
-                .addComponent(StatusScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(StatusScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
         );
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
-
-        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
@@ -812,6 +808,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 .addComponent(AdminDashboardTabSwitcher)
                 .addContainerGap())
         );
+        AdminDashboardDesktopPane.setLayer(AdminDashboardTabSwitcher, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         getContentPane().add(AdminDashboardDesktopPane, java.awt.BorderLayout.CENTER);
 
