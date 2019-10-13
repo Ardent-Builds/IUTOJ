@@ -996,6 +996,7 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
                parent.setVisible(true);
+              
                this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 

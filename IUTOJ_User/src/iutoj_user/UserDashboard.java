@@ -154,14 +154,17 @@ public class UserDashboard extends javax.swing.JFrame {
                     if (row >= 0 && col == 0) {
                         SubmissionShow subshow = new SubmissionShow(usersocket,temporary);
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
+                        
                         String temp = tablemodel.getValueAt(row, 0).toString();
                         int x = temp.indexOf('<', 28);
+                   
                         String submissionid = temp.substring(28, x);
                         subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
                         
                         usersocket.sendData("SrcCode-["+ submissionid +"]");
                         NewSubmission submission = usersocket.getSubmission();
                         subshow.setSourceCode(submission);
+                        
                         
                     }  else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
@@ -326,7 +329,22 @@ public class UserDashboard extends javax.swing.JFrame {
                 {null, null, null},
                 {null, null, null},
                 {null, null, null},
-                {null, null, null}
+                {null, null, null},
+                {"", null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {"hello", null, null}
             },
             new String [] {
                 "Problem ID", "Problem Name", "Problem Setter"
@@ -699,7 +717,6 @@ public class UserDashboard extends javax.swing.JFrame {
                             return false;
                         }
                     };
-
                     ProblemsetTable.setModel(tablemodel);
                 }
 
