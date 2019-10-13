@@ -30,7 +30,6 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setVisible(true);
         this.adminSocket = adminSocket;
-        
        
         
     }
@@ -198,7 +197,6 @@ public class Login extends javax.swing.JFrame {
             if(datain.equals("LoginTrue")){
                 JOptionPane.showMessageDialog(null,"Login Successful!","Status",JOptionPane.INFORMATION_MESSAGE);
                 dashboard = new AdminDashboard(adminSocket,this);
-                this.PasswordField.setText("");
                 this.setVisible(false);
             }
             else if(datain.equals("LoginFalse")){
@@ -216,7 +214,7 @@ public class Login extends javax.swing.JFrame {
         }catch(IOException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.dispose();
+        System.exit(0);       
     }//GEN-LAST:event_closeLabelMouseClicked
 
     private void minimizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minimizeLabelMouseClicked

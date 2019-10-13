@@ -23,7 +23,7 @@ public class ProblemShow extends javax.swing.JFrame {
         initComponents();
         ProblemNameLabel.setText(name);
         
-        TimeLimitLabel.setText("Time Limit: "+time+" ms");
+        TimeLimitLabel.setText("Time Limit: "+time+" s");
         MemoryLimitLabel.setText("Memory Limit: "+memory+" kb");
         this.setVisible(rootPaneCheckingEnabled);
     }
