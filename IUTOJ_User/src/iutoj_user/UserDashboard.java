@@ -293,11 +293,8 @@ public class UserDashboard extends javax.swing.JFrame {
 
         UserDashboardTabSwitcher.addTab("Home", HomePanel);
 
-        ProblemsetPanel.setLayout(new java.awt.BorderLayout());
-
         ProblemSetjScrollPane.setBackground(new java.awt.Color(255, 255, 255));
         ProblemSetjScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
-        ProblemSetjScrollPane.setPreferredSize(new java.awt.Dimension(920, 620));
 
         ProblemsetTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
         ProblemsetTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -335,18 +332,35 @@ public class UserDashboard extends javax.swing.JFrame {
         ProblemsetTable.setFocusable(false);
         ProblemsetTable.setGridColor(new java.awt.Color(255, 255, 255));
         ProblemsetTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        ProblemsetTable.setMinimumSize(new java.awt.Dimension(0, 0));
         ProblemsetTable.setOpaque(false);
-        ProblemsetTable.setPreferredSize(new java.awt.Dimension(920, 620));
         ProblemsetTable.setRequestFocusEnabled(false);
         ProblemsetTable.setRowHeight(25);
         ProblemsetTable.setRowSelectionAllowed(false);
         ProblemsetTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
         ProblemsetTable.setShowHorizontalLines(false);
         ProblemsetTable.getTableHeader().setReorderingAllowed(false);
+        ProblemsetTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                ProblemsetTableComponentResized(evt);
+            }
+        });
         ProblemSetjScrollPane.setViewportView(ProblemsetTable);
-        ProblemsetTable.getAccessibleContext().setAccessibleDescription("");
 
-        ProblemsetPanel.add(ProblemSetjScrollPane, java.awt.BorderLayout.CENTER);
+        javax.swing.GroupLayout ProblemsetPanelLayout = new javax.swing.GroupLayout(ProblemsetPanel);
+        ProblemsetPanel.setLayout(ProblemsetPanelLayout);
+        ProblemsetPanelLayout.setHorizontalGroup(
+            ProblemsetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProblemsetPanelLayout.createSequentialGroup()
+                .addComponent(ProblemSetjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 813, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        ProblemsetPanelLayout.setVerticalGroup(
+            ProblemsetPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProblemsetPanelLayout.createSequentialGroup()
+                .addComponent(ProblemSetjScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
 
         UserDashboardTabSwitcher.addTab("Problemset", ProblemsetPanel);
 
@@ -748,6 +762,10 @@ public class UserDashboard extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_UserDashboardTabSwitcherMouseClicked
+
+    private void ProblemsetTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_ProblemsetTableComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProblemsetTableComponentResized
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
