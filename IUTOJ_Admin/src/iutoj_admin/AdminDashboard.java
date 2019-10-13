@@ -27,7 +27,6 @@ import newsubmission.NewSubmission;
  *
  * @author KAWSAR
  */
-
 public class AdminDashboard extends javax.swing.JFrame {
 
     /**
@@ -41,7 +40,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         initComponents();
         this.adminsocket = adminsocket;
         this.parent = parent;
-        
+
         setBackground(new Color(0, 0, 0));
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer() {
             @Override
@@ -54,7 +53,7 @@ public class AdminDashboard extends javax.swing.JFrame {
         };
         centerRenderer.setHorizontalAlignment(JLabel.CENTER);
 
-        StatusTable.setDefaultRenderer(Object.class,centerRenderer);
+        StatusTable.setDefaultRenderer(Object.class, centerRenderer);
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
         StatusTable.setRowHeight(25);
@@ -96,25 +95,27 @@ public class AdminDashboard extends javax.swing.JFrame {
 
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        System.out.println(temp+'\n'+x);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            int x = temp.indexOf('<', 28);
+                            System.out.println(temp + '\n' + x);
+                            String problemid = temp.substring(28, x);
 
-                        adminsocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = adminsocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            adminsocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = adminsocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+
+                            ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"));
                         }
-                        
-                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
@@ -130,23 +131,25 @@ public class AdminDashboard extends javax.swing.JFrame {
 
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) MyProblemsTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            int x = temp.indexOf('<', 28);
+                            String problemid = temp.substring(28, x);
 
-                        adminsocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = adminsocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            adminsocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = adminsocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+                            ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"));
                         }
-                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
@@ -160,37 +163,41 @@ public class AdminDashboard extends javax.swing.JFrame {
                     int row = StatusTable.rowAtPoint(evt.getPoint());
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
-                        SubmissionShow subshow = new SubmissionShow(adminsocket);
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        String submissionid = temp.substring(28, x);
-                        subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            SubmissionShow subshow = new SubmissionShow(adminsocket);
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            System.out.println(temp);
+                            int x = temp.indexOf('<', 28);
+                            String submissionid = temp.substring(28, x);
+                            subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
 
-                        adminsocket.sendData("SrcCode-[" + submissionid + "]");
-                        NewSubmission submission = adminsocket.getSubmission();
-                        subshow.setSourceCOde(submission);
-
+                            adminsocket.sendData("SrcCode-[" + submissionid + "]");
+                            NewSubmission submission = adminsocket.getSubmission();
+                            subshow.setSourceCOde(submission);
+                        }
                     } else if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 3) != null) {
+                            String temp = tablemodel.getValueAt(row, 3).toString();
+                            int x = temp.indexOf('-', 28);
+                            String problemid = temp.substring(28, x);
 
-                        adminsocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = adminsocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            adminsocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = adminsocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+
+                            ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"));
                         }
-
-                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
                     }
                 }
             }
@@ -205,52 +212,54 @@ public class AdminDashboard extends javax.swing.JFrame {
                     int col = DelProblemsetTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            int x = temp.indexOf('<', 28);
+                            String problemid = temp.substring(28, x);
 
-                        adminsocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = adminsocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            adminsocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = adminsocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+                            ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"));
                         }
-                        ProblemShow problemshow = new ProblemShow(problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"));
-                    }
-                    
-                    else if (row >= 0 && col == 3){
+                    } else if (row >= 0 && col == 3) {
 
                         DefaultTableModel tablemodel = (DefaultTableModel) DelProblemsetTable.getModel();
                         String temp;
                         int x;
-                        temp = tablemodel.getValueAt(row, 0).toString();
-                        x = temp.indexOf('<', 28);
-                        String problemid = temp.substring(28, x);
-                        temp = tablemodel.getValueAt(row, 1).toString();
-                        x = temp.indexOf('<', 28);
-                        String problemname = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            temp = tablemodel.getValueAt(row, 0).toString();
+                            x = temp.indexOf('<', 28);
+                            String problemid = temp.substring(28, x);
+                            temp = tablemodel.getValueAt(row, 1).toString();
+                            x = temp.indexOf('<', 28);
+                            String problemname = temp.substring(28, x);
 
-                        if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid + "-" + problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                            adminsocket.sendData("DelProb-[" + problemid + "]");
+                            if (JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to delete this problem: " + problemid + "-" + problemname + "?", "Delete Problem", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                                adminsocket.sendData("DelProb-[" + problemid + "]");
 
-                            Object[][] table;
-                            table = adminsocket.getProblemTable();
-                            if (table == null) {
-                                JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
-                            } else {
-                                String[] columns = {"Problem ID", "Problem Name", "Problem Setter", " "};
-                                DefaultTableModel model = new DefaultTableModel(table, columns) {
-                                    public boolean isCellEditable(int row, int col) {
-                                        return false;
-                                    }
-                                };
-                                DelProblemsetTable.setModel(model);
+                                Object[][] table;
+                                table = adminsocket.getProblemTable();
+                                if (table == null) {
+                                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                                } else {
+                                    String[] columns = {"Problem ID", "Problem Name", "Problem Setter", " "};
+                                    DefaultTableModel model = new DefaultTableModel(table, columns) {
+                                        public boolean isCellEditable(int row, int col) {
+                                            return false;
+                                        }
+                                    };
+                                    DelProblemsetTable.setModel(model);
+                                }
                             }
                         }
 
@@ -889,21 +898,21 @@ public class AdminDashboard extends javax.swing.JFrame {
         String problemname = txtProblemName.getText();
         String timelimit = txtTimeLimit.getText();
         String memorylimit = txtMemoryLimit.getText();
-       if(problemname.length()<=0||timelimit.length()<=0||memorylimit.length()<=0){
-           JOptionPane.showMessageDialog(null, "Please fill Problem Name, Timelimit, Memorylimit", "Error", JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-       
-       if(Integer.parseInt(timelimit)<0||Integer.parseInt(memorylimit)<0){
-               JOptionPane.showMessageDialog(null, "Timelimit or Memorylimit cannot be negative", "Error", JOptionPane.ERROR_MESSAGE);
-               return;
-       }
-       
-       if(inputs == null||problem == null || outputs == null){
-           JOptionPane.showMessageDialog(null, "Missing Files", "Error", JOptionPane.ERROR_MESSAGE);
-           return;
-       }
-        
+        if (problemname.length() <= 0 || timelimit.length() <= 0 || memorylimit.length() <= 0) {
+            JOptionPane.showMessageDialog(null, "Please fill Problem Name, Timelimit, Memorylimit", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (Integer.parseInt(timelimit) < 0 || Integer.parseInt(memorylimit) < 0) {
+            JOptionPane.showMessageDialog(null, "Timelimit or Memorylimit cannot be negative", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (inputs == null || problem == null || outputs == null) {
+            JOptionPane.showMessageDialog(null, "Missing Files", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
             adminsocket.sendData("AddProb-[" + problem.getName() + "][" + inputs.getName() + "][" + outputs.getName() + "]");
             if (adminsocket.addProblem(problem, inputs, outputs, "null", problemname, timelimit, memorylimit) > 0) {
@@ -925,13 +934,16 @@ public class AdminDashboard extends javax.swing.JFrame {
         if (inputs != null) {
             String extension = inputs.getName();
             int x = extension.lastIndexOf('.');
-            if(x>0) extension = extension.substring(x);
-            
-            if(extension.equals(".txt"))
+            if (x > 0) {
+                extension = extension.substring(x);
+            }
+
+            if (extension.equals(".txt")) {
                 AddInputButton.setText(inputs.getName());
-            else
+            } else {
                 JOptionPane.showMessageDialog(null, "Select txt file", "Error", JOptionPane.ERROR_MESSAGE);
-            
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "Input files missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -945,19 +957,20 @@ public class AdminDashboard extends javax.swing.JFrame {
         filemanager.showOpenDialog(this);
         problem = filemanager.getSelectedFile();
         if (problem != null) {
-            
+
             String extension = problem.getName();
             int x = extension.lastIndexOf('.');
-            if(x>0) extension = extension.substring(x);
-            
-            if(extension.equals(".pdf")||extension.equals(".PDF"))
-               ChProblemStatementButton.setText(problem.getName());
-            else
-            {
+            if (x > 0) {
+                extension = extension.substring(x);
+            }
+
+            if (extension.equals(".pdf") || extension.equals(".PDF")) {
+                ChProblemStatementButton.setText(problem.getName());
+            } else {
                 JOptionPane.showMessageDialog(null, "Select pdf file", "Error", JOptionPane.ERROR_MESSAGE);
                 problem = null;
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Problem file missing", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -974,12 +987,15 @@ public class AdminDashboard extends javax.swing.JFrame {
         if (outputs != null) {
             String extension = outputs.getName();
             int x = extension.lastIndexOf('.');
-            if(x>0) extension = extension.substring(x);
-            
-            if(extension.equals(".txt"))
+            if (x > 0) {
+                extension = extension.substring(x);
+            }
+
+            if (extension.equals(".txt")) {
                 AddOutputButton.setText(outputs.getName());
-            else
+            } else {
                 JOptionPane.showMessageDialog(null, "Select txt file", "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         } else {
             JOptionPane.showMessageDialog(null, "Output file missing", "Error", JOptionPane.ERROR_MESSAGE);
@@ -995,8 +1011,8 @@ public class AdminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ProblemsetTableComponentResized
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-               parent.setVisible(true);
-               this.dispose();
+        parent.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
     private void ManagePanelTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManagePanelTabSwitcherMouseClicked

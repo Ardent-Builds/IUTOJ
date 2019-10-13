@@ -37,6 +37,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private File codefile;
     private UserDashboard temporary;
     private Login login;
+
     public UserDashboard(UserSocket usersocket, Login login) {
         initComponents();
         this.usersocket = usersocket;
@@ -50,7 +51,7 @@ public class UserDashboard extends javax.swing.JFrame {
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
                 c.setBackground(row % 2 == 1 ? new Color(242, 242, 242) : Color.WHITE);
-        
+
                 return c;
             }
 
@@ -61,24 +62,24 @@ public class UserDashboard extends javax.swing.JFrame {
         StatusTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         StatusTable.setRowHeight(25);
         JTableHeader statustableheader = StatusTable.getTableHeader();
-        ((DefaultTableCellRenderer)statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
-        
+        ((DefaultTableCellRenderer) statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+
         MySubTable.setDefaultRenderer(Object.class, centerRenderer);
         MySubTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         MySubTable.setRowHeight(25);
         JTableHeader mysubtableheader = MySubTable.getTableHeader();
-        ((DefaultTableCellRenderer)mysubtableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        ((DefaultTableCellRenderer) mysubtableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         //ProblemsetTable.getTableHeader().setOpaque(false);
         ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
         ProblemsetTable.setRowHeight(25);
         JTableHeader problemsettableheader = ProblemsetTable.getTableHeader();
-        ((DefaultTableCellRenderer)problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER); 
+        ((DefaultTableCellRenderer) problemsettableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
         //ProblemsetTable.setPreferredSize(new Dimension(920, 620));
         //ProblemsetTable.setPreferredScrollableViewportSize(ProblemsetTable.getParent().getPreferredSize());
         //ProblemsetTable.setFillsViewportHeight(true);
-        
+
         ProblemsetTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -86,33 +87,35 @@ public class UserDashboard extends javax.swing.JFrame {
                     evt.consume();
                     int row = ProblemsetTable.rowAtPoint(evt.getPoint());
                     int col = ProblemsetTable.columnAtPoint(evt.getPoint());
-                  
+
                     if (row >= 0 && (col == 0 || col == 1)) {
                         DefaultTableModel tablemodel = (DefaultTableModel) ProblemsetTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            int x = temp.indexOf('<', 28);
+                            String problemid = temp.substring(28, x);
 
-                        usersocket.sendData("ProbFile[" + problemid+"]");
-                        NewProblem problem = usersocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            usersocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = usersocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+
+                            ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"), problemid);
                         }
 
-                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
-                        
                     }
                 }
             }
         });
-        
+
         StatusTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -122,28 +125,30 @@ public class UserDashboard extends javax.swing.JFrame {
                     int col = StatusTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 3) {
                         DefaultTableModel tablemodel = (DefaultTableModel) StatusTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 3) != null) {
+                            String temp = tablemodel.getValueAt(row, 3).toString();
+                            int x = temp.indexOf('-', 28);
+                            String problemid = temp.substring(28, x);
 
-                        usersocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = usersocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            usersocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = usersocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+                            ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"), problemid);
                         }
-                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
                     }
                 }
             }
         });
-        
+
         MySubTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -152,38 +157,42 @@ public class UserDashboard extends javax.swing.JFrame {
                     int row = MySubTable.rowAtPoint(evt.getPoint());
                     int col = MySubTable.columnAtPoint(evt.getPoint());
                     if (row >= 0 && col == 0) {
-                        SubmissionShow subshow = new SubmissionShow(usersocket,temporary);
                         DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 0).toString();
-                        int x = temp.indexOf('<', 28);
-                        String submissionid = temp.substring(28, x);
-                        subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
-                        
-                        usersocket.sendData("SrcCode-["+ submissionid +"]");
-                        NewSubmission submission = usersocket.getSubmission();
-                        subshow.setSourceCode(submission);
-                        
-                    }  else if (row >= 0 && col == 3) {
-                        DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
-                        String temp = tablemodel.getValueAt(row, 3).toString();
-                        int x = temp.indexOf('-',28);
-                        String problemid = temp.substring(28, x);
+                        if (tablemodel.getValueAt(row, 0) != null) {
+                            SubmissionShow subshow = new SubmissionShow(usersocket, temporary);
+                            String temp = tablemodel.getValueAt(row, 0).toString();
+                            int x = temp.indexOf('<', 28);
+                            String submissionid = temp.substring(28, x);
+                            subshow.setSubDetailsTable(submissionid, tablemodel.getValueAt(row, 2), tablemodel.getValueAt(row, 3), tablemodel.getValueAt(row, 4), tablemodel.getValueAt(row, 5), tablemodel.getValueAt(row, 6), tablemodel.getValueAt(row, 1));
 
-                        usersocket.sendData("ProbFile[" + problemid + "]");
-                        NewProblem problem = usersocket.getProblem();
-                        try {
-                            FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
-                            fos.write(problem.getProb());
-                            fos.close();
-                        } catch (FileNotFoundException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
-                        } catch (IOException ex) {
-                            System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            usersocket.sendData("SrcCode-[" + submissionid + "]");
+                            NewSubmission submission = usersocket.getSubmission();
+                            subshow.setSourceCode(submission);
                         }
-                        
-                        ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(),problem.getMemoryLimit());
-                        problemshow.viewPdf(new File(problemid + ".pdf"),problemid);
-                        
+
+                    } else if (row >= 0 && col == 3) {
+                        DefaultTableModel tablemodel = (DefaultTableModel) MySubTable.getModel();
+                        if (tablemodel.getValueAt(row, 3) != null) {
+                            String temp = tablemodel.getValueAt(row, 3).toString();
+                            int x = temp.indexOf('-', 28);
+                            String problemid = temp.substring(28, x);
+
+                            usersocket.sendData("ProbFile[" + problemid + "]");
+                            NewProblem problem = usersocket.getProblem();
+                            try {
+                                FileOutputStream fos = new FileOutputStream(problemid + ".pdf");
+                                fos.write(problem.getProb());
+                                fos.close();
+                            } catch (FileNotFoundException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            } catch (IOException ex) {
+                                System.out.println("At probshow problem write Err: " + ex.getMessage());
+                            }
+
+                            ProblemShow problemshow = new ProblemShow(temporary, problem.getProblemName(), problem.getTimeLimit(), problem.getMemoryLimit());
+                            problemshow.viewPdf(new File(problemid + ".pdf"), problemid);
+                        }
+
                     }
                 }
             }
@@ -629,14 +638,19 @@ public class UserDashboard extends javax.swing.JFrame {
 
         if (codefile != null) {
             String language = (String) LanguageComboBox.getSelectedItem();
-            if(language.equals("C")) language = "c";
-            if(language.equals("C++")) language = "cpp";
-            if(language.equals("Java")) language = "java";
-            String extension = codefile.getName().substring(codefile.getName().lastIndexOf(".")+1);
-            if(extension.toLowerCase().equals(language))
-               ChooseFileButton.setText(codefile.getName());
-            else
-            {
+            if (language.equals("C")) {
+                language = "c";
+            }
+            if (language.equals("C++")) {
+                language = "cpp";
+            }
+            if (language.equals("Java")) {
+                language = "java";
+            }
+            String extension = codefile.getName().substring(codefile.getName().lastIndexOf(".") + 1);
+            if (extension.toLowerCase().equals(language)) {
+                ChooseFileButton.setText(codefile.getName());
+            } else {
                 JOptionPane.showMessageDialog(null, "Select Correct language or Codefile", "Error", JOptionPane.ERROR_MESSAGE);
                 codefile = null;
             }
@@ -645,7 +659,7 @@ public class UserDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ChooseFileButtonActionPerformed
 
-    public void setTab(int x, String ID){
+    public void setTab(int x, String ID) {
         UserDashboardTabSwitcher.setSelectedIndex(x);
         txtProblemID.setText(ID);
         txtProblemID.setEditable(false);
@@ -653,12 +667,12 @@ public class UserDashboard extends javax.swing.JFrame {
     private void SubmitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitButtonActionPerformed
 
         String problemid = txtProblemID.getText();
-        try{
-            if(Integer.parseInt(problemid)<0){
+        try {
+            if (Integer.parseInt(problemid) < 0) {
                 JOptionPane.showMessageDialog(null, "Problem ID cannot be negative", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-        }catch(NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(null, "Invalid Problem ID", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -670,7 +684,7 @@ public class UserDashboard extends javax.swing.JFrame {
                 txtcodewriter.write(SourceCodeTextArea.getText());
                 txtcodewriter.close();
             } catch (IOException ex) {
-                System.out.println("Source code writing Err: "+ex.getMessage());
+                System.out.println("Source code writing Err: " + ex.getMessage());
             }
         }
         if (codefile == null) {
@@ -686,8 +700,8 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_SubmitButtonActionPerformed
 
     private void LogOutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogOutButtonActionPerformed
-       login.setVisible(true);
-       this.dispose();
+        login.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_LogOutButtonActionPerformed
 
     private void UserDashboardTabSwitcherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UserDashboardTabSwitcherMouseClicked
@@ -695,7 +709,7 @@ public class UserDashboard extends javax.swing.JFrame {
         ChooseFileButton.setText("Choose file");
         codefile = null;
         SourceCodeTextArea.setText(null);
-        
+
         int x = UserDashboardTabSwitcher.getSelectedIndex();
         Object[][] table;
         switch (x) {
@@ -722,40 +736,40 @@ public class UserDashboard extends javax.swing.JFrame {
                 txtProblemID.setEditable(true);
                 break;
             case 3:
-                
+
                 usersocket.sendData("StTable-[nullus]");
                 table = usersocket.getStatusTable();
-                if(table == null) {
+                if (table == null) {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
-                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    
+
                     StatusTable.setModel(tablemodel);
                 }
-                
+
                 break;
             case 4:
-                    
+
                 usersocket.sendData("StTable-[My]");
                 table = usersocket.getStatusTable();
-                if(table == null) {
+                if (table == null) {
                     JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     String[] columns = {"#", "When", "Who", "Problem", "Lang", "Verdict", "Time"};
-                    DefaultTableModel tablemodel = new DefaultTableModel(table,columns) {
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
                         public boolean isCellEditable(int row, int col) {
                             return false;
                         }
                     };
-                    
+
                     MySubTable.setModel(tablemodel);
                 }
-            
+
                 break;
             default:
                 break;

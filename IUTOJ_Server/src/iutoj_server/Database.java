@@ -24,7 +24,7 @@ public class Database {
     Statement stmnt;
 
     public Database() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:sqlite:src/Database/database.db");
+        conn = DriverManager.getConnection("jdbc:sqlite::resource:Database/database.db");
         prprdstmnt = null;
         stmnt = null;
     }

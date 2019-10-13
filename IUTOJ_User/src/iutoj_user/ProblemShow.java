@@ -24,7 +24,7 @@ public class ProblemShow extends javax.swing.JFrame {
         this.dashboard = dashboard;
         ProblemNameLabel.setText(name);
         
-        TimeLimitLabel.setText("Time Limit: "+time+" s");
+        TimeLimitLabel.setText("Time Limit: "+time+" ms");
         MemoryLimitLabel.setText("Memory Limit: "+memory+" kb");
         
         this.setVisible(rootPaneCheckingEnabled);

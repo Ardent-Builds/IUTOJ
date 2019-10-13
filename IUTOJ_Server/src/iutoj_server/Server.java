@@ -8,9 +8,12 @@ package iutoj_server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,10 +23,17 @@ public class Server implements Runnable {
 
     private final ServerSocket ss;
     private final Database database;
+    private boolean serverrunning;
 
     public Server(int port) throws IOException, SQLException {
         this.ss = new ServerSocket(port);
+        ss.setSoTimeout(10000);
         database = new Database();
+        serverrunning = true;
+    }
+    
+    public void stopServer(){
+        serverrunning = false;
     }
     
     @Override
@@ -34,22 +44,27 @@ public class Server implements Runnable {
         while (true) {
             
             try {
-                Thread t = new Thread(new Multi_Thread(ss.accept(),database));
+                Socket sc = ss.accept();
+                Thread t = new Thread(new Multi_Thread(sc,database));
                 t.start();
                 System.out.println("Client "+ t.getId() + " connected");
             } catch (IOException ex) {
-                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                 System.out.println("New Thread Error "+ex);
-                break;
+                if(serverrunning == false)
+                    break;
             }
+            if(serverrunning == false)
+                    break;
         }
         try {
             ss.close();
+            database.conn.close();
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("server didn't closed "+ex);
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }
