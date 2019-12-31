@@ -59,6 +59,13 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusTable.setRowHeight(25);
         JTableHeader statustableheader = StatusTable.getTableHeader();
         ((DefaultTableCellRenderer) statustableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        
+        StandingsTable.setDefaultRenderer(Object.class, centerRenderer);
+        StandingsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+        StandingsTable.setRowHeight(25);
+        StandingsTable.setRowHeight(25);
+        JTableHeader standingstableheader = StandingsTable.getTableHeader();
+        ((DefaultTableCellRenderer) standingstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
         ProblemsetTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
@@ -312,6 +319,9 @@ public class AdminDashboard extends javax.swing.JFrame {
         StatusPanel = new javax.swing.JPanel();
         StatusScrollPane = new javax.swing.JScrollPane();
         StatusTable = new javax.swing.JTable();
+        StandingsPanel = new javax.swing.JPanel();
+        StandingsScrollPane = new javax.swing.JScrollPane();
+        StandingsTable = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -788,6 +798,12 @@ public class AdminDashboard extends javax.swing.JFrame {
             }
         });
         StatusScrollPane.setViewportView(StatusTable);
+        if (StatusTable.getColumnModel().getColumnCount() > 0) {
+            StatusTable.getColumnModel().getColumn(1).setHeaderValue("When");
+            StatusTable.getColumnModel().getColumn(4).setHeaderValue("Lang");
+            StatusTable.getColumnModel().getColumn(5).setHeaderValue("Verdict");
+            StatusTable.getColumnModel().getColumn(6).setHeaderValue("Time");
+        }
 
         javax.swing.GroupLayout StatusPanelLayout = new javax.swing.GroupLayout(StatusPanel);
         StatusPanel.setLayout(StatusPanelLayout);
@@ -801,6 +817,71 @@ public class AdminDashboard extends javax.swing.JFrame {
         );
 
         AdminDashboardTabSwitcher.addTab("Status", StatusPanel);
+
+        StandingsScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
+
+        StandingsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        StandingsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "#", "ID", "Problems"
+            }
+        ));
+        StandingsTable.setFocusable(false);
+        StandingsTable.setGridColor(new java.awt.Color(255, 255, 255));
+        StandingsTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        StandingsTable.setOpaque(false);
+        StandingsTable.setRequestFocusEnabled(false);
+        StandingsTable.setRowHeight(25);
+        StandingsTable.setRowSelectionAllowed(false);
+        StandingsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
+        StandingsTable.setShowHorizontalLines(false);
+        StandingsTable.getTableHeader().setReorderingAllowed(false);
+        StandingsTable.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentResized(java.awt.event.ComponentEvent evt) {
+                StandingsTableComponentResized(evt);
+            }
+        });
+        StandingsScrollPane.setViewportView(StandingsTable);
+
+        javax.swing.GroupLayout StandingsPanelLayout = new javax.swing.GroupLayout(StandingsPanel);
+        StandingsPanel.setLayout(StandingsPanelLayout);
+        StandingsPanelLayout.setHorizontalGroup(
+            StandingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StandingsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 849, Short.MAX_VALUE)
+        );
+        StandingsPanelLayout.setVerticalGroup(
+            StandingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StandingsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+        );
+
+        AdminDashboardTabSwitcher.addTab("Standings", StandingsPanel);
 
         javax.swing.GroupLayout AdminDashboardDesktopPaneLayout = new javax.swing.GroupLayout(AdminDashboardDesktopPane);
         AdminDashboardDesktopPane.setLayout(AdminDashboardDesktopPaneLayout);
@@ -862,7 +943,6 @@ public class AdminDashboard extends javax.swing.JFrame {
                 }
                 break;
             case 4:
-
                 adminsocket.sendData("StTable-[nullad]");
                 table = adminsocket.getStatusTable();
                 if (table == null) {
@@ -876,6 +956,22 @@ public class AdminDashboard extends javax.swing.JFrame {
                     };
 
                     StatusTable.setModel(tablemodel);
+                }
+                break;
+            case 5:
+                adminsocket.sendData("StdTable[null]");
+                table = adminsocket.getStandingsTable();
+                if (table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"#", "ID", "Problems Solved"};
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
+                        public boolean isCellEditable(int row, int col) {
+                            return false;
+                        }
+                    };
+
+                    StandingsTable.setModel(tablemodel);
                 }
                 break;
             default:
@@ -1035,6 +1131,10 @@ public class AdminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ManagePanelTabSwitcherMouseClicked
 
+    private void StandingsTableComponentResized(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_StandingsTableComponentResized
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StandingsTableComponentResized
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddInputButton;
@@ -1058,6 +1158,9 @@ public class AdminDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane ProblemSetjScrollPane;
     private javax.swing.JPanel ProblemsetPanel;
     private javax.swing.JTable ProblemsetTable;
+    private javax.swing.JPanel StandingsPanel;
+    private javax.swing.JScrollPane StandingsScrollPane;
+    private javax.swing.JTable StandingsTable;
     private javax.swing.JPanel StatusPanel;
     private javax.swing.JScrollPane StatusScrollPane;
     private javax.swing.JTable StatusTable;

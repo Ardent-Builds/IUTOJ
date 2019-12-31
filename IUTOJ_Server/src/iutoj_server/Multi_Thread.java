@@ -142,6 +142,21 @@ public class Multi_Thread implements Runnable {
                         System.out.println("StatusTable Sending Failed");
                     }
                     break;
+                
+                 case "StdTable":
+                    
+                    x = data.indexOf(']', 9);
+                    identifier = data.substring(9,x);
+                    System.out.println(identifier);
+                    
+                    if(sc.sendStandingsTable(database.getStandingsTable(identifier))){
+                        System.out.println("StandingsTable Sent");
+                    }
+                    else{
+                        System.out.println("StandingsTable Sending Failed");
+                    }
+                    break;
+                
                 case "SrcCode-":
                     x = data.indexOf(']', 9);
                     identifier = data.substring(9,x);
@@ -154,6 +169,7 @@ public class Multi_Thread implements Runnable {
                         System.out.println("Submission Sending Failed");
                     }
                     break;
+                    
                 case "ProbFile":
                     x = data.indexOf(']', 9);
                     identifier = data.substring(9,x);

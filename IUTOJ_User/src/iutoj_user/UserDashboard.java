@@ -69,6 +69,13 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubTable.setRowHeight(25);
         JTableHeader mysubtableheader = MySubTable.getTableHeader();
         ((DefaultTableCellRenderer) mysubtableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        
+        StandingsTable.setDefaultRenderer(Object.class, centerRenderer);
+        StandingsTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 20));
+        StandingsTable.setRowHeight(25);
+        StandingsTable.setRowHeight(25);
+        JTableHeader standingstableheader = StandingsTable.getTableHeader();
+        ((DefaultTableCellRenderer) standingstableheader.getDefaultRenderer()).setHorizontalAlignment(JLabel.CENTER);
 
         //ProblemsetTable.getTableHeader().setOpaque(false);
         ProblemsetTable.setDefaultRenderer(Object.class, centerRenderer);
@@ -237,6 +244,9 @@ public class UserDashboard extends javax.swing.JFrame {
         MySubPanel = new javax.swing.JPanel();
         MySubScrollPane = new javax.swing.JScrollPane();
         MySubTable = new javax.swing.JTable();
+        StandingsPanel = new javax.swing.JPanel();
+        StandingsScrollPane = new javax.swing.JScrollPane();
+        StandingsTable = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -617,6 +627,59 @@ public class UserDashboard extends javax.swing.JFrame {
 
         UserDashboardTabSwitcher.addTab("My Submissions", MySubPanel);
 
+        StandingsPanel.setLayout(new java.awt.BorderLayout());
+
+        StandingsScrollPane.setFont(new java.awt.Font("Segoe UI Emoji", 1, 25)); // NOI18N
+
+        StandingsTable.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        StandingsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "#", "When", "Who", "Problem", "Lang", "Verdict", "Time"
+            }
+        ));
+        StandingsTable.setFocusable(false);
+        StandingsTable.setGridColor(new java.awt.Color(255, 255, 255));
+        StandingsTable.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        StandingsTable.setOpaque(false);
+        StandingsTable.setRequestFocusEnabled(false);
+        StandingsTable.setRowHeight(25);
+        StandingsTable.setRowSelectionAllowed(false);
+        StandingsTable.setSelectionBackground(new java.awt.Color(0, 181, 204));
+        StandingsTable.setShowHorizontalLines(false);
+        StandingsTable.getTableHeader().setReorderingAllowed(false);
+        StandingsScrollPane.setViewportView(StandingsTable);
+
+        StandingsPanel.add(StandingsScrollPane, java.awt.BorderLayout.CENTER);
+
+        UserDashboardTabSwitcher.addTab("Standings", StandingsPanel);
+
         jDesktopPane1.add(UserDashboardTabSwitcher, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jDesktopPane1, java.awt.BorderLayout.CENTER);
@@ -754,7 +817,6 @@ public class UserDashboard extends javax.swing.JFrame {
 
                 break;
             case 4:
-
                 usersocket.sendData("StTable-[My]");
                 table = usersocket.getStatusTable();
                 if (table == null) {
@@ -769,7 +831,22 @@ public class UserDashboard extends javax.swing.JFrame {
 
                     MySubTable.setModel(tablemodel);
                 }
+                break;
+            case 5:
+                usersocket.sendData("StdTable[null]");
+                table = usersocket.getStandingsTable();
+                if (table == null) {
+                    JOptionPane.showMessageDialog(null, "Table Not found", "Table Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    String[] columns = {"#", "ID", "Problems Solved"};
+                    DefaultTableModel tablemodel = new DefaultTableModel(table, columns) {
+                        public boolean isCellEditable(int row, int col) {
+                            return false;
+                        }
+                    };
 
+                    StandingsTable.setModel(tablemodel);
+                }
                 break;
             default:
                 break;
@@ -799,6 +876,9 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel SourceCodeLabel;
     private javax.swing.JScrollPane SourceCodeScrollPane;
     private javax.swing.JTextArea SourceCodeTextArea;
+    private javax.swing.JPanel StandingsPanel;
+    private javax.swing.JScrollPane StandingsScrollPane;
+    private javax.swing.JTable StandingsTable;
     private javax.swing.JPanel StatusPanel;
     private javax.swing.JScrollPane StatusScrollPane;
     private javax.swing.JTable StatusTable;

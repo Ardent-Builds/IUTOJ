@@ -70,10 +70,10 @@ public class ServerGUI extends javax.swing.JFrame {
         RightPanel.setBackground(new java.awt.Color(255, 255, 255));
         RightPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 70)); // NOI18N
+        WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 60)); // NOI18N
         WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        WelcomeLabel.setText("Server");
-        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 90, 290, 320));
+        WelcomeLabel.setText("Server is running");
+        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 500, 230));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));

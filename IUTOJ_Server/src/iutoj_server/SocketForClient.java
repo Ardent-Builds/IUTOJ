@@ -120,6 +120,16 @@ public class SocketForClient {
         }
     }
     
+     public boolean sendStandingsTable(String[][] table){
+        try{
+            objectout.writeObject(table);
+            return true;
+        } catch (IOException ex) {
+            System.out.println("SocketStatusTableSending Err "+ex.getMessage());
+            return false;
+        }
+    }
+    
     public File readFile(String fname, long size){
         try {
             FileOutputStream fos = new FileOutputStream(fname);

@@ -84,16 +84,16 @@
         <Component class="javax.swing.JLabel" name="WelcomeLabel">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI Emoji" size="70" style="1"/>
+              <Font name="Segoe UI Emoji" size="60" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cc" green="b5" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Server"/>
+            <Property name="text" type="java.lang.String" value="Server is running"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="160" y="90" width="290" height="320"/>
+              <AbsoluteConstraints x="10" y="140" width="500" height="230"/>
             </Constraint>
           </Constraints>
         </Component>

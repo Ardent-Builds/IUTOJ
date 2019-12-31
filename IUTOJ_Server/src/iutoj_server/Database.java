@@ -151,6 +151,15 @@ public class Database {
         } catch (SQLException ex) {
             System.out.println("Delete Problem " + ex.getMessage());
         }
+        update = "DELETE FROM SUBMISSIONS WHERE PROBLEMID = ?";
+        System.out.println(update);
+        try{
+            prprdstmnt = conn.prepareStatement(update);
+            prprdstmnt.setInt(1, problemid);
+            prprdstmnt.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Delete Problem " + ex.getMessage());
+        }
         
     }
     public synchronized int addSubmissionToDB(NewSubmission submission, String username) {
@@ -365,7 +374,38 @@ public class Database {
 
     }
     
-    
+        public synchronized String[][] getStandingsTable(String identifier) {
+        String query;
+        System.out.println(identifier);
+        query = "SELECT SubmittedBy AS ID, Count(DISTINCT ProblemID) AS Problems FROM Submissions WHERE Verdict='Accepted' GROUP BY ID ORDER BY Problems DESC";
+       // query = "SELECT SubmittedBy AS ID, Count(*) AS Problems FROM Submissions WHERE Verdict='Accepted' GROUP BY SubmittedBy";
+     
+        ResultSet rs;
+        try{
+            stmnt = conn.createStatement();
+            rs = stmnt.executeQuery(query);
+            
+            int x;
+            String[][] table = new String[40][3];
+            
+            while(rs.next()){
+                x = rs.getRow()-1;
+               
+                table[x][0] = Integer.toString(x+1);
+                table[x][1] = rs.getString("ID");
+                table[x][2] = rs.getString("Problems");
+                System.out.println(table[x][0]+" "+table[x][1]+" "+table[x][2]);
+            }
+            
+            return table;
+            
+            
+        } catch (SQLException ex) {
+            System.out.println("DB getProblemTable err"+ ex.getMessage());
+            return null;
+        }
+
+    }
 
     
 
