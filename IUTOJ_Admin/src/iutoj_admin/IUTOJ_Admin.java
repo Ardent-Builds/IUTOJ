@@ -32,9 +32,7 @@ public class IUTOJ_Admin {
         }
         
         AdminSocket adminsocket = new AdminSocket();
-        if(adminsocket.connect("localhost",1235)){
-            System.out.println("connected");
-        }
+        
         
         Login loginPage = new Login(adminsocket);
     }

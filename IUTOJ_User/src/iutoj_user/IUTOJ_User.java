@@ -34,9 +34,7 @@ public class IUTOJ_User {
         }
         
         UserSocket usersoceket = new UserSocket();
-        if(usersoceket.connect("localhost", 1235)){
-            System.out.println("connected");
-        }
+        
         
         Login loginPage = new Login(usersoceket);
         

@@ -7,6 +7,7 @@ package iutoj_server;
 
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -22,8 +23,12 @@ public class ServerGUI extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
+    private Server server;
+    private Thread service;
     public ServerGUI() {
         initComponents();
+        server = null;
+        service = null;
         
     }
 
@@ -42,6 +47,9 @@ public class ServerGUI extends javax.swing.JFrame {
         WelcomeLabel = new javax.swing.JLabel();
         closeLabel = new javax.swing.JLabel();
         minimizeLabel = new javax.swing.JLabel();
+        PortLabel = new javax.swing.JLabel();
+        txtPort = new javax.swing.JTextField();
+        Start = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -72,8 +80,8 @@ public class ServerGUI extends javax.swing.JFrame {
 
         WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 60)); // NOI18N
         WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
-        WelcomeLabel.setText("Server is running");
-        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 500, 230));
+        WelcomeLabel.setText("Server ");
+        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 220, 70));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -94,6 +102,44 @@ public class ServerGUI extends javax.swing.JFrame {
             }
         });
         RightPanel.add(minimizeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, -10, 30, 40));
+
+        PortLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 60)); // NOI18N
+        PortLabel.setForeground(new java.awt.Color(0, 181, 204));
+        PortLabel.setText("Port:");
+        RightPanel.add(PortLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 170, 60));
+
+        txtPort.setFont(new java.awt.Font("Segoe UI Light", 0, 50)); // NOI18N
+        txtPort.setForeground(new java.awt.Color(102, 102, 102));
+        txtPort.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtPort.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPortFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPortFocusLost(evt);
+            }
+        });
+        txtPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPortActionPerformed(evt);
+            }
+        });
+        RightPanel.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 280, 50));
+
+        Start.setBackground(new java.awt.Color(0, 181, 204));
+        Start.setFont(new java.awt.Font("Segoe UI Emoji", 1, 48)); // NOI18N
+        Start.setForeground(new java.awt.Color(0, 181, 204));
+        Start.setText("Start");
+        Start.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
+        Start.setContentAreaFilled(false);
+        Start.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Start.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Start.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartButtonActionPerformed(evt);
+            }
+        });
+        RightPanel.add(Start, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, 320, 70));
 
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 530, 560));
 
@@ -137,17 +183,71 @@ public class ServerGUI extends javax.swing.JFrame {
         this.setLocation(x-xx, y-yy);// TODO add your handling code here:
     }//GEN-LAST:event_formMouseDragged
 
+    private void txtPortFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusGained
+        if(txtPort.getText().equals("Enter Username"))
+        {
+            txtPort.setText("");
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortFocusGained
+
+    private void txtPortFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusLost
+        if(txtPort.getText().equals(""))
+        {
+            txtPort.setText("");
+        }
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortFocusLost
+
+    private void txtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortActionPerformed
+
+    private void StartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtonActionPerformed
+        int port;
+        try 
+        {
+            port= Integer.parseInt(txtPort.getText());
+        }
+        catch (NumberFormatException e)
+        {
+            port = 0;
+            JOptionPane.showMessageDialog(null,"Port Error","Status",JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            server = new Server(port);
+            JOptionPane.showMessageDialog(null,"Server Started Successfully!","Status",JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Server Failed To Start!","Status",JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException ex) {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,"Server Failed To Start!","Status",JOptionPane.ERROR_MESSAGE);
+        }
+        service = new Thread(server);
+        service.start();
+        
+    }//GEN-LAST:event_StartButtonActionPerformed
+
+    Server getServer(){
+        return server;
+    }
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel LeftPanel;
+    private javax.swing.JLabel PortLabel;
     private javax.swing.JPanel RightPanel;
+    private javax.swing.JButton Start;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JLabel closeLabel;
     private javax.swing.JLabel logoLabel;
     private javax.swing.JLabel minimizeLabel;
+    private javax.swing.JTextField txtPort;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -24,12 +24,14 @@ public class Login extends javax.swing.JFrame {
     private AdminSocket adminSocket;
     private SignUp signup;
     AdminDashboard dashboard;
+    private boolean connectionStatus;
     
     
     public Login(AdminSocket adminSocket) {
         initComponents();
         this.setVisible(true);
         this.adminSocket = adminSocket;
+        this.connectionStatus = false;
        
         
     }
@@ -53,11 +55,16 @@ public class Login extends javax.swing.JFrame {
         LoginButton = new javax.swing.JButton();
         PasswordField = new javax.swing.JPasswordField();
         PasswordLabel = new javax.swing.JLabel();
-        StudentIDLabel = new javax.swing.JLabel();
+        UsernameLabel = new javax.swing.JLabel();
         leftSeparator = new javax.swing.JSeparator();
         orLabel = new javax.swing.JLabel();
         rightSeparator = new javax.swing.JSeparator();
         CrNewAccButton = new javax.swing.JButton();
+        IPLabel = new javax.swing.JLabel();
+        txtIP = new javax.swing.JTextField();
+        PortLabel = new javax.swing.JLabel();
+        txtPort = new javax.swing.JTextField();
+        ConnectButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 0));
@@ -89,7 +96,7 @@ public class Login extends javax.swing.JFrame {
         WelcomeLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 38)); // NOI18N
         WelcomeLabel.setForeground(new java.awt.Color(0, 181, 204));
         WelcomeLabel.setText("Admin Panel");
-        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 60, 240, 70));
+        RightPanel.add(WelcomeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 240, 70));
 
         closeLabel.setFont(new java.awt.Font("Tahoma", 1, 25)); // NOI18N
         closeLabel.setForeground(new java.awt.Color(0, 181, 204));
@@ -122,7 +129,7 @@ public class Login extends javax.swing.JFrame {
                 txtUsernameFocusLost(evt);
             }
         });
-        RightPanel.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 150, 270, 50));
+        RightPanel.add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 270, 30));
 
         LoginButton.setBackground(new java.awt.Color(0, 181, 204));
         LoginButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
@@ -137,22 +144,22 @@ public class Login extends javax.swing.JFrame {
                 LoginButtonActionPerformed(evt);
             }
         });
-        RightPanel.add(LoginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 340, 80, 40));
+        RightPanel.add(LoginButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 360, 80, 40));
 
         PasswordField.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
         PasswordField.setForeground(new java.awt.Color(102, 102, 102));
         PasswordField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        RightPanel.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 237, 270, 30));
+        RightPanel.add(PasswordField, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 270, 30));
 
         PasswordLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
         PasswordLabel.setForeground(new java.awt.Color(0, 181, 204));
         PasswordLabel.setText("Password");
-        RightPanel.add(PasswordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 120, 30));
+        RightPanel.add(PasswordLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 120, 30));
 
-        StudentIDLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
-        StudentIDLabel.setForeground(new java.awt.Color(0, 181, 204));
-        StudentIDLabel.setText("Username");
-        RightPanel.add(StudentIDLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 120, 30));
+        UsernameLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
+        UsernameLabel.setForeground(new java.awt.Color(0, 181, 204));
+        UsernameLabel.setText("Username");
+        RightPanel.add(UsernameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 120, 30));
         RightPanel.add(leftSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 430, 180, 20));
 
         orLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -174,7 +181,68 @@ public class Login extends javax.swing.JFrame {
                 CrNewAccButtonButtonActionPerformed(evt);
             }
         });
-        RightPanel.add(CrNewAccButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 460, 270, 40));
+        RightPanel.add(CrNewAccButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 270, 40));
+
+        IPLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
+        IPLabel.setForeground(new java.awt.Color(0, 181, 204));
+        IPLabel.setText("IP");
+        RightPanel.add(IPLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 30, 30));
+
+        txtIP.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        txtIP.setForeground(new java.awt.Color(102, 102, 102));
+        txtIP.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtIP.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtIPFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtIPFocusLost(evt);
+            }
+        });
+        txtIP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIPActionPerformed(evt);
+            }
+        });
+        RightPanel.add(txtIP, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, 180, 30));
+
+        PortLabel.setFont(new java.awt.Font("Segoe UI Emoji", 1, 20)); // NOI18N
+        PortLabel.setForeground(new java.awt.Color(0, 181, 204));
+        PortLabel.setText("Port");
+        RightPanel.add(PortLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 50, 30));
+
+        txtPort.setFont(new java.awt.Font("Segoe UI Light", 0, 20)); // NOI18N
+        txtPort.setForeground(new java.awt.Color(102, 102, 102));
+        txtPort.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(102, 102, 102)));
+        txtPort.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPortFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtPortFocusLost(evt);
+            }
+        });
+        txtPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPortActionPerformed(evt);
+            }
+        });
+        RightPanel.add(txtPort, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 130, 120, 30));
+
+        ConnectButton.setBackground(new java.awt.Color(0, 181, 204));
+        ConnectButton.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        ConnectButton.setForeground(new java.awt.Color(0, 181, 204));
+        ConnectButton.setText("Connect");
+        ConnectButton.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(0, 181, 204)));
+        ConnectButton.setContentAreaFilled(false);
+        ConnectButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        ConnectButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ConnectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ConnectButtonButtonActionPerformed(evt);
+            }
+        });
+        RightPanel.add(ConnectButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 80, 40));
 
         getContentPane().add(RightPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 530, 560));
 
@@ -183,6 +251,12 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void LoginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginButtonActionPerformed
+       
+        if(connectionStatus==false){
+             JOptionPane.showMessageDialog(null,"Connection Error!","Connection Status",JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+        
         String username = txtUsername.getText();
         String password = PasswordField.getText();
         String dataout = "Login---["+username+"]["+password+"]";
@@ -241,7 +315,10 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUsernameFocusLost
 
     private void CrNewAccButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrNewAccButtonButtonActionPerformed
-        //String
+        if(connectionStatus==false){
+             JOptionPane.showMessageDialog(null,"Connection Error!","Connection Status",JOptionPane.ERROR_MESSAGE);
+             return;
+        }
         signup = new SignUp(adminSocket);
         signup.setVisible(rootPaneCheckingEnabled);
         
@@ -261,19 +338,66 @@ public class Login extends javax.swing.JFrame {
         this.setLocation(x-xx, y-yy);// TODO add your handling code here:
     }//GEN-LAST:event_formMouseDragged
 
+    private void txtIPFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIPFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIPFocusGained
+
+    private void txtIPFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtIPFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIPFocusLost
+
+    private void txtIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIPActionPerformed
+
+    private void txtPortFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortFocusGained
+
+    private void txtPortFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPortFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortFocusLost
+
+    private void txtPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPortActionPerformed
+
+    private void ConnectButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConnectButtonButtonActionPerformed
+        int port;
+        try 
+        {
+            port= Integer.parseInt(txtPort.getText());
+        }
+        catch (NumberFormatException e)
+        {
+            port = 0;
+        }
+        String ip   = txtIP.getText();
+        if(adminSocket.connect(ip, port) && port!=0){
+            JOptionPane.showMessageDialog(null,"Connected!","Connection Status",JOptionPane.INFORMATION_MESSAGE);
+            connectionStatus=true;
+        }
+        else{
+            JOptionPane.showMessageDialog(null,"Connection Error!","Connection Status",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_ConnectButtonButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ConnectButton;
     private javax.swing.JButton CrNewAccButton;
+    private javax.swing.JLabel IPLabel;
     private javax.swing.JPanel LeftPanel;
     private javax.swing.JButton LoginButton;
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel PasswordLabel;
+    private javax.swing.JLabel PortLabel;
     private javax.swing.JPanel RightPanel;
-    private javax.swing.JLabel StudentIDLabel;
+    private javax.swing.JLabel UsernameLabel;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JLabel closeLabel;
     private javax.swing.JSeparator leftSeparator;
@@ -281,6 +405,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel minimizeLabel;
     private javax.swing.JLabel orLabel;
     private javax.swing.JSeparator rightSeparator;
+    private javax.swing.JTextField txtIP;
+    private javax.swing.JTextField txtPort;
     private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

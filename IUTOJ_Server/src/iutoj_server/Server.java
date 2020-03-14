@@ -41,6 +41,7 @@ public class Server implements Runnable {
          //To change body of generated methods, choose Tools | Templates.
         System.out.println("server is running");
         
+        
         while (true) {
             
             try {

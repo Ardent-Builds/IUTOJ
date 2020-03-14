@@ -21,24 +21,24 @@ public class IUTOJ_Server {
      */
     public static void main(String[] args) throws IOException, SQLException {
         // TODO code application logic here
-        Server server = new Server(1235);
-        Thread service = new Thread(server);
+    
    
         ServerGUI serverStarter = new ServerGUI();
+        
         serverStarter.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
-                service.start();
+
             }
 
             @Override
             public void windowClosing(WindowEvent e) {
-                server.stopServer();
+                serverStarter.getServer().stopServer();
             }
 
             @Override
             public void windowClosed(WindowEvent e) {
-                server.stopServer();
+                serverStarter.getServer().stopServer();
             }
 
             @Override
